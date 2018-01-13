@@ -1,6 +1,19 @@
 # Webcomics
+This application is a class project for CMPS 115. 
+
+The goal is to build a web application that allows webcomics to be read smoothly even on connections with latency or bandwidth issues. This repository contains the frontend which is built in Angular. A backend will also be required for authors to upload their comics to, but that will be in a separate repository.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.4.
+
+## Installation
+
+1. Clone the project using git
+
+2. Install [node](https://nodejs.org/en/) using an installer. This should also install npm.
+
+3. Run `npm install -g @angular/cli`
+
+4. `npm install` within the project directory to get its dependencies.
 
 ## Development server
 
