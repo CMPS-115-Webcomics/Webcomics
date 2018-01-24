@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Comic } from './comic';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ComicService {
@@ -22,6 +24,16 @@ export class ComicService {
 
     getComics(): Comic[] {
         return this.COMICS;
+    }
+
+    getComic(comicURL: string): Observable<Comic> {
+        let comics = this.getComics();
+        for (let c of comics) {
+            if (c.comicURL == comicURL) return of(c);
+        }
+
+        let comic: Comic;
+        return of(comic);
     }
 
     constructor() { }

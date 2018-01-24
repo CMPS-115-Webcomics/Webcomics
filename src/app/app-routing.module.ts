@@ -5,7 +5,7 @@ import { ComicReaderComponent } from'./comic-reader/comic-reader.component';
 
 const routes: Routes = [
     { path: 'comics', component: ComicsComponent },
-    { path: 'comics/:url', component: ComicReaderComponent }
+    { path: 'comic/:comicURL', component: ComicReaderComponent }
 ];
 
 @NgModule({

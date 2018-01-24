@@ -1,5 +1,5 @@
 <ul *ngFor="let comic of comics">
-    <li>{{ comic.title }}
+    <li><a routerLink="/comic/{{ comic.comicURL}}">{{ comic.title }}</a>
         <ul>
             <li>{{ comic.description }}</li>
         </ul>

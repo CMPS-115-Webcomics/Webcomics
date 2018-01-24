@@ -23,6 +23,6 @@ import { ComicService } from './comic.service';
         ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [ ComicService ],
-    bootstrap: [AppComponent]
+    bootstrap: [ AppComponent ]
 })
 export class AppModule { }
