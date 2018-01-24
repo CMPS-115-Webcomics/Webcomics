@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ComicsComponent } from './comics/comics.component';
-import { ComicViewComponent } from'./comic-view/comic-view.component';
+import { ComicReaderComponent } from'./comic-reader/comic-reader.component';
 
 const routes: Routes = [
-    { path: 'comics', component: ComicsComponent }
+    { path: 'comics', component: ComicsComponent },
+    { path: 'comics/:url', component: ComicReaderComponent }
 ];
 
 @NgModule({

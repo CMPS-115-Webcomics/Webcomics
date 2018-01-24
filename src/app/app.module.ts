@@ -7,14 +7,14 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 
 import { ComicsComponent } from './comics/comics.component';
-import { ComicViewComponent } from './comic-view/comic-view.component';
+import { ComicReaderComponent } from './comic-reader/comic-reader.component';
 import { ComicService } from './comic.service';
 
 @NgModule({
     declarations: [
         AppComponent,
         ComicsComponent,
-        ComicViewComponent
+        ComicReaderComponent
     ],
     imports: [
         BrowserModule,

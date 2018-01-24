@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComicViewComponent } from './comic-view.component';
+import { ComicReaderComponetn } from './comic-reader.component';
 
-describe('ComicViewComponent', () => {
-  let component: ComicViewComponent;
-  let fixture: ComponentFixture<ComicViewComponent>;
+describe('ComicReaderComponent', () => {
+  let component: ComicReaderComponent;
+  let fixture: ComponentFixture<ComicReaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComicViewComponent ]
+      declarations: [ ComicReaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ComicViewComponent);
+    fixture = TestBed.createComponent(ComicReaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
