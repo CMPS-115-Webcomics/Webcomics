@@ -1,3 +1,7 @@
-<p>
-  comics works!
-</p>
+<ul *ngFor="let comic of comics">
+    <li>{{ comic.title }}
+        <ul>
+            <li>{{ comic.description }}</li>
+        </ul>
+    </li>
+</ul>

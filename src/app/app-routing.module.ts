@@ -4,8 +4,7 @@ import { ComicsComponent } from './comics/comics.component';
 import { ComicViewComponent } from'./comic-view/comic-view.component';
 
 const routes: Routes = [
-    { path: 'comics', component: ComicsComponent },
-    { path: 'comic/view', component: ComicViewComponent }
+    { path: 'comics', component: ComicsComponent }
 ];
 
 @NgModule({
