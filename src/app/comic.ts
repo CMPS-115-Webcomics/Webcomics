@@ -1,8 +1,18 @@
+export class Volume {
+    volumeID: number;
+    volumeNumber: number;
+}
+
+export class Chapter {
+    chapterID: number;
+    volumeID: number;
+    chapterNumber: number;
+}
+
 export class Page {
     pageID: number;
     pageNumber: number;
-    chapterNumber: number;
-    volumeNumber: number;
+    chapterID: number;
     imgURL: string;
     altText: string;
 }
@@ -13,5 +23,7 @@ export class Comic {
     title: string;
     comicURL: string;
     description: string;
+    volumes: Volume[];
+    chapters: Chapter[];
     pages: Page[];
 }

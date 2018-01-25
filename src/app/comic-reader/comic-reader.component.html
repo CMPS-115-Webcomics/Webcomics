@@ -2,8 +2,14 @@
     <h4>{{ comic.title }}</h4>
     <div *ngIf="page">
         <ul>
-            <li *ngIf="page.volumeNumber > 0">Volume: {{ page.volumeNumber }}</li>
-            <li>Chapter: {{ page.chapterNumber }}</li>
+
+            <li *ngIf="volume">
+                Volume: {{ volume.volumeNumber }}
+            </li>
+            <li *ngIf="chapter">
+                Chapter: {{ chapter.chapterNumber }}
+            </li>
+
             <li>
                 <button [disabled]="!hasPrevPage()" (click)="prevPage()">Prev</button>
                 Page: {{ page.pageNumber }}
