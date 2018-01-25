@@ -1,3 +1,15 @@
 <div *ngIf="comic">
-    {{ comic.title }}
+    <h4>{{ comic.title }}</h4>
+    <div *ngIf="page">
+        <ul>
+            <li *ngIf="page.volumeNumber > 0">Volume: {{ page.volumeNumber }}</li>
+            <li>Chapter: {{ page.chapterNumber }}</li>
+            <li>
+                <button [disabled]="!hasPrevPage()" (click)="prevPage()">Prev</button>
+                Page: {{ page.pageNumber }}
+                <button [disabled]="!hasNextPage()" (click)="nextPage()">Next</button>
+            </li>
+            <img src="{{ page.imgURL }}" alt="{{ page.altText }}" />
+        </ul>
+    </div>
 </div>
