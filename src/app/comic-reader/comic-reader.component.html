@@ -2,14 +2,24 @@
     <h4>{{ comic.title }}</h4>
     <div *ngIf="page">
         <ul>
-            <li *ngIf="page.volumeNumber > 0">Volume: {{ page.volumeNumber }}</li>
-            <li>Chapter: {{ page.chapterNumber }}</li>
+
+            <li *ngIf="volume">
+                <button [disabled]="!hasPrevVolume()" (click)="prevVolume()">Prev</button>
+                Volume: {{ volume.volumeNumber }}
+                <button [disabled]="!hasNextVolume()" (click)="nextVolume()">Next</button>
+            </li>
+            <li *ngIf="chapter">
+                <button [disabled]="!hasPrevChapter()" (click)="prevChapter()">Prev</button>
+                Chapter: {{ chapter.chapterNumber }}
+                <button [disabled]="!hasNextChapter()" (click)="nextChapter()">Next</button>
+            </li>
+
             <li>
                 <button [disabled]="!hasPrevPage()" (click)="prevPage()">Prev</button>
                 Page: {{ page.pageNumber }}
                 <button [disabled]="!hasNextPage()" (click)="nextPage()">Next</button>
             </li>
-            <img src="{{ page.imgURL }}" alt="{{ page.altText }}" />
+            <img src="{{ page.imgURL }}" alt="{{ page.altText }}" title="{{ page.altText }}" />
         </ul>
     </div>
 </div>
