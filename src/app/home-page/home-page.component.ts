@@ -12,4 +12,6 @@ export class HomePageComponent implements OnInit {
   ngOnInit() {
   }
 
+  cardNum = new Array(9);
+
 }
