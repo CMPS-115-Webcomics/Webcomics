@@ -1,7 +1,12 @@
-<ul *ngFor="let comic of comics">
-    <li><a routerLink="/comic/{{ comic.comicURL}}">{{ comic.title }}</a>
-        <ul>
-            <li>{{ comic.description }}</li>
-        </ul>
-    </li>
-</ul>
+<mat-card  *ngFor="let comic of comics" class="comic-list-card" routerLink="/comic/{{ comic.comicURL}}">
+  <mat-card-header>
+    <mat-card-title>{{ comic.title }}</mat-card-title>
+  </mat-card-header>
+  
+  <img mat-card-image [src]="comic.thumbnailURL" >
+  
+  <mat-card-content>
+    <p>{{ comic.description }}</p>
+  </mat-card-content>
+
+</mat-card>

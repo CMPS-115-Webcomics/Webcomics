@@ -22,6 +22,7 @@ export class Comic {
     accountID: number;
     title: string;
     comicURL: string;
+    thumbnailURL: string;
     description: string;
     volumes: Volume[];
     chapters: Chapter[];
