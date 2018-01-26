@@ -10,7 +10,7 @@ import { ComicUploadComponent } from './comic-upload/comic-upload.component';
 import { ComicDetailComponent } from './comic-detail/comic-detail.component';
 
 import {
-    MatIconModule, MatCardModule, MatButtonModule, MatTooltipModule
+    MatIconModule, MatCardModule, MatButtonModule, MatTooltipModule, MatExpansionModule
 } from '@angular/material';
 
 @NgModule({
@@ -21,7 +21,8 @@ import {
         MatIconModule,
         MatCardModule,
         MatButtonModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatExpansionModule
     ],
     exports: [
         ComicListComponent,

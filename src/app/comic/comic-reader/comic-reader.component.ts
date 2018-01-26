@@ -23,6 +23,13 @@ export class ComicReaderComponent implements OnInit {
     private volumeMap: Map<number, [number, Volume]> = new Map<number, [number, Volume]>();
     private chapterMap: Map<number, [number, Chapter]> = new Map<number, [number, Chapter]>();
 
+    
+    constructor(
+        private route: ActivatedRoute,
+        private comicService: ComicService,
+        private router: Router
+    ) { }
+
     // functions utilizing on the maps
     getVolumeIndex(volumeID: number): number {
         if (this.volumeMap.get(volumeID))
@@ -45,11 +52,6 @@ export class ComicReaderComponent implements OnInit {
         return null;
     }
 
-    constructor(
-        private route: ActivatedRoute,
-        private comicService: ComicService,
-        private router: Router
-    ) { }
 
     // updates page, chapter, and volume given the array index of a page for the comic
     updatePage(): void {

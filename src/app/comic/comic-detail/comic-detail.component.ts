@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
+
 
 @Component({
     selector: 'wcm-comic-detail',
@@ -15,7 +16,13 @@ export class ComicDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
+        private router: Router
     ) { }
+
+    getVolumeChapters(volume: Volume) {
+        return this.comic.chapters.filter(chapter => chapter.volumeID === volume.volumeID)
+
+    }
 
     ngOnInit() {
         this.getComic();
@@ -23,9 +30,14 @@ export class ComicDetailComponent implements OnInit {
         console.log(this.baseLink);
     }
 
+    loadComic(comic: Comic) {
+        this.comic = comic;
+        this.baseLink = '/comic/' + this.comic.comicURL;
+    }
+
     getComic(): void {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
-        this.comicService.getComic(comicURL).subscribe(comic => this.comic = comic);
+        this.comicService.getComic(comicURL).subscribe(comic => this.loadComic(comic));
     }
 
 }
