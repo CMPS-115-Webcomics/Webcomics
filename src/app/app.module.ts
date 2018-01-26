@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatToolbarModule } from '@angular/material';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -14,8 +18,10 @@ import { environment } from '../environments/environment';
         ComicModule,
         BrowserModule,
         AppRoutingModule,
-        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+        BrowserAnimationsModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+        MatToolbarModule
     ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
