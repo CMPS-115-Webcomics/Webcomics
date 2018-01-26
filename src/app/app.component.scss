@@ -1,13 +1,56 @@
+.sidebar-item {}
+
 .nav-list a {
-  color: black;
+  color: white;
+  vertical-align: middle;
 }
 
 .app-content {
   padding: 20px;
 }
 
-.app-sidenav {
-  min-width: 100px;
+.comics-sidenav {
+  min-width: 300px;
+
+  h3 {
+    border: none;
+    font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 24px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 0;
+    padding: 0 16p;
+    background-color: black;
+    text-align: center;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    margin: 0;
+    padding: 0;
+  }
+
+  li a {
+    box-sizing: border-box;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 47px;
+    text-decoration: none;
+    transition: all .3s;
+    padding: 0 16px;
+    position: relative;
+    color: white;
+  }
 }
 
 .app-sidenav h2 {
