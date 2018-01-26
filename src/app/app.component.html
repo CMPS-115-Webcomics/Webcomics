@@ -1,8 +1,32 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <mat-toolbar>
-  <span>My Application</span>
-</mat-toolbar>
-<a routerLink="/">Home</a>
-<a routerLink="/comics">Comics</a>
+  <button class="app-icon-button" (click)="start.toggle()">
+    <mat-icon class="app-toolbar-menu">menu</mat-icon>
+  </button>
+  <span>ComicHub</span>
+  <span class="fill-remaining-space"></span>
 
-<router-outlet></router-outlet>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #start mode="side" class="app-sidenav">
+    <h2>Navigation</h2>
+    <br>
+    <mat-list class="nav-list">
+      <mat-list-item>
+        <a mat-line routerLink="/" routerLinkActive="active" (click)="start.close()">
+            <mat-icon>home</mat-icon> Home
+        </a>
+      </mat-list-item>
+      <mat-list-item>
+        <a mat-line routerLink="/comics" routerLinkActive="active">
+          <button mat-button (click)="start.close()">
+            <mat-icon>storage</mat-icon> Comics
+          </button>
+        </a>
+      </mat-list-item>
+    </mat-list>
+  </mat-sidenav>
+
+  <router-outlet></router-outlet>
+</mat-sidenav-container>
