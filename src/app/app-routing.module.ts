@@ -3,9 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { ComicListComponent } from './comic/comic-list/comic-list.component';
 import { ComicReaderComponent } from'./comic/comic-reader/comic-reader.component';
 import { ComicDetailComponent } from './comic/comic-detail/comic-detail.component';
+import { ComicUploadComponent } from './comic/comic-upload/comic-upload.component';
 
 const routes: Routes = [
     { path: 'comics', component: ComicListComponent },
+    { path: 'comic/:comicURL/upload', component: ComicUploadComponent },
     { path: 'comic/:comicURL', component: ComicDetailComponent },
     { path: 'comic/:comicURL/:page', component: ComicReaderComponent },
     { path: 'comic/:comicURL/:chapter/:page', component: ComicReaderComponent },

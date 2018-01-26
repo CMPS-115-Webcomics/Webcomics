@@ -2,6 +2,7 @@
     <h4>{{ comic.title }}</h4>
     <p>{{ comic.description }}</p>
     <!-- Inefficient code todo: make good -->
+    <a routerLink="upload">Upload Images</a>
     <ul *ngIf="comic.volumes.length > 0">
         <h5>Volumes</h5>
         <li *ngFor="let volume of comic.volumes">
