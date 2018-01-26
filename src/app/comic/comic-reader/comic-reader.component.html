@@ -4,14 +4,10 @@
         <ul>
 
             <li *ngIf="volume">
-                <button [disabled]="!hasPrevVolume()" (click)="prevVolume()">Prev</button>
                 Volume: {{ volume.volumeNumber }}
-                <button [disabled]="!hasNextVolume()" (click)="nextVolume()">Next</button>
             </li>
             <li *ngIf="chapter">
-                <button [disabled]="!hasPrevChapter()" (click)="prevChapter()">Prev</button>
                 Chapter: {{ chapter.chapterNumber }}
-                <button [disabled]="!hasNextChapter()" (click)="nextChapter()">Next</button>
             </li>
 
             <li>

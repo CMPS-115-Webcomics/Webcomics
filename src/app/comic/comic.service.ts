@@ -131,18 +131,96 @@ export class ComicService {
                 },
             ]
         },
-        /*
         {
             comicID: 2,
             accountID: 1,
-            title: "cooler",
-            comicURL: "coolio",
-            description: "a cooler comic",
+            title: "no-sounds",
+            comicURL: "screaming-in-space",
+            description: "a volumeless comic",
+            volumes: [ ],
+            chapters: [
+                {
+                    volumeID: 0,
+                    chapterID: 50,
+                    chapterNumber: 1
+                },
+                {
+
+                    volumeID: 0,
+                    chapterID: 51,
+                    chapterNumber: 2
+                },
+            ],
             pages: [
-kkkkkkkkkkkkkkkk
+                {
+                    pageID: 5000,
+                    pageNumber: 1,
+                    chapterID: 50,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/2018/2018-01-25.gif",
+                    altText: "kevin spacey"
+                },
+                {
+                    pageID: 5001,
+                    pageNumber: 2,
+                    chapterID: 50,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/1980/1980-10-04.gif",
+                    altText: "kevin spacey"
+                },
+                {
+                    pageID: 5002,
+                    pageNumber: 3,
+                    chapterID: 50,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/1987/1987-06-04.gif",
+                    altText: "kevin spacey"
+                },
+                {
+                    pageID: 5003,
+                    pageNumber: 4,
+                    chapterID: 50,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/1992/1992-06-28.gif",
+                    altText: "kevin spacey"
+                },
+                {
+                    pageID: 5004,
+                    pageNumber: 5,
+                    chapterID: 50,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/2004/2004-01-20.gif",
+                    altText: "kevin spacey"
+                },
+                {
+                    pageID: 5005,
+                    pageNumber: 6,
+                    chapterID: 50,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/1990/1990-11-26.gif",
+                    altText: "kevin spacey"
+                },
+                {
+                    pageID: 5006,
+                    pageNumber: 1,
+                    chapterID: 51,
+                    imgURL: "https://d1ejxu6vysztl5.cloudfront.net/comics/usacres/1986/usa1986-04-13.gif",
+                    altText: "kevin spacey"
+                },
             ]
-        }
-        */
+        },
+        {
+            comicID: 3,
+            accountID: 2,
+            title: "not cool",
+            comicURL: "lame",
+            description: "one page comic",
+            volumes: [ ],
+            chapters: [ ],
+            pages: [
+                {
+                    pageID: 999999,
+                    pageNumber: 1,
+                    chapterID: 0,
+                    imgURL: "http://i0.kym-cdn.com/photos/images/facebook/001/016/682/379.jpeg",
+                    altText: "it's me"
+                }
+            ],
+        },
     ];
 
     getComics(): Comic[] {

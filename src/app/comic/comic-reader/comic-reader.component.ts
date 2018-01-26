@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 
@@ -47,33 +47,57 @@ export class ComicReaderComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private comicService: ComicService
+        private comicService: ComicService,
+        private router: Router
     ) { }
 
     // updates page, chapter, and volume given the array index of a page for the comic
-    updatePage(pageIndex: number): void {
-        if (pageIndex >= 0) {
-            this.page = this.comic.pages[pageIndex];
+    updatePage(): void {
+        if (this.pageIndex >= 0) {
+            this.page = this.comic.pages[this.pageIndex];
             this.chapter = this.getChapter(this.page.chapterID);
-            this.volume = this.getVolume(this.chapter.volumeID);
+            if (this.chapter != null)
+                this.volume = this.getVolume(this.chapter.volumeID);
         }
     }
 
+    getURL(page: Page): string {
+        let URL: string = "comic/" + this.comic.comicURL + "/";
+        if (page != null) {
+            let chapter, volume = null;
+            chapter = this.getChapter(page.chapterID);
+            if (chapter != null) volume = this.getVolume(chapter.volumeID);
+
+            if (volume != null) URL += volume.volumeNumber + "/";
+            if (chapter != null) URL += chapter.chapterNumber + "/";
+            URL += page.pageNumber;
+        }
+        return URL;
+    }
+
     prevPage(): void {
+        if (!this.hasPrevPage()) return;
         --this.pageIndex;
-        this.updatePage(this.pageIndex);
+        let prevPage = this.comic.pages[this.pageIndex];
+        let URL = this.getURL(prevPage);
+        this.router.navigate([URL]);
     }
     nextPage(): void {
+        if (!this.hasNextPage()) return;
         ++this.pageIndex;
-        this.updatePage(this.pageIndex);
+        let nextPage = this.comic.pages[this.pageIndex];
+        let URL = this.getURL(nextPage);
+        this.router.navigate([URL]);
     }
     hasNextPage(): boolean {
         return this.comic.pages[this.pageIndex + 1] != null;
     }
+
     hasPrevPage(): boolean {
         return this.comic.pages[this.pageIndex - 1] != null;
     }
 
+    /*
     prevChapter(): void {
         // get the previous chapter by finding the corresponding index
         let prevChapterIndex = this.getChapterIndex(this.chapter.chapterID) - 1;
@@ -151,12 +175,16 @@ export class ComicReaderComponent implements OnInit {
         if (volumeIndex < 0) return false;
         return this.comic.volumes[volumeIndex + 1] != null;
     }
+    */
 
 
     ngOnInit() {
-        this.getComic();
         this.pageIndex = 0;
-        this.updatePage(this.pageIndex);
+        this.getComic();
+        this.updatePage();
+        this.route.params.subscribe(() => {
+            this.updatePage();
+        });
     }
 
     // retrieves corresponding comic with the same comicURL
@@ -171,6 +199,32 @@ export class ComicReaderComponent implements OnInit {
             let chapter = this.comic.chapters[i];
             this.chapterMap.set(+chapter.chapterID, [+i, chapter]);
         }
+        const pageNum = +this.route.snapshot.paramMap.get('page');
+        const chapNum = +this.route.snapshot.paramMap.get('chapter');
+        const volNum = +this.route.snapshot.paramMap.get('volume');
+
+        if (volNum > 0) {
+            for (let volume of this.comic.volumes) 
+                if (volume.volumeNumber == volNum)
+                    this.volume = volume;
+        }
+        if (chapNum > 0) {
+            for (let chapter of this.comic.chapters) 
+                if ((this.volume == null || this.volume.volumeID == chapter.volumeID) && chapter.chapterNumber == chapNum)
+                    this.chapter = chapter;
+        }
+        if (pageNum > 0) {
+            // finds first page with matching chapter and page numbers
+            for (let i in this.comic.pages) {
+                let page = this.comic.pages[i];
+                // don't need to check if volumes are matching since same chapter implies same volume
+                if ((this.chapter == null || this.chapter.chapterID == page.chapterID) && page.pageNumber == pageNum) {
+                    this.pageIndex = +i;
+                    break;
+                }
+            }
+        }
+
     }
 
 }

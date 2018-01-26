@@ -1,0 +1,25 @@
+<div *ngIf="comic">
+    <h4>{{ comic.title }}</h4>
+    <p>{{ comic.description }}</p>
+    <!-- Inefficient code todo: make good -->
+    <ul *ngIf="comic.volumes.length > 0">
+        <h5>Volumes</h5>
+        <li *ngFor="let volume of comic.volumes">
+            <a routerLink="{{ baseLink }}/{{ volume.volumeNumber }}/1/1">{{ volume.volumeNumber }}</a>
+        </li>
+    </ul>
+    <ul *ngIf="comic.volumes.length == 0 && comic.chapters.length > 0">
+        <h5>Chapters</h5>
+        <li *ngFor="let chapter of comic.chapters">
+            <a routerLink="{{ baseLink }}/{{ chapter.chapterNumber }}/1">{{ chapter.chapterNumber }}</a>
+        </li>
+    </ul>
+    <ul *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0">
+        <h5>Pages</h5>
+        <li *ngFor="let page of comic.pages">
+            <a routerLink="{{ baseLink }}/{{ page.pageNumber}}">{{ page.pageNumber }}</a>
+
+        </li>
+    </ul>
+
+</div>

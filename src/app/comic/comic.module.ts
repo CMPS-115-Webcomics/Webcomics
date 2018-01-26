@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComicListComponent } from './comic-list/comic-list.component';
 import { ComicReaderComponent } from './comic-reader/comic-reader.component';
 import { ComicService } from './comic.service';
+import { ComicUploadComponent } from './comic-upload/comic-upload.component';
+import { ComicDetailComponent } from './comic-detail/comic-detail.component';
 
 @NgModule({
     imports: [
@@ -20,6 +22,8 @@ import { ComicService } from './comic.service';
     declarations: [
         ComicListComponent,
         ComicReaderComponent,
+        ComicUploadComponent,
+        ComicDetailComponent,
         ],
         providers: [ ComicService ],
 })
