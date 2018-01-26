@@ -16,7 +16,7 @@ export class ComicReaderComponent implements OnInit {
     @Input() chapter: Chapter;
     @Input() volume: Volume;
 
-    private pageIndex: number = -1;
+    private pageIndex = -1;
 
     // these maps store array indices and corresponding objects, they are gotten by their ID key
     // i.e volumeMap.get(volumeID), volumeMap.set(volumeID, [arrayIndex, volume])
@@ -62,14 +62,14 @@ export class ComicReaderComponent implements OnInit {
     }
 
     getURL(page: Page): string {
-        let URL: string = "comic/" + this.comic.comicURL + "/";
+        let URL: string = 'comic/' + this.comic.comicURL + '/';
         if (page != null) {
             let chapter, volume = null;
             chapter = this.getChapter(page.chapterID);
             if (chapter != null) volume = this.getVolume(chapter.volumeID);
 
-            if (volume != null) URL += volume.volumeNumber + "/";
-            if (chapter != null) URL += chapter.chapterNumber + "/";
+            if (volume != null) URL += volume.volumeNumber + '/';
+            if (chapter != null) URL += chapter.chapterNumber + '/';
             URL += page.pageNumber;
         }
         return URL;
@@ -204,13 +204,13 @@ export class ComicReaderComponent implements OnInit {
         const volNum = +this.route.snapshot.paramMap.get('volume');
 
         if (volNum > 0) {
-            for (let volume of this.comic.volumes) 
-                if (volume.volumeNumber == volNum)
+            for (let volume of this.comic.volumes)
+                if (volume.volumeNumber === volNum)
                     this.volume = volume;
         }
         if (chapNum > 0) {
-            for (let chapter of this.comic.chapters) 
-                if ((this.volume == null || this.volume.volumeID == chapter.volumeID) && chapter.chapterNumber == chapNum)
+            for (let chapter of this.comic.chapters)
+                if ((this.volume == null || this.volume.volumeID === chapter.volumeID) && chapter.chapterNumber === chapNum)
                     this.chapter = chapter;
         }
         if (pageNum > 0) {
@@ -218,7 +218,7 @@ export class ComicReaderComponent implements OnInit {
             for (let i in this.comic.pages) {
                 let page = this.comic.pages[i];
                 // don't need to check if volumes are matching since same chapter implies same volume
-                if ((this.chapter == null || this.chapter.chapterID == page.chapterID) && page.pageNumber == pageNum) {
+                if ((this.chapter == null || this.chapter.chapterID === page.chapterID) && page.pageNumber === pageNum) {
                     this.pageIndex = +i;
                     break;
                 }
