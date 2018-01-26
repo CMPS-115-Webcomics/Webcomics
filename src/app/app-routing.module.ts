@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ComicsComponent } from './comics/comics.component';
-import { ComicReaderComponent } from'./comic-reader/comic-reader.component';
+import { ComicListComponent } from './comic/comic-list/comic-list.component';
+import { ComicReaderComponent } from'./comic/comic-reader/comic-reader.component';
 
 const routes: Routes = [
-    { path: 'comics', component: ComicsComponent },
+    { path: 'comics', component: ComicListComponent },
     { path: 'comic/:comicURL', component: ComicReaderComponent }
 ];
 
@@ -12,6 +12,6 @@ const routes: Routes = [
     imports: [
         RouterModule.forRoot(routes),
     ],
-  exports: [RouterModule]
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

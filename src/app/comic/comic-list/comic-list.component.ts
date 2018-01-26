@@ -4,10 +4,10 @@ import { Comic } from '../comic';
 
 @Component({
     selector: 'wcm-comics',
-    templateUrl: './comics.component.html',
-    styleUrls: ['./comics.component.scss']
+    templateUrl: './comic-list.component.html',
+    styleUrls: ['./comic-list.component.scss']
 })
-export class ComicsComponent implements OnInit {
+export class ComicListComponent implements OnInit {
     public comics: Comic[] = [
     ];
 
