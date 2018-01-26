@@ -1,21 +1,40 @@
 <div *ngIf="comic">
-    <h4>{{ comic.title }}</h4>
-    <div *ngIf="page">
-        <ul>
+  <div *ngIf="page">
 
-            <li *ngIf="volume">
-                Volume: {{ volume.volumeNumber }}
-            </li>
-            <li *ngIf="chapter">
-                Chapter: {{ chapter.chapterNumber }}
-            </li>
+    <mat-card class="comic-page">
+      <mat-card-title>
+        {{ comic.title }}
+      </mat-card-title>
 
-            <li>
-                <button [disabled]="!hasPrevPage()" (click)="prevPage()">Prev</button>
-                Page: {{ page.pageNumber }}
-                <button [disabled]="!hasNextPage()" (click)="nextPage()">Next</button>
-            </li>
-            <img src="{{ page.imgURL }}" alt="{{ page.altText }}" title="{{ page.altText }}" />
-        </ul>
-    </div>
+
+      <img mat-card-image src="{{ page.imgURL }}" alt="{{ page.altText }}" title="{{ page.altText }}">
+
+
+      <mat-card-actions>
+
+
+        <button mat-icon-button [disabled]="!hasPrevPage()" (click)="firstPage()" matTooltip="First Page" matTooltipPosition="above">
+          <mat-icon aria-label="First page">first_page</mat-icon>
+        </button>
+        <button mat-icon-button [disabled]="!hasPrevPage()" (click)="prevPage()" matTooltip="Previous Page" matTooltipPosition="above">
+          <mat-icon aria-label="Previous page">chevron_left</mat-icon>
+        </button>
+
+        <span class="fill-remaining-space"></span>
+        <button mat-icon-button [disabled]="!hasRandomPage()" (click)="randomPage()" matTooltip="Random Page" matTooltipPosition="above">
+          <mat-icon aria-label="Random Page">shuffle</mat-icon>
+        </button>
+        <span class="fill-remaining-space"></span>
+
+        <button mat-icon-button [disabled]="!hasNextPage()" (click)="nextPage()" matTooltip="Next Page" matTooltipPosition="above">
+          <mat-icon aria-label="Next page">chevron_right</mat-icon>
+        </button>
+        <button mat-icon-button [disabled]="!hasNextPage()" (click)="lastPage()" matTooltip="Last Page" matTooltipPosition="above">
+          <mat-icon aria-label="Last page">last_page</mat-icon>
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+
+  </div>
 </div>

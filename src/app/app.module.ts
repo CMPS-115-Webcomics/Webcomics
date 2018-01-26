@@ -7,7 +7,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule } from '@angular/material';
+import {
+    MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatCardModule
+} from '@angular/material';
 
 
 @NgModule({
@@ -20,7 +22,7 @@ import { MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule } from
         AppRoutingModule,
         BrowserAnimationsModule,
         ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-        MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule
+        MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatCardModule
     ],
     bootstrap: [AppComponent]
 })

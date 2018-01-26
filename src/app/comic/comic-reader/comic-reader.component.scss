@@ -1,0 +1,20 @@
+.comic-page {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.prev-control {
+  position: relative;
+  left: 20px;
+}
+
+.next-control {
+  position: relative;
+  right: 20px;
+}
+
+mat-card-actions {
+    display: flex;
+}

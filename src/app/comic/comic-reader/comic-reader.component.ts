@@ -4,9 +4,9 @@ import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 
 @Component({
-  selector: 'wcm-comic-reader',
-  templateUrl: './comic-reader.component.html',
-  styleUrls: ['./comic-reader.component.scss']
+    selector: 'wcm-comic-reader',
+    templateUrl: './comic-reader.component.html',
+    styleUrls: ['./comic-reader.component.scss']
 })
 
 
@@ -75,26 +75,55 @@ export class ComicReaderComponent implements OnInit {
         return URL;
     }
 
-    prevPage(): void {
-        if (!this.hasPrevPage()) return;
-        --this.pageIndex;
-        let prevPage = this.comic.pages[this.pageIndex];
-        let URL = this.getURL(prevPage);
-        this.router.navigate([URL]);
-    }
-    nextPage(): void {
-        if (!this.hasNextPage()) return;
-        ++this.pageIndex;
+    reload() {
         let nextPage = this.comic.pages[this.pageIndex];
         let URL = this.getURL(nextPage);
         this.router.navigate([URL]);
     }
+
+    prevPage(): void {
+        if (!this.hasPrevPage()) return;
+        --this.pageIndex;
+        this.reload();
+    }
+
+    firstPage(): void {
+        if (!this.hasPrevPage()) return;
+        this.pageIndex = 0;
+        this.reload();
+    }
+
+    nextPage(): void {
+        if (!this.hasNextPage()) return;
+        ++this.pageIndex;
+        this.reload();
+    }
+
+    randomPage(): void {
+        if (!this.hasRandomPage()) return;
+        let randPage = this.pageIndex;
+        while (randPage === this.pageIndex)
+            randPage = Math.floor(Math.random() * (this.comic.pages.length));
+        this.pageIndex = randPage;
+        this.reload();
+    }
+
+    lastPage(): void {
+        if (!this.hasNextPage()) return;
+        this.pageIndex = this.comic.pages.length - 1;
+        this.reload();
+    }
+
     hasNextPage(): boolean {
         return this.comic.pages[this.pageIndex + 1] != null;
     }
 
     hasPrevPage(): boolean {
         return this.comic.pages[this.pageIndex - 1] != null;
+    }
+
+    hasRandomPage(): boolean {
+        return this.comic.pages.length > 1;
     }
 
     /*
