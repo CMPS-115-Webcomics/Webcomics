@@ -5,6 +5,7 @@ import { ComicReaderComponent } from './comic/comic-reader/comic-reader.componen
 import { ComicDetailComponent } from './comic/comic-detail/comic-detail.component';
 
 const routes: Routes = [
+    { path: '', component: ComicListComponent },
     { path: 'comics', component: ComicListComponent },
     { path: 'comic/:comicURL', component: ComicDetailComponent },
     { path: 'comic/:comicURL/:page', component: ComicReaderComponent },
