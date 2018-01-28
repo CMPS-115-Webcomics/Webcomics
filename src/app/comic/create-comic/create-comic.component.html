@@ -1,3 +1,27 @@
-<p>
-  create-comic works!
-</p>
+<h3>Create Comic</h3>
+
+<form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+    <label for="title">Title</label>
+    <br/>
+    <input type="text" id="title" [(ngModel)]="title" name="title">
+    <br/>
+
+    <label for="comicURL">Comic URL</label>
+    <br/>
+    www.comichub.io/comic/<input type="text" id="comicURL" [(ngModel)]="comicURL" name="comicURL">
+    <br/>
+
+    <label for="description">Description</label>
+    <br/>
+    <textarea id="description" [(ngModel)]="description" name="description"></textarea>
+    <br/>
+
+    <label>Thumbnail</label>
+    <br/>
+    <input #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*">
+    <br/>
+    <img #previewImg src="">
+    <br/>
+
+    <button type="submit">Submit</button>
+</form>
