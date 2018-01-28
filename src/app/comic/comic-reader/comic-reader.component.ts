@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
+import { ComicMaps } from '../comic-maps';
 
 @Component({
     selector: 'wcm-comic-reader',
@@ -22,8 +23,8 @@ export class ComicReaderComponent implements OnInit {
     // i.e volumeMap.get(volumeID), volumeMap.set(volumeID, [arrayIndex, volume])
     private volumeMap: Map<number, [number, Volume]> = new Map<number, [number, Volume]>();
     private chapterMap: Map<number, [number, Chapter]> = new Map<number, [number, Chapter]>();
+    private comicMaps: ComicMaps;
 
-    
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
@@ -57,9 +58,9 @@ export class ComicReaderComponent implements OnInit {
     updatePage(): void {
         if (this.pageIndex >= 0) {
             this.page = this.comic.pages[this.pageIndex];
-            this.chapter = this.getChapter(this.page.chapterID);
+            this.chapter = this.comicMaps.getChapter(this.page.chapterID);
             if (this.chapter != null)
-                this.volume = this.getVolume(this.chapter.volumeID);
+                this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
         }
     }
 
@@ -67,8 +68,8 @@ export class ComicReaderComponent implements OnInit {
         let URL: string = 'comic/' + this.comic.comicURL + '/';
         if (page != null) {
             let chapter, volume = null;
-            chapter = this.getChapter(page.chapterID);
-            if (chapter != null) volume = this.getVolume(chapter.volumeID);
+            chapter = this.comicMaps.getChapter(page.chapterID);
+            if (chapter != null) volume = this.comicMaps.getVolume(chapter.volumeID);
 
             if (volume != null) URL += volume.volumeNumber + '/';
             if (chapter != null) URL += chapter.chapterNumber + '/';
@@ -222,14 +223,7 @@ export class ComicReaderComponent implements OnInit {
     getComic(): void {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
         this.comicService.getComic(comicURL).subscribe(comic => this.comic = comic);
-        for (let i in this.comic.volumes) {
-            let volume = this.comic.volumes[i];
-            this.volumeMap.set(+volume.volumeID, [+i, volume]);
-        }
-        for (let i in this.comic.chapters) {
-            let chapter = this.comic.chapters[i];
-            this.chapterMap.set(+chapter.chapterID, [+i, chapter]);
-        }
+        this.comicMaps = new ComicMaps(this.comic);
         const pageNum = +this.route.snapshot.paramMap.get('page');
         const chapNum = +this.route.snapshot.paramMap.get('chapter');
         const volNum = +this.route.snapshot.paramMap.get('volume');
