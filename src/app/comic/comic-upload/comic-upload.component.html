@@ -10,8 +10,8 @@
 
 <label htmlFor="chapOption">Chapter</label>
 <select [(ngModel)]="selectedChapterID" (ngModelChange)="onChapterChange($event)" id="chapOption">
-    <option *ngIf="selectedVolumeID <= 0" [value]="-1">None</option>
-    <option *ngFor="let chapter of chapterOptions" [value]="chapter.chapterID">
+    <option *ngIf="selectedVolumeID <= 0" [ngValue]="-1">None</option>
+    <option *ngFor="let chapter of chapterOptions" [ngValue]="chapter.chapterID">
         {{ chapter.chapterNumber }}
     </option>
 </select>

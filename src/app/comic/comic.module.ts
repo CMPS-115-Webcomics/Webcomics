@@ -9,6 +9,7 @@ import { ComicReaderComponent } from './comic-reader/comic-reader.component';
 import { ComicService } from './comic.service';
 import { ComicUploadComponent } from './comic-upload/comic-upload.component';
 import { ComicDetailComponent } from './comic-detail/comic-detail.component';
+import { CreateComicComponent } from './create-comic/create-comic.component';
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { ComicDetailComponent } from './comic-detail/comic-detail.component';
         ComicReaderComponent,
         ComicUploadComponent,
         ComicDetailComponent,
+        CreateComicComponent,
     ],
     providers: [ ComicService ],
 })
