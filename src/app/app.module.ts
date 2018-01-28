@@ -7,6 +7,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+    MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatCardModule
+} from '@angular/material';
+
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -16,8 +22,11 @@ import { environment } from '../environments/environment';
         BrowserModule,
         AppRoutingModule,
         FormsModule,
-        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+        BrowserAnimationsModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+        MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatCardModule
+
     ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

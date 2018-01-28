@@ -1,26 +1,55 @@
 <div *ngIf="comic">
-    <h4>{{ comic.title }}</h4>
-    <p>{{ comic.description }}</p>
-    <!-- Inefficient code todo: make good -->
-    <a routerLink="upload">Upload Images</a>
-    <ul *ngIf="comic.volumes.length > 0">
-        <h5>Volumes</h5>
-        <li *ngFor="let volume of comic.volumes">
-            <a routerLink="{{ baseLink }}/{{ volume.volumeNumber }}/1/1">{{ volume.volumeNumber }}</a>
-        </li>
-    </ul>
-    <ul *ngIf="comic.volumes.length == 0 && comic.chapters.length > 0">
-        <h5>Chapters</h5>
-        <li *ngFor="let chapter of comic.chapters">
-            <a routerLink="{{ baseLink }}/{{ chapter.chapterNumber }}/1">{{ chapter.chapterNumber }}</a>
-        </li>
-    </ul>
-    <ul *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0">
-        <h5>Pages</h5>
-        <li *ngFor="let page of comic.pages">
-            <a routerLink="{{ baseLink }}/{{ page.pageNumber}}">{{ page.pageNumber }}</a>
 
-        </li>
-    </ul>
+  <mat-card class="comic-desc">
+    <mat-card-title>
+      {{ comic.title }}
+    </mat-card-title>
+
+    <mat-card-content>
+
+      <a routerLink="upload">Upload Images</a>
+
+      <p>{{comic.description}}</p>
+
+      <!-- Volumes, Chapters and Pages -->
+      <div *ngIf="comic.volumes.length > 0">
+        <mat-expansion-panel *ngFor="let volume of comic.volumes">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Volume - {{ volume.volumeNumber }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ul>
+            <li *ngFor="let chapter of getVolumeChapters(volume)">
+              <a routerLink="{{ baseLink }}/{{ volume.volumeNumber }}/{{chapter.chapterNumber}}/1">Chapter - {{ chapter.chapterNumber}}</a>
+            </li>
+          </ul>
+
+        </mat-expansion-panel>
+      </div>
+
+      <!-- Chapters and Pages only -->
+      <div *ngIf="comic.volumes.length == 0 && comic.chapters.length > 0">
+        <ul>
+          <li *ngFor="let chapter of comic.chapters">
+            <a routerLink="{{ baseLink }}/{{chapter.chapterNumber}}/1">Chapter - {{ chapter.chapterNumber}}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!--  Pages only -->
+      <div *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0">
+        <a routerLink="{{ baseLink }}/1">
+          <button mat-raised-button color="primary">Start Reading</button>
+        </a>
+      </div>
+
+    </mat-card-content>
+
+
+  </mat-card>
+
+
 
 </div>

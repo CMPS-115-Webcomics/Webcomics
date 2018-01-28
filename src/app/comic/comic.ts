@@ -30,6 +30,7 @@ export class Comic {
         public title: string,
         public comicURL: string,
         public description: string,
+        public thumbnailURL: string,
         public volumes: Volume[],
         public chapters: Chapter[],
         public pages: Page[],

@@ -12,6 +12,7 @@ export class ComicService {
             title: "cool",
             comicURL: "cool",
             description: "a cool comic",
+            thumbnailURL: "https://img00.deviantart.net/3cc2/i/2014/175/d/7/cool_neon_render_by_pauljs75-d7nrr6p.png",
             volumes: [
                 new Volume(1, 1),
                 new Volume(2, 2),
@@ -128,6 +129,7 @@ export class ComicService {
             title: "no-sounds",
             comicURL: "screaming-in-space",
             description: "a volumeless comic",
+            thumbnailURL: "https://newcdn.transom.org/wp-content/uploads/2017/09/SoundDesignFEATURED.jpg",
             volumes: [ ],
             chapters: [
                 {
@@ -200,6 +202,7 @@ export class ComicService {
             title: "not cool",
             comicURL: "lame",
             description: "one page comic",
+            thumbnailURL: "https://orig00.deviantart.net/5283/f/2007/067/0/a/lame_expression_productions_by_dhedarkhcustard.png",
             volumes: [ ],
             chapters: [ ],
             pages: [

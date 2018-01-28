@@ -1,8 +1,28 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<h1>
-    Welcome to {{ title }}!
-</h1>
-<a routerLink="/">Home</a>
-<a routerLink="/comics">Comics</a>
+<mat-toolbar>
+  <button class="app-icon-button" (click)="start.toggle()">
+    <mat-icon class="app-toolbar-menu">menu</mat-icon>
+  </button>
+  <span>ComicHub</span>
+  <span class="fill-remaining-space"></span>
+</mat-toolbar>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav #start mode="side" class="comics-sidenav">
+    <h3>Navigation</h3>
+    <ul>
+      <!--
+      <li>
+        <a mat-line routerLink="/" routerLinkActive="active" (click)="start.close()">
+           Home</a>
+      </li>
+    -->
+      <li>
+        <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics</a>
+      </li>
+    </ul>
+
+  </mat-sidenav>
+
+  <router-outlet></router-outlet>
+</mat-sidenav-container>
