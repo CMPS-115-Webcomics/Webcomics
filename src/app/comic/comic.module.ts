@@ -12,7 +12,8 @@ import { ComicDetailComponent } from './comic-detail/comic-detail.component';
 import { CreateComicComponent } from './create-comic/create-comic.component';
 
 import {
-    MatIconModule, MatCardModule, MatButtonModule, MatTooltipModule, MatExpansionModule
+    MatIconModule, MatCardModule, MatButtonModule, MatTooltipModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
+    MatDividerModule
 } from '@angular/material';
 
 @NgModule({
@@ -25,7 +26,11 @@ import {
         MatButtonModule,
         MatTooltipModule,
         MatExpansionModule,
-        FormsModule
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDividerModule
     ],
     exports: [
         ComicListComponent,
@@ -38,6 +43,6 @@ import {
         ComicDetailComponent,
         CreateComicComponent,
     ],
-    providers: [ ComicService ]
+    providers: [ComicService]
 })
 export class ComicModule { }
