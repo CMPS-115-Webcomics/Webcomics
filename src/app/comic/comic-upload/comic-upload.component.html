@@ -1,5 +1,22 @@
 <h4>Upload Images for {{ comic.title }}</h4>
-<h5>{{ message }}<h5>
+<label htmlFor="volOption">Volume</label>
+<select [(ngModel)]="selectedVolumeID" (ngModelChange)="onVolumeChange($event)" id="volOption">
+    <option [ngValue]="-1">None</option>
+    <option *ngFor="let volume of volumeOptions" [ngValue]="volume.volumeID">
+        {{ volume.volumeNumber }}
+    </option>
+</select>
+
+
+<label htmlFor="chapOption">Chapter</label>
+<select [(ngModel)]="selectedChapterID" (ngModelChange)="onChapterChange($event)" id="chapOption">
+    <option *ngIf="selectedVolumeID <= 0" [value]="-1">None</option>
+    <option *ngFor="let chapter of chapterOptions" [value]="chapter.chapterID">
+        {{ chapter.chapterNumber }}
+    </option>
+</select>
+
+<p>{{ message }}</p>
 <div>
     <input #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*" multiple>
 </div>

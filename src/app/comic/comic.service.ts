@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Comic, Page } from './comic';
+import { Comic, Page, Volume } from './comic';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
@@ -13,18 +13,9 @@ export class ComicService {
             comicURL: "cool",
             description: "a cool comic",
             volumes: [
-                {
-                    volumeID: 1,
-                    volumeNumber: 1
-                },
-                {
-                    volumeID: 2,
-                    volumeNumber: 2
-                },
-                {
-                    volumeID: 3,
-                    volumeNumber: 3
-                }
+                new Volume(1, 1),
+                new Volume(2, 2),
+                new Volume(3, 3)
             ],
             chapters: [
                 {

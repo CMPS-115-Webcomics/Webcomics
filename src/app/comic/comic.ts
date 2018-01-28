@@ -1,29 +1,37 @@
 export class Volume {
-    volumeID: number;
-    volumeNumber: number;
+    constructor(
+        public volumeID: number,
+        public volumeNumber: number,
+    ) { }
 }
 
 export class Chapter {
-    chapterID: number;
-    volumeID: number;
-    chapterNumber: number;
+    constructor(
+        public chapterID: number,
+        public volumeID: number,
+        public chapterNumber: number,
+    ) { }
 }
 
 export class Page {
-    pageID: number;
-    pageNumber: number;
-    chapterID: number;
-    imgURL: string;
-    altText: string;
+    constructor(
+        public pageID: number,
+        public pageNumber: number,
+        public chapterID: number,
+        public imgURL: string,
+        public altText: string,
+    ) { }
 }
 
 export class Comic {
-    comicID: number;
-    accountID: number;
-    title: string;
-    comicURL: string;
-    description: string;
-    volumes: Volume[];
-    chapters: Chapter[];
-    pages: Page[];
+    constructor(
+        public comicID: number,
+        public accountID: number,
+        public title: string,
+        public comicURL: string,
+        public description: string,
+        public volumes: Volume[],
+        public chapters: Chapter[],
+        public pages: Page[],
+    ) { }
 }
