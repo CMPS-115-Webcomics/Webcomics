@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Webcomics</title>
@@ -10,7 +11,85 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
+
 <body>
+
+
+
+  <div class="loaderContainer">
+    <div class="loader">
+      <div id="largeBox"></div>
+      <div id="smallBox"></div>
+    </div>
+  </div>
+
   <wcm-root></wcm-root>
+
+  <style>
+    .loaderContainer {
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      transition: opacity .8s ease-in-out;
+      background-color: #303030;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      opacity: 1;
+    }
+
+    wcm-root:not(empty)+.loaderContainer {
+      opacity: 0;
+    }
+
+    .loader,
+    .loader #largeBox,
+    .loader #smallBox {
+      height: 7em;
+      width: 7em;
+      outline: transparent solid 1px
+    }
+
+    .loader {
+      animation: loaderAnim 1.25s infinite
+    }
+
+    .loader #largeBox {
+      background-color: #7b1fa2;
+      position: fixed
+    }
+
+    .loader #smallBox {
+      background-color: #303030;
+      position: fixed;
+      z-index: 1;
+      animation: smallBoxAnim 1.25s alternate infinite ease-in-out
+    }
+
+    @keyframes smallBoxAnim {
+      0% {
+        transform: scale(.2)
+      }
+      100% {
+        transform: scale(.75)
+      }
+    }
+
+    @keyframes loaderAnim {
+      0% {
+        transform: rotate(0)
+      }
+      100% {
+        transform: rotate(90deg)
+      }
+    }
+  </style>
+
+  
 </body>
+
 </html>
