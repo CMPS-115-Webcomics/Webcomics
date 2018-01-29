@@ -213,16 +213,10 @@ export class ComicReaderComponent implements OnInit {
     ngOnInit() {
         this.pageIndex = 0;
         this.getComic();
-        this.updatePage();
-        this.route.params.subscribe(() => {
-            this.updatePage();
-        });
     }
 
-    // retrieves corresponding comic with the same comicURL
-    getComic(): void {
-        const comicURL = this.route.snapshot.paramMap.get('comicURL');
-        this.comicService.getComic(comicURL).subscribe(comic => this.comic = comic);
+    loadComic(comic: Comic) {
+        this.comic = comic;
         this.comicMaps = new ComicMaps(this.comic);
         const pageNum = +this.route.snapshot.paramMap.get('page');
         const chapNum = +this.route.snapshot.paramMap.get('chapter');
@@ -249,7 +243,17 @@ export class ComicReaderComponent implements OnInit {
                 }
             }
         }
+        this.updatePage();
+        this.route.params.subscribe(() => {
+            this.updatePage();
+        });
 
+    }
+
+    // retrieves corresponding comic with the same comicURL
+    getComic(): void {
+        const comicURL = this.route.snapshot.paramMap.get('comicURL');
+        this.comicService.getComic(comicURL).subscribe(comic => this.loadComic(comic));
     }
 
 }
