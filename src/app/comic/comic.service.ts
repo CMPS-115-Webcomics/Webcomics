@@ -1,9 +1,89 @@
 import { Injectable } from '@angular/core';
-import { Comic, Page, Volume } from './comic';
+import { HttpClient } from '@angular/common/http';
+import { Comic, Page, Chapter, Volume } from './comic';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import 'rxjs/add/operator/map';
+
 @Injectable()
 export class ComicService {
+    public comics: Comic[] = [];
+    public comic: Comic;
+
+    public URL: string = 'http://localhost:3000';
+
+    getComics(): Comic[] {
+        //return this.COMICS;
+        this.http.get(this.URL + "/api/comics/list").subscribe(data => {
+            for (let i in data) {
+                let entry = data[i];
+                let comic: Comic = new Comic(
+                    entry.comicid,
+                    entry.accountid,
+                    entry.title,
+                    entry.comicurl,
+                    entry.description,
+                    entry.thumbnailurl,
+                );
+                this.comics.push(comic);
+            }
+        });
+        return this.comics;
+    }
+
+    getComic(comicURL: string): Observable<Comic> {
+        return this.http.get(this.URL + "/api/comics/comicURL/" + comicURL).map(data => {
+            let entry = data;
+
+            let chapters: Chapter[] = [];
+            let volumes: Volume[] = [];
+            let pages: Page[] = [];
+
+            for (let chapter of entry['chapters']) {
+                let c: Chapter = new Chapter(
+                    chapter.chapterid,
+                    chapter.volumeid,
+                    chapter.chapternumber,
+                );
+                chapters.push(c);
+            }
+            for (let volume of entry['volumes']) {
+                let v: Volume = new Volume(
+                    volume.volumeid,
+                    volume.volumenumber,
+                );
+                volumes.push(v);
+            }
+            for (let page of entry['pages']) {
+                let p: Page = new Page(
+                    page.pageid,
+                    page.pagenumber,
+                    page.chapterid,
+                    page.imgurl,
+                    page.alttext
+                );
+                pages.push(p);
+            }
+
+
+            this.comic = new Comic(
+                entry['comicid'],
+                entry['accountid'],
+                entry['title'],
+                entry['comicurl'],
+                entry['description'],
+                entry['thumbnailurl'],
+                volumes,
+                chapters,
+                pages
+            );
+
+            return this.comic;
+        });
+    }
+
+    constructor(private http: HttpClient) { }
+
+    // SAMPLE HARDCODED DATA FOR TESTING
     private COMICS: Comic[] =
         [
             new Comic(
@@ -215,21 +295,4 @@ export class ComicService {
                 ],
             )
         ];
-
-    getComics(): Comic[] {
-        return this.COMICS;
-    }
-
-    getComic(comicURL: string): Observable<Comic> {
-        let comics = this.getComics();
-        for (let c of comics) {
-            if (c.comicURL == comicURL) return of(c);
-        }
-
-        let comic: Comic;
-        return of(comic);
-    }
-
-    constructor() { }
-
 }

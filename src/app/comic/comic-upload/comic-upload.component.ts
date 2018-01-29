@@ -38,9 +38,9 @@ export class ComicUploadComponent implements OnInit {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
         this.comicService.getComic(comicURL).subscribe(comic => {
             this.comic = comic;
+            this.volumeOptions = this.comic.volumes;
             this.gotoLastVolume();
         });
-        this.volumeOptions = this.comic.volumes;
     }
 
     submit() {
@@ -74,7 +74,9 @@ export class ComicUploadComponent implements OnInit {
     }
 
     newChapter() {
-        this.comic.addChapter();
+        console.log(this.selectedVolumeID);
+        console.log(this.selectedVolume);
+        this.comic.addChapter(this.selectedVolume);
         this.onVolumeChange();
     }
 
@@ -129,7 +131,9 @@ export class ComicUploadComponent implements OnInit {
     }
 
     onVolumeChange(): void {
-        this.selectedVolume = this.comic.volumes.find(vol => vol.volumeNumber === this.selectedVolumeID);
+        console.log(this.comic.volumes);
+        console.log(this.selectedVolumeID);
+        this.selectedVolume = this.comic.volumes.find(vol => vol.volumeID === this.selectedVolumeID);
 
         this.chapterOptions = [];
         for (let chapter of this.comic.chapters) {

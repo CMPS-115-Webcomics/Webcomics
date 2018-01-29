@@ -1,53 +1,53 @@
 <mat-card class="create-form">
-  <mat-card-header>
-    <mat-card-title>New Comic</mat-card-title>
-  </mat-card-header>
+    <mat-card-header>
+        <mat-card-title>New Comic</mat-card-title>
+    </mat-card-header>
 
 
-  <mat-card-content>
-    <form (ngSubmit)="submitComic()" #heroForm="ngForm" class="form-container">
+    <mat-card-content>
+        <form (ngSubmit)="submitComic()" #heroForm="ngForm" class="form-container">
 
-      <mat-form-field hintLabel="Max 30 characters">
-        <input matInput #titleIn name="Title" p [(ngModel)]="title" [formControl]="name" maxlength="30" placeholder="Title">
-        <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
-        <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
-      </mat-form-field>
-
-
-      <mat-form-field hintLabel="Max 30 characters">
-        <input matInput #urlIn name="URL" [(ngModel)]="comicURL"  placeholder="URL" type="text" [formControl]="url" maxlength="30" required>
-        <span matPrefix>www.comichub.io/comic/&nbsp;</span>
-        <mat-hint align="end">{{urlIn.value?.length || 0}}/30</mat-hint>
-        <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
-      </mat-form-field>
+            <mat-form-field hintLabel="Max 30 characters">
+                <input matInput #titleIn name="Title" p [(ngModel)]="title" [formControl]="name" maxlength="30" placeholder="Title">
+                <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
+                <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+            </mat-form-field>
 
 
-      <mat-form-field hintLabel="Between 100 and 500 characters">
-        <textarea matInput #descIn placeholder="Comic description" name="description" maxlength="500" [(ngModel)]="description" [formControl]="desc"
-          name="description"></textarea>
-        <mat-hint align="end">{{descIn.value?.length || 0}}/500</mat-hint>
-        <mat-error *ngIf="desc.invalid">{{descError()}}</mat-error>
-      </mat-form-field>
-
-      <br/>
-
-      <label>Thumbnail
-        <input #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*">
-      </label>
-
-      <br/>
-
-      <span>
-        <button mat-raised-button color="primary" type="submit" class="submit-button">Submit</button>
-      </span>
-    </form>
+            <mat-form-field hintLabel="Max 30 characters">
+                <input matInput #urlIn name="URL" [(ngModel)]="comicURL"  placeholder="URL" type="text" [formControl]="url" maxlength="30" required>
+                <span matPrefix>www.comichub.io/comic/&nbsp;</span>
+                <mat-hint align="end">{{urlIn.value?.length || 0}}/30</mat-hint>
+                <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
+            </mat-form-field>
 
 
-    <br/>
-    <br/>
-    <img #previewImg *ngIf="previewSrc" [src]="previewSrc">
-    <br/>
+            <mat-form-field hintLabel="Between 100 and 500 characters">
+                <textarea matInput #descIn placeholder="Comic description" name="description" maxlength="500" [(ngModel)]="description" [formControl]="desc"
+                    name="description"></textarea>
+                <mat-hint align="end">{{descIn.value?.length || 0}}/500</mat-hint>
+                <mat-error *ngIf="desc.invalid">{{descError()}}</mat-error>
+            </mat-form-field>
 
-  </mat-card-content>
+            <br/>
+
+            <label>Thumbnail
+                <input #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*">
+            </label>
+
+            <br/>
+
+            <span>
+                <button mat-raised-button color="primary" type="submit" class="submit-button">Submit</button>
+            </span>
+        </form>
+
+
+        <br/>
+        <br/>
+        <img #previewImg *ngIf="previewSrc" [src]="previewSrc" [width]="previewWidth" [height]="previewHeight">
+        <br/>
+
+    </mat-card-content>
 
 </mat-card>
