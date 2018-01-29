@@ -2,6 +2,11 @@ import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
+import { HttpClient } from '@angular/common/http';
+
+class FilePage extends Page {
+    public file: File;
+}
 
 @Component({
     selector: 'wcm-comic-upload',
@@ -12,13 +17,12 @@ export class ComicUploadComponent implements OnInit {
     @Input() comic: Comic;
     @Input() volumeOptions: Volume[] = [];
     @Input() chapterOptions: Chapter[] = [];
+    pages: FilePage[] = [];
 
     selectedVolumeID = 0;
     selectedChapterID = 0;
     selectedVolume: Volume;
     selectedChapter: Chapter;
-    pages: Page[] = [];
-
     public message: string;
 
     @ViewChild('fileInput') fileInput: ElementRef;
@@ -27,6 +31,7 @@ export class ComicUploadComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
+        private http: HttpClient
     ) { }
 
     ngOnInit() {
@@ -36,6 +41,25 @@ export class ComicUploadComponent implements OnInit {
             this.gotoLastVolume();
         });
         this.volumeOptions = this.comic.volumes;
+    }
+
+    submit() {
+        for (let page of this.pages) {
+
+            let formData = new FormData() as any;
+
+            page.imgURL = null;
+
+            for (let attr in page) {
+                formData.append(attr, page[attr]);
+            }
+            formData.append('comicID',  this.comic.comicID);
+            console.log('submit', page, 'as', Array.from(formData.keys()));
+
+            this.http.post('http://localhost:3000/api/comics/addPage', formData).toPromise()
+                .then(console.log)
+                .catch(console.error);
+        }
     }
 
     gotoLastVolume() {
@@ -152,13 +176,14 @@ export class ComicUploadComponent implements OnInit {
                 if (file instanceof File) {
                     ++pageNumber;
 
-                    let newPage = new Page(
+                    let newPage = new FilePage(
                         Math.random(),
                         pageNumber,
                         this.selectedChapter ? this.selectedChapter.chapterID : null,
                         '',
                         ''
                     );
+                    newPage.file = file;
 
                     this.pages.push(newPage);
 

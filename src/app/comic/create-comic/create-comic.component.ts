@@ -52,7 +52,7 @@ export class CreateComicComponent implements OnInit {
         }
 
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = (e: any) => {
             this.previewSrc = e.target.result;
         };
         reader.readAsDataURL(this.file);

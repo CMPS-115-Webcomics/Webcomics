@@ -41,7 +41,7 @@
 
   <mat-card-actions>
     <button mat-raised-button color="primary" [disabled]="this.fileList === null" (click)="uploadFiles()">Upload</button>
-    <button mat-raised-button color="primary" [disabled]="pages.length < 1">Submit</button>
+    <button mat-raised-button color="primary" [disabled]="pages.length < 1" (click)="submit()">Submit</button>
   </mat-card-actions>
 </mat-card>
 
