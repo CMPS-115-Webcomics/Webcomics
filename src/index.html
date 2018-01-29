@@ -9,29 +9,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 
 <body>
 
-
-
-  <div class="loaderContainer">
-    <div class="loader">
-      <div id="largeBox"></div>
-      <div id="smallBox"></div>
+  <wcm-root>
+    <div class="loaderContainer">
+      <div class="loader">
+        <div id="largeBox"></div>
+        <div id="smallBox"></div>
+      </div>
     </div>
-  </div>
-
-  <wcm-root></wcm-root>
+  </wcm-root>
 
   <style>
+    body {
+      background-color: #303030;
+      margin: 0px;
+    }
+
     .loaderContainer {
+      padding: 0px;
+      margin: 0px;
       position: absolute;
-      top: 0px;
-      bottom: 0px;
-      left: 0px;
-      right: 0px;
+      width: 100vw;
+      height: 100vh;
       transition: opacity .8s ease-in-out;
       background-color: #303030;
       text-align: center;
@@ -39,11 +41,6 @@
       justify-content: center;
       align-items: center;
       margin: 0;
-      opacity: 1;
-    }
-
-    wcm-root:not(empty)+.loaderContainer {
-      opacity: 0;
     }
 
     .loader,
@@ -87,9 +84,10 @@
         transform: rotate(90deg)
       }
     }
+
   </style>
 
-  
+
 </body>
 
 </html>

@@ -35,4 +35,30 @@ export class Comic {
         public chapters: Chapter[],
         public pages: Page[],
     ) { }
+
+    addChapter(volume?: Volume) {
+        let parent = volume || this.volumes[this.volumes.length - 1];
+        let volId = parent ? parent.volumeID : 0;
+        let newChapter = new Chapter(
+            Math.random(),
+            volId,
+            Math.max(...this.chapters
+                .filter(chapter => chapter.volumeID === volId)
+                .map(chapter => chapter.chapterNumber)
+                 .concat(0)) + 1
+        );
+        // chapterId needs to be loaded from server
+        this.chapters.push(newChapter);
+        return newChapter;
+    }
+
+    addVolume() {
+        let newVolume = new Volume(
+            Math.random(),
+            Math.max(...this.volumes.map(volume => volume.volumeNumber)) + 1
+        );
+        this.volumes.push(newVolume);
+        this.addChapter(newVolume);
+        return newVolume;
+    }
 }

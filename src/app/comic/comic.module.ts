@@ -13,7 +13,7 @@ import { CreateComicComponent } from './create-comic/create-comic.component';
 
 import {
     MatIconModule, MatCardModule, MatButtonModule, MatTooltipModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
-    MatDividerModule
+    MatDividerModule, MatSelectModule, MatOptionModule
 } from '@angular/material';
 
 @NgModule({
@@ -30,7 +30,9 @@ import {
         MatInputModule,
         FormsModule,
         ReactiveFormsModule,
-        MatDividerModule
+        MatDividerModule,
+        MatSelectModule,
+        MatOptionModule
     ],
     exports: [
         ComicListComponent,

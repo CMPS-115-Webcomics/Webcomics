@@ -1,23 +1,73 @@
-<h4>Upload Images for {{ comic.title }}</h4>
-<label htmlFor="volOption">Volume</label>
-<select [(ngModel)]="selectedVolumeID" (ngModelChange)="onVolumeChange($event)" id="volOption">
-    <option [ngValue]="-1">None</option>
-    <option *ngFor="let volume of volumeOptions" [ngValue]="volume.volumeID">
-        {{ volume.volumeNumber }}
-    </option>
-</select>
+<mat-card class="create-form">
+  <mat-card-header>
+    <mat-card-title>Upload Pages for {{ comic.title }}</mat-card-title>
+  </mat-card-header>
 
+  <mat-card-content>
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="Volume" [(ngModel)]="selectedVolumeID" (ngModelChange)="onVolumeChange()">
+          <mat-option [value]="0">None</mat-option>
+          <mat-option *ngFor="let volume of volumeOptions" [value]="volume.volumeID">
+            {{ volume.volumeNumber }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-<label htmlFor="chapOption">Chapter</label>
-<select [(ngModel)]="selectedChapterID" (ngModelChange)="onChapterChange($event)" id="chapOption">
-    <option *ngIf="selectedVolumeID <= 0" [ngValue]="-1">None</option>
-    <option *ngFor="let chapter of chapterOptions" [ngValue]="chapter.chapterID">
-        {{ chapter.chapterNumber }}
-    </option>
-</select>
+      <button mat-mini-fab matTooltip="New Volume" (click)="newVolume()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
 
-<p>{{ message }}</p>
-<div>
+    <div>
+      <mat-form-field>
+        <mat-select placeholder="Chapter" [(ngModel)]="selectedChapterID" (ngModelChange)="onChapterChange()" id="chapOption">
+          <mat-option [value]="0" *ngIf="selectedVolumeID === 0">None</mat-option>
+          <mat-option *ngFor="let chapter of chapterOptions" [value]="chapter.chapterID">
+            {{ chapter.chapterNumber }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <button mat-mini-fab matTooltip="New Chapter" (click)="newChapter()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <p>All pages will be placed in the selected chapter</p>
+
     <input #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*" multiple>
-</div>
-<button (click)="uploadFiles()">Upload</button>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [disabled]="this.fileList === null" (click)="uploadFiles()">Upload</button>
+    <button mat-raised-button color="primary" [disabled]="pages.length < 1">Submit</button>
+  </mat-card-actions>
+</mat-card>
+
+
+<mat-card *ngFor="let page of pages; let i = index; let first = first; let last = last" class="page-card ">
+  <mat-card-title>Page - {{page.pageNumber}}</mat-card-title>
+
+  <img mat-card-image [src]="page.imgURL" alt="{{ page.altText }}" title="{{ page.altText }}">
+
+  <mat-card-content>
+    <mat-form-field hintLabel="Max 300 characters">
+      <textarea matInput #altTxt placeholder="Page alt-text" name="altText" maxlength="300" [(ngModel)]="page.altText"></textarea>
+      <mat-hint align="end">{{altTxt.value?.length || 0}}/300</mat-hint>
+    </mat-form-field>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-icon-button matTooltip="Move Up" [disabled]="page === first" (click)="movePageUp(i)">
+      <mat-icon>arrow_upward</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Move Down" [disabled]="page === last" (click)="movePageDown(i)">
+      <mat-icon>arrow_downward</mat-icon>
+    </button>
+    <button mat-icon-button matTooltip="Delete" color="warn" (click)="deletePage(i)">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </mat-card-actions>
+</mat-card>
