@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { ComicService } from '../comic.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -21,6 +23,8 @@ export class CreateComicComponent implements OnInit {
 
     @ViewChild('previewImg') previewImg: ElementRef;
     public previewSrc;
+    public previewWidth;
+    public previewHeight;
 
     urlError() {
         return this.url.hasError('required') ? 'You must enter a value' :
@@ -34,13 +38,34 @@ export class CreateComicComponent implements OnInit {
             '';
     }
 
-    constructor() { }
+    constructor(
+        private comicService: ComicService,
+        private http: HttpClient,
+    ) { }
 
     submitComic() {
-        console.log(this.title,
-        this.comicURL,
-        this.description,
-        this.file);
+        let thumbnailURL = "http://www.clker.com/cliparts/O/v/c/b/i/6/generic-logo-hi.png";
+        let userID = "1";
+        let URL = this.comicService.URL;
+
+        let body = new URLSearchParams();
+        body.set('title', this.title);
+        body.set('comicURL', this.comicURL);
+        body.set('description', this.description);
+        body.set('userID', userID);
+        body.set('thumbnailURL', thumbnailURL);
+        let options = {
+            headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+        };
+
+        this.http.post(URL + "/api/comics/create", body.toString(), options).subscribe(
+            data => {
+                console.log("created: " + data[0]);
+            },
+            error => {
+                console.log("failed: " +  error);
+            }
+);
     }
 
     ngOnInit() {
@@ -53,6 +78,8 @@ export class CreateComicComponent implements OnInit {
         }
         const reader = new FileReader();
         reader.onload = (e: any) => {
+            this.previewWidth = 128;
+            this.previewHeight = 128;
             this.previewSrc = e.target.result;
         };
         reader.readAsDataURL(this.file);

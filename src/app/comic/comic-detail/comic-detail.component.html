@@ -39,10 +39,15 @@
       </div>
 
       <!--  Pages only -->
-      <div *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0">
+      <div *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0 && comic.pages.length > 0">
         <a routerLink="{{ baseLink }}/1">
           <button mat-raised-button color="primary">Start Reading</button>
         </a>
+      </div>
+
+      <!-- Nothing -->
+      <div *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0 && comic.pages.length == 0">
+          <h2 class="mat-h2">This comic has no content yet.</h2>
       </div>
 
     </mat-card-content>

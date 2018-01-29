@@ -14,7 +14,10 @@ export class ComicListComponent implements OnInit {
     constructor(private comicService: ComicService) { }
 
     ngOnInit() {
-        this.comics = this.comicService.getComics();
+        if (this.comicService.comics.length == 0)
+            this.comics = this.comicService.getComics();
+        else
+            this.comics = this.comicService.comics;
     }
 
 }

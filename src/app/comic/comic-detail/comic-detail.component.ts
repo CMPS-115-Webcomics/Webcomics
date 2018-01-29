@@ -26,8 +26,6 @@ export class ComicDetailComponent implements OnInit {
 
     ngOnInit() {
         this.getComic();
-        this.baseLink = '/comic/' + this.comic.comicURL;
-        console.log(this.baseLink);
     }
 
     loadComic(comic: Comic) {
