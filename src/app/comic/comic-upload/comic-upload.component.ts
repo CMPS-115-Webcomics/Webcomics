@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 import { HttpClient } from '@angular/common/http';
+import { apiURL } from '../../url';
 
 class FilePage extends Page {
     public file: File;
@@ -19,14 +20,14 @@ export class ComicUploadComponent implements OnInit {
     @Input() chapterOptions: Chapter[] = [];
     pages: FilePage[] = [];
 
-    selectedVolumeID = 0;
-    selectedChapterID = 0;
+    selectedVolumeID = null;
+    selectedChapterID = null;
     selectedVolume: Volume;
     selectedChapter: Chapter;
     public message: string;
 
     @ViewChild('fileInput') fileInput: ElementRef;
-    private fileList: FileList = null;
+    public fileList: FileList = null;
 
     constructor(
         private route: ActivatedRoute,
@@ -45,18 +46,18 @@ export class ComicUploadComponent implements OnInit {
 
     submit() {
         for (let page of this.pages) {
-
-            let formData = new FormData() as any;
+            let formData = new FormData();
 
             page.imgURL = null;
+            console.log('submit', page);
 
             for (let attr in page) {
                 formData.append(attr, page[attr]);
             }
-            formData.append('comicID',  this.comic.comicID);
-            console.log('submit', page, 'as', Array.from(formData.keys()));
+            formData.append('comicID', this.comic.comicID.toString());
 
-            this.http.post('http://localhost:3000/api/comics/addPage', formData).toPromise()
+            this.http.post(`${apiURL}/api/comics/addPage`, formData)
+                .toPromise()
                 .then(console.log)
                 .catch(console.error);
         }
@@ -114,7 +115,7 @@ export class ComicUploadComponent implements OnInit {
     getLastChapter() {
         let chapters = this.comic.chapters.filter(chapter => chapter.volumeID === this.selectedVolumeID);
         if (chapters.length === 0)
-            return new Chapter(0, 0, 0);
+            return new Chapter(0, null, 0);
         return chapters[chapters.length - 1];
     }
 
@@ -183,7 +184,7 @@ export class ComicUploadComponent implements OnInit {
                     let newPage = new FilePage(
                         Math.random(),
                         pageNumber,
-                        this.selectedChapter ? this.selectedChapter.chapterID : null,
+                        this.selectedChapterID || null,
                         '',
                         ''
                     );

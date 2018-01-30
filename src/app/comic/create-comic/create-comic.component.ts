@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ComicService } from '../comic.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {  Router } from '@angular/router';
+import { apiURL } from '../../url';
+
 
 
 @Component({
@@ -14,7 +17,7 @@ export class CreateComicComponent implements OnInit {
     public title: string;
     public comicURL: string;
     public description: string;
-    public file: File;
+    public thumbnail: File;
 
     name = new FormControl('', [Validators.required]);
     url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)]);
@@ -28,44 +31,36 @@ export class CreateComicComponent implements OnInit {
 
     urlError() {
         return this.url.hasError('required') ? 'You must enter a value' :
-        this.url.hasError('pattern') ? 'Only lower case letters, numbers and dashes may be used.' :
-        '';
+            this.url.hasError('pattern') ? 'Only lower case letters, numbers and dashes may be used.' :
+                '';
     }
 
     descError() {
         return this.desc.hasError('required') ? 'You must enter a value' :
             this.desc.hasError('minlength') ? 'Must be at least 100 characters long.' :
-            '';
+                '';
     }
 
     constructor(
         private comicService: ComicService,
         private http: HttpClient,
+        private router: Router
     ) { }
 
     submitComic() {
-        let thumbnailURL = "http://www.clker.com/cliparts/O/v/c/b/i/6/generic-logo-hi.png";
-        let userID = "1";
-        let URL = this.comicService.URL;
+        let body = new FormData();
 
-        let body = new URLSearchParams();
         body.set('title', this.title);
         body.set('comicURL', this.comicURL);
         body.set('description', this.description);
-        body.set('userID', userID);
-        body.set('thumbnailURL', thumbnailURL);
-        let options = {
-            headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-        };
+        body.set('thumbnail', this.thumbnail);
 
-        this.http.post(URL + "/api/comics/create", body.toString(), options).subscribe(
-            data => {
-                console.log("created: " + data[0]);
-            },
-            error => {
-                console.log("failed: " +  error);
-            }
-);
+        this.http.post(`${apiURL}/api/comics/create`, body).toPromise()
+            .then(() => {
+                this.router.navigate([`comic/${this.comicURL}/upload`]);
+            })
+            .catch(console.error);
+
     }
 
     ngOnInit() {
@@ -74,7 +69,7 @@ export class CreateComicComponent implements OnInit {
     fileChange(event): void {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
-            this.file = fileList[0];
+            this.thumbnail = fileList[0];
         }
         const reader = new FileReader();
         reader.onload = (e: any) => {
@@ -82,8 +77,7 @@ export class CreateComicComponent implements OnInit {
             this.previewHeight = 128;
             this.previewSrc = e.target.result;
         };
-        reader.readAsDataURL(this.file);
-        console.log(this.file, this.title, this.comicURL, this.description);
+        reader.readAsDataURL(this.thumbnail);
     }
 
 }

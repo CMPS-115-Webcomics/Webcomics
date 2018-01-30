@@ -38,7 +38,7 @@ export class Comic {
 
     addChapter(volume?: Volume) {
         let parent = volume || this.volumes[this.volumes.length - 1];
-        let volId = parent ? parent.volumeID : 0;
+        let volId = parent ? parent.volumeID : null;
         let newChapter = new Chapter(
             Math.floor(Math.random() * 1000 + 1),
             volId,
