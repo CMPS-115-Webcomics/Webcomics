@@ -18,9 +18,9 @@ export class ComicService {
         private router: Router,
         private auth: AuthenticationService
     ) {
-        if (auth.loggedIn()) {
+        auth.onAuth(() => {
             this.loadMyComics();
-        }
+        });
     }
 
     createComic(title: string, comicURL: string, description: string, thumbnail: File) {

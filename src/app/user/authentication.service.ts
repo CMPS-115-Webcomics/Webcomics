@@ -7,6 +7,7 @@ import { apiURL } from '../url';
 export class AuthenticationService {
   private token: string;
   private username: string;
+  private authChangeCallbacks: Array<(username: string) => void> = [];
 
   constructor(private http: HttpClient) {
     let data = JSON.parse(localStorage.getItem('login'));
@@ -23,6 +24,14 @@ export class AuthenticationService {
     this.token = token;
     this.username = username;
     localStorage.setItem('login', JSON.stringify({ token: token, username: username }));
+    this.authChangeCallbacks.forEach(callback => callback(username));
+  }
+
+  public onAuth(callback: (username: string) => void) {
+    this.authChangeCallbacks.push(callback);
+    if (this.loggedIn()) {
+      callback(this.username);
+    }
   }
 
   public getAuthHeader() {
