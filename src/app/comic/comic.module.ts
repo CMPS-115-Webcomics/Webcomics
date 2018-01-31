@@ -10,29 +10,17 @@ import { ComicService } from './comic.service';
 import { ComicUploadComponent } from './comic-upload/comic-upload.component';
 import { ComicDetailComponent } from './comic-detail/comic-detail.component';
 import { CreateComicComponent } from './create-comic/create-comic.component';
+import { MaterialModule } from '../material.module';
 
-import {
-    MatIconModule, MatCardModule, MatButtonModule, MatTooltipModule, MatExpansionModule, MatFormFieldModule, MatInputModule,
-    MatDividerModule, MatSelectModule, MatOptionModule
-} from '@angular/material';
 
 @NgModule({
     imports: [
         RouterModule,
         BrowserModule,
         HttpClientModule,
-        MatIconModule,
-        MatCardModule,
-        MatButtonModule,
-        MatTooltipModule,
-        MatExpansionModule,
-        MatFormFieldModule,
-        MatInputModule,
         FormsModule,
         ReactiveFormsModule,
-        MatDividerModule,
-        MatSelectModule,
-        MatOptionModule
+        MaterialModule
     ],
     exports: [
         ComicListComponent,

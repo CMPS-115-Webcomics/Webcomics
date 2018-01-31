@@ -8,9 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-    MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatCardModule
-} from '@angular/material';
+import { MaterialModule } from './material.module';
+
 
 
 @NgModule({
@@ -24,7 +23,7 @@ import {
         FormsModule,
         BrowserAnimationsModule,
         ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-        MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatCardModule
+        MaterialModule
 
     ],
     bootstrap: [AppComponent]

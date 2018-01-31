@@ -11,12 +11,6 @@
   <mat-sidenav #start mode="side" class="comics-sidenav">
     <h3>Navigation</h3>
     <ul>
-      <!--
-      <li>
-        <a mat-line routerLink="/" routerLinkActive="active" (click)="start.close()">
-           Home</a>
-      </li>
-    -->
       <li>
         <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics</a>
       </li>
@@ -24,8 +18,6 @@
         <a mat-line routerLink="/comics/create" (click)="start.close()">Create Comic</a>
       </li>
     </ul>
-
   </mat-sidenav>
-
   <router-outlet></router-outlet>
 </mat-sidenav-container>
