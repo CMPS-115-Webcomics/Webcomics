@@ -5,9 +5,11 @@ import { ComicReaderComponent } from './comic/comic-reader/comic-reader.componen
 import { ComicDetailComponent } from './comic/comic-detail/comic-detail.component';
 import { ComicUploadComponent } from './comic/comic-upload/comic-upload.component';
 import { CreateComicComponent } from './comic/create-comic/create-comic.component';
+import { RegisterComponent } from './user/register/register.component';
 
 const routes: Routes = [
     { path: '', component: ComicListComponent },
+    { path: 'register', component: RegisterComponent },
     { path: 'comics', component: ComicListComponent },
     { path: 'comics/create', component: CreateComicComponent },
     { path: 'comic/:comicURL/upload', component: ComicUploadComponent },

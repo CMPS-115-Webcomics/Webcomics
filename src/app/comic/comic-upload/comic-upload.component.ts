@@ -31,8 +31,7 @@ export class ComicUploadComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private comicService: ComicService,
-        private http: HttpClient
+        private comicService: ComicService
     ) { }
 
     ngOnInit() {
@@ -46,20 +45,9 @@ export class ComicUploadComponent implements OnInit {
 
     submit() {
         for (let page of this.pages) {
-            let formData = new FormData();
 
             page.imgURL = null;
-            console.log('submit', page);
-
-            for (let attr in page) {
-                formData.append(attr, page[attr]);
-            }
-            formData.append('comicID', this.comic.comicID.toString());
-
-            this.http.post(`${apiURL}/api/comics/addPage`, formData)
-                .toPromise()
-                .then(console.log)
-                .catch(console.error);
+            this.comicService.uploadPage(page.file, page);
         }
     }
 

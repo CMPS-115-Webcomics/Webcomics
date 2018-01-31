@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-
+import { UserModule } from './user/user.module';
 
 
 @NgModule({
@@ -18,13 +18,13 @@ import { MaterialModule } from './material.module';
     ],
     imports: [
         ComicModule,
+        UserModule,
         BrowserModule,
         AppRoutingModule,
         FormsModule,
         BrowserAnimationsModule,
         ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
         MaterialModule
-
     ],
     bootstrap: [AppComponent]
 })

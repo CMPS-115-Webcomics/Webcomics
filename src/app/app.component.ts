@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './user/authentication.service';
 
 @Component({
     selector: 'wcm-root',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-    constructor() {}
+    constructor(public auth: AuthenticationService) { }
 
     ngOnInit(): void {
     }

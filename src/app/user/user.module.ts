@@ -12,10 +12,9 @@ import { AuthenticationService } from './authentication.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
-  ],
+    MaterialModule],
   exports: [
-    AuthenticationService
+    RegisterComponent
   ],
   providers: [AuthenticationService],
   declarations: [RegisterComponent]

@@ -14,7 +14,10 @@
       <li>
         <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics</a>
       </li>
-      <li>
+      <li *ngIf="!auth.loggedIn()">
+        <a mat-line routerLink="/register" (click)="start.close()">Register Account</a>
+      </li>
+      <li *ngIf="auth.loggedIn()">
         <a mat-line routerLink="/comics/create" (click)="start.close()">Create Comic</a>
       </li>
     </ul>

@@ -4,13 +4,52 @@ import { Comic, Page, Chapter, Volume } from './comic';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { apiURL } from '../url';
+import { AuthenticationService } from '../user/authentication.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ComicService {
     public comics: Comic[] = [];
     public comic: Comic;
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+        private router: Router,
+        private auth: AuthenticationService
+    ) { }
+
+    createComic(title: string, comicURL: string, description: string, thumbnail: File) {
+        let body = new FormData();
+
+        body.set('title', title);
+        body.set('comicURL', comicURL);
+        body.set('description', description);
+        body.set('thumbnail', thumbnail);
+
+        this.http.post(`${apiURL}/api/comics/create`, body, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .then(() => {
+                this.router.navigate([`comic/${comicURL}/upload`]);
+                this.loadComics();
+            })
+            .catch(console.error);
+    }
+
+    uploadPage(file: File, page: Page) {
+        let formData = new FormData();
+
+        page.imgURL = null;
+
+        for (let attr in page) {
+            formData.append(attr, page[attr]);
+        }
+        formData.append('comicID', this.comic.comicID.toString());
+
+        this.http.post(`${apiURL}/api/comics/addPage`, formData, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .then(console.log)
+            .catch(console.error);
+    }
 
     loadComics() {
         this.http.get(apiURL + '/api/comics/list')
