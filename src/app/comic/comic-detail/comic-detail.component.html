@@ -7,7 +7,7 @@
 
     <mat-card-content>
 
-      <a routerLink="upload">Upload Images</a>
+      <a routerLink="upload" *ngIf="isMine()">Upload Images</a>
 
       <p>{{comic.description}}</p>
 

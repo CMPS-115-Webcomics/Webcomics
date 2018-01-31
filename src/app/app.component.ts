@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './user/authentication.service';
+import { ComicService } from './comic/comic.service';
 
 @Component({
     selector: 'wcm-root',
@@ -8,7 +9,8 @@ import { AuthenticationService } from './user/authentication.service';
 })
 export class AppComponent implements OnInit {
 
-    constructor(public auth: AuthenticationService) { }
+    constructor(public auth: AuthenticationService,
+        public comics: ComicService) { }
 
     ngOnInit(): void {
     }

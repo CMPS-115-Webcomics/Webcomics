@@ -23,8 +23,11 @@
       <li *ngIf="!auth.loggedIn()">
         <a mat-line routerLink="/register" (click)="start.close()">Register Account</a>
       </li>
+      <li *ngFor="let comic of comics.myComics">
+          <a mat-line routerLink="comic/{{comic.comicURL}}/upload" (click)="start.close()">Manage {{comic.title}}</a>
+        </li>
       <li *ngIf="auth.loggedIn()">
-        <a mat-line routerLink="/comics/create" (click)="start.close()">Create Comic</a>
+        <a mat-line routerLink="/comics/create" (click)="start.close()">Create New Comic</a>
       </li>
     </ul>
   </mat-sidenav>

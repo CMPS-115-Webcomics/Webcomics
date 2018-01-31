@@ -19,9 +19,12 @@ export class ComicDetailComponent implements OnInit {
         private router: Router
     ) { }
 
-    getVolumeChapters(volume: Volume) {
-        return this.comic.chapters.filter(chapter => chapter.volumeID === volume.volumeID)
+    isMine() {
+        return this.comicService.myComics.find(comic => comic.comicID === this.comic.comicID);
+    }
 
+    getVolumeChapters(volume: Volume) {
+        return this.comic.chapters.filter(chapter => chapter.volumeID === volume.volumeID);
     }
 
     ngOnInit() {

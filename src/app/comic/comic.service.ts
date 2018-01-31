@@ -11,12 +11,17 @@ import { Router } from '@angular/router';
 export class ComicService {
     public comics: Comic[] = [];
     public comic: Comic;
+    public myComics: Comic[] = [];
 
     constructor(
         private http: HttpClient,
         private router: Router,
         private auth: AuthenticationService
-    ) { }
+    ) {
+        if (auth.loggedIn()) {
+            this.loadMyComics();
+        }
+    }
 
     createComic(title: string, comicURL: string, description: string, thumbnail: File) {
         let body = new FormData();
@@ -31,6 +36,7 @@ export class ComicService {
             .then(() => {
                 this.router.navigate([`comic/${comicURL}/upload`]);
                 this.loadComics();
+                this.loadMyComics();
             })
             .catch(console.error);
     }
@@ -51,22 +57,36 @@ export class ComicService {
             .catch(console.error);
     }
 
+    private unwrapComic(entry) {
+        return new Comic(
+            entry.comicid,
+            entry.accountid,
+            entry.title,
+            entry.comicurl,
+            entry.description,
+            entry.thumbnailurl,
+        );
+    }
+
+    loadMyComics() {
+        this.http.get(apiURL + '/api/comics/myComics', { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .then((data: Array<any>) => {
+                this.myComics.length = 0;
+                console.log('mycomics', data);
+                for (let entry of data) {
+                    this.myComics.push(this.unwrapComic(entry));
+                }
+            });
+    }
+
     loadComics() {
         this.http.get(apiURL + '/api/comics/list')
             .toPromise()
-            .then(data => {
+            .then((data: Array<any>) => {
                 this.comics.length = 0;
-                for (let i in data) {
-                    let entry = data[i];
-                    let comic: Comic = new Comic(
-                        entry.comicid,
-                        entry.accountid,
-                        entry.title,
-                        entry.comicurl,
-                        entry.description,
-                        entry.thumbnailurl,
-                    );
-                    this.comics.push(comic);
+                for (let entry of data) {
+                    this.comics.push(this.unwrapComic(entry));
                 }
             });
     }
