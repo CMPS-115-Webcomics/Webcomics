@@ -7,11 +7,13 @@ import { ComicUploadComponent } from './comic/comic-upload/comic-upload.componen
 import { CreateComicComponent } from './comic/create-comic/create-comic.component';
 import { RegisterComponent } from './user/register/register.component';
 import { LoginComponent } from './user/login/login.component';
+import { VerifyEmailComponent } from './user/verify-email/verify-email.component';
 
 const routes: Routes = [
     { path: '', component: ComicListComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'verify/:token', component: VerifyEmailComponent }
     { path: 'comics', component: ComicListComponent },
     { path: 'comics/create', component: CreateComicComponent },
     { path: 'comic/:comicURL/upload', component: ComicUploadComponent },

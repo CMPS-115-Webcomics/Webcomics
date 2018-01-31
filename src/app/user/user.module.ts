@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { MaterialModule } from '../material.module';
 import { AuthenticationService } from './authentication.service';
 import { LoginComponent } from './login/login.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 
 @NgModule({
@@ -16,9 +17,9 @@ import { LoginComponent } from './login/login.component';
     MaterialModule
   ],
   exports: [
-    RegisterComponent, LoginComponent
+    RegisterComponent, LoginComponent, VerifyEmailComponent
   ],
   providers: [AuthenticationService],
-  declarations: [RegisterComponent, LoginComponent]
+  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent]
 })
 export class UserModule { }

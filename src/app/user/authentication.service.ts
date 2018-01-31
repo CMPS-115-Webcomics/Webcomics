@@ -47,6 +47,14 @@ export class AuthenticationService {
     });
   }
 
+  public verifyEmail(emailToken) {
+    return this.http.post(`${apiURL}/api/auth/verifyEmail`, {}, {
+      headers: new HttpHeaders({
+        token: emailToken
+      })})
+      .toPromise();
+  }
+
   public register(username: string, email: string, password: string) {
     return this.http.post(`${apiURL}/api/auth/register`, {
       username: username,
