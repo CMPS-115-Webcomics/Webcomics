@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { MaterialModule } from '../material.module';
 import { AuthenticationService } from './authentication.service';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -12,11 +13,12 @@ import { AuthenticationService } from './authentication.service';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule],
+    MaterialModule
+  ],
   exports: [
-    RegisterComponent
+    RegisterComponent, LoginComponent
   ],
   providers: [AuthenticationService],
-  declarations: [RegisterComponent]
+  declarations: [RegisterComponent, LoginComponent]
 })
 export class UserModule { }

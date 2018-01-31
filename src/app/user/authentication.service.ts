@@ -34,7 +34,7 @@ export class AuthenticationService {
   public register(username: string, email: string, password: string) {
     return this.http.post(`${apiURL}/api/auth/register`, {
       username: username,
-      email: email,
+      email: email.toLowerCase(),
       password: password
     }).toPromise()
       .then((res: any) => {

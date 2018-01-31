@@ -12,7 +12,13 @@
     <h3>Navigation</h3>
     <ul>
       <li>
-        <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics</a>
+        <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics List</a>
+      </li>
+    </ul>
+    <h3>My Comics</h3>
+    <ul>
+      <li *ngIf="!auth.loggedIn()">
+        <a mat-line routerLink="/login" (click)="start.close()">Login</a>
       </li>
       <li *ngIf="!auth.loggedIn()">
         <a mat-line routerLink="/register" (click)="start.close()">Register Account</a>

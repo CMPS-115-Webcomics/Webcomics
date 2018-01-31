@@ -5,10 +5,11 @@ import { apiURL } from './url';
 import { resolve } from 'path';
 
 
-export function unusedValidator(http: HttpClient, type: string): AsyncValidatorFn {
+export function unusedValidator(http: HttpClient, type: string, lowercase = false): AsyncValidatorFn {
   return (control: AbstractControl) => {
     if (!control.value)
       return new Promise((res) => res(null));
+    let value = lowercase ? control.value.toLowerCase() : control.value;
     return http.get(`${apiURL}/api/availability/${type}/${control.value}`).toPromise().then(
       (res: any) => {
         return res.availbile ? null : { 'availability': true };

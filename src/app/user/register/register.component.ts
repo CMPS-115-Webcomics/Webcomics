@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   ) {
     this.nameControl = new FormControl('', [Validators.required, Validators.maxLength(30),
     Validators.pattern(/^[a-zA-Z0-9\-\_]+$/)], [unusedValidator(http, 'username')]);
-    this.emailControl = new FormControl('', [Validators.required, Validators.email], [unusedValidator(http, 'email')]);
+    this.emailControl = new FormControl('', [Validators.required, Validators.email], [unusedValidator(http, 'email', true)]);
     this.passwordControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(256)]);
 
   }
