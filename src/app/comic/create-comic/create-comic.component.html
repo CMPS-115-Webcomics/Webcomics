@@ -22,7 +22,7 @@
             </mat-form-field>
 
 
-            <mat-form-field hintLabel="Between 100 and 500 characters">
+            <mat-form-field hintLabel="Between 20 and 500 characters">
                 <textarea matInput #descIn placeholder="Comic description" name="description" maxlength="500" [(ngModel)]="description" [formControl]="desc"
                     name="description"></textarea>
                 <mat-hint align="end">{{descIn.value?.length || 0}}/500</mat-hint>
@@ -38,7 +38,7 @@
             <br/>
 
             <span>
-                <button mat-raised-button color="primary" type="submit" class="submit-button">Submit</button>
+                <button mat-raised-button [disabled]="!isValid()" color="primary" type="submit" class="submit-button">Submit</button>
             </span>
         </form>
 

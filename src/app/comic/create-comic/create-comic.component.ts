@@ -21,13 +21,17 @@ export class CreateComicComponent implements OnInit {
 
     name = new FormControl('', [Validators.required]);
     url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)]);
-    desc = new FormControl('', [Validators.required, Validators.minLength(100), Validators.maxLength(500)]);
+    desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(500)]);
 
 
     @ViewChild('previewImg') previewImg: ElementRef;
     public previewSrc;
     public previewWidth;
     public previewHeight;
+
+    isValid () {
+        return this.name.valid && this.url.valid && this.desc.valid && this.thumbnail;
+    }
 
     urlError() {
         return this.url.hasError('required') ? 'You must enter a value' :
@@ -58,9 +62,9 @@ export class CreateComicComponent implements OnInit {
         this.http.post(`${apiURL}/api/comics/create`, body).toPromise()
             .then(() => {
                 this.router.navigate([`comic/${this.comicURL}/upload`]);
+                this.comicService.loadComics();
             })
             .catch(console.error);
-
     }
 
     ngOnInit() {

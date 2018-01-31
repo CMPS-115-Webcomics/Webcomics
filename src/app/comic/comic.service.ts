@@ -12,27 +12,30 @@ export class ComicService {
 
     constructor(private http: HttpClient) { }
 
-    getComics(): Comic[] {
-        this.http.get(apiURL + '/api/comics/list').subscribe(data => {
-            for (let i in data) {
-                let entry = data[i];
-                let comic: Comic = new Comic(
-                    entry.comicid,
-                    entry.accountid,
-                    entry.title,
-                    entry.comicurl,
-                    entry.description,
-                    entry.thumbnailurl,
-                );
-                this.comics.push(comic);
-            }
-        });
-        return this.comics;
+    loadComics() {
+        this.http.get(apiURL + '/api/comics/list')
+            .toPromise()
+            .then(data => {
+                this.comics.length = 0;
+                for (let i in data) {
+                    let entry = data[i];
+                    let comic: Comic = new Comic(
+                        entry.comicid,
+                        entry.accountid,
+                        entry.title,
+                        entry.comicurl,
+                        entry.description,
+                        entry.thumbnailurl,
+                    );
+                    this.comics.push(comic);
+                }
+            });
     }
 
     getComic(comicURL: string): Observable<Comic> {
         return this.http.get(apiURL + '/api/comics/get/' + comicURL).map(data => {
             let entry = data;
+            console.log(entry);
 
             let chapters: Chapter[] = [];
             let volumes: Volume[] = [];
