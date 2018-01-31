@@ -10,14 +10,21 @@ export class AuthenticationService {
   private authChangeCallbacks: Array<(username: string) => void> = [];
 
   constructor(private http: HttpClient) {
-    let data = JSON.parse(localStorage.getItem('login'));
-    if (data) {
+    try {
+      let data = JSON.parse(localStorage.getItem('login'));
       this.setLogin(data.username, data.token);
-    }
+    } catch (e) { }
   }
 
   public loggedIn() {
     return this.token !== undefined;
+  }
+
+  public logout() {
+    this.token = undefined;
+    this.username = undefined;
+    localStorage.setItem('login', '');
+    this.authChangeCallbacks.forEach(callback => callback(null));
   }
 
   private setLogin(username: string, token: string) {

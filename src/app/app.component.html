@@ -15,7 +15,16 @@
         <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics List</a>
       </li>
     </ul>
-    <h3>My Comics</h3>
+    <h3 *ngIf="auth.loggedIn()">My Comics</h3>
+    <ul *ngIf="auth.loggedIn()">
+      <li *ngFor="let comic of comics.myComics">
+        <a mat-line routerLink="comic/{{comic.comicURL}}/upload" (click)="start.close()">Manage {{comic.title}}</a>
+      </li>
+      <li>
+        <a mat-line routerLink="/comics/create" (click)="start.close()">Create New Comic</a>
+      </li>
+    </ul>
+    <h3>Authenticaiton</h3>
     <ul>
       <li *ngIf="!auth.loggedIn()">
         <a mat-line routerLink="/login" (click)="start.close()">Login</a>
@@ -23,11 +32,8 @@
       <li *ngIf="!auth.loggedIn()">
         <a mat-line routerLink="/register" (click)="start.close()">Register Account</a>
       </li>
-      <li *ngFor="let comic of comics.myComics">
-          <a mat-line routerLink="comic/{{comic.comicURL}}/upload" (click)="start.close()">Manage {{comic.title}}</a>
-        </li>
       <li *ngIf="auth.loggedIn()">
-        <a mat-line routerLink="/comics/create" (click)="start.close()">Create New Comic</a>
+        <a mat-line (click)="logout()">Logout</a>
       </li>
     </ul>
   </mat-sidenav>

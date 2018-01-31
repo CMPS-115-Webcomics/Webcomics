@@ -12,6 +12,10 @@ export class AppComponent implements OnInit {
     constructor(public auth: AuthenticationService,
         public comics: ComicService) { }
 
+    public logout() {
+        this.auth.logout();
+    }
+
     ngOnInit(): void {
     }
 }

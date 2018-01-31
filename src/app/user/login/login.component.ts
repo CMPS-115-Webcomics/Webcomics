@@ -40,11 +40,6 @@ export class LoginComponent implements OnInit {
       '';
   }
 
-  emailError() {
-    return this.emailControl.hasError('required') ? 'You must enter a value' :
-      '';
-  }
-
   passwordError() {
     return this.passwordControl.hasError('required') ? 'You must enter a value' :
       this.passwordControl.hasError('minlength') ? 'Must be at least 8 characters long.' :
@@ -52,7 +47,7 @@ export class LoginComponent implements OnInit {
   }
 
   ok() {
-    return this.nameControl.valid && this.emailControl.valid && this.passwordControl.valid;
+    return this.nameControl.valid  && this.passwordControl.valid;
   }
 
 

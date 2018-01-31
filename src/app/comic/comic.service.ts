@@ -18,8 +18,11 @@ export class ComicService {
         private router: Router,
         private auth: AuthenticationService
     ) {
-        auth.onAuth(() => {
-            this.loadMyComics();
+        auth.onAuth((username) => {
+            if (username)
+                this.loadMyComics();
+            else
+                this.myComics.length = 0;
         });
     }
 
