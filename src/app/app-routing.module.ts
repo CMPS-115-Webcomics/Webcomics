@@ -13,7 +13,7 @@ const routes: Routes = [
     { path: '', component: ComicListComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'verify/:token', component: VerifyEmailComponent }
+    { path: 'verify/:token', component: VerifyEmailComponent },
     { path: 'comics', component: ComicListComponent },
     { path: 'comics/create', component: CreateComicComponent },
     { path: 'comic/:comicURL/upload', component: ComicUploadComponent },

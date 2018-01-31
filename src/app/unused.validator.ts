@@ -2,7 +2,6 @@ import { Directive } from '@angular/core';
 import { AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms/';
 import { HttpClient } from '@angular/common/http';
 import { apiURL } from './url';
-import { resolve } from 'path';
 
 
 export function unusedValidator(http: HttpClient, type: string, lowercase = false): AsyncValidatorFn {
