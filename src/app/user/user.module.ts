@@ -7,6 +7,7 @@ import { MaterialModule } from '../material.module';
 import { AuthenticationService } from './authentication.service';
 import { LoginComponent } from './login/login.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -20,6 +21,6 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     RegisterComponent, LoginComponent, VerifyEmailComponent
   ],
   providers: [AuthenticationService],
-  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent]
+  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ResetPasswordComponent]
 })
 export class UserModule { }

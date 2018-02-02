@@ -51,8 +51,28 @@ export class AuthenticationService {
     return this.http.post(`${apiURL}/api/auth/verifyEmail`, {}, {
       headers: new HttpHeaders({
         token: emailToken
-      })})
-      .toPromise();
+      })
+    }).toPromise();
+  }
+
+  public requestPasswordReset(usernameOrEmail: string) {
+    return this.http.post(`${apiURL}/api/auth/requestReset`, {
+      usernameOrEmail: usernameOrEmail
+    }).toPromise();
+  }
+
+  public resetPassword(restToken, newPassword) {
+    return this.http.post(`${apiURL}/api/auth/verifyReset`, {
+      password: newPassword
+    }, {
+        headers: new HttpHeaders({
+          token: restToken
+        })
+      })
+      .toPromise()
+      .then((res: any) => {
+        this.setLogin(res.username, res.token);
+      });
   }
 
   public register(username: string, email: string, password: string) {
@@ -66,13 +86,13 @@ export class AuthenticationService {
       });
   }
 
-  public login(username: string, password: string) {
+  public login(usernameOrEmail: string, password: string) {
     return this.http.post(`${apiURL}/api/auth/login`, {
-      username: username,
+      usernameOrEmail: usernameOrEmail,
       password: password
     }).toPromise()
       .then((res: any) => {
-        this.setLogin(username, res.token);
+        this.setLogin(res.username, res.token);
       });
   }
 

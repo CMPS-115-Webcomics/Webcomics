@@ -19,7 +19,7 @@ export class VerifyEmailComponent implements OnInit {
     auth.verifyEmail(token).then(() => {
       this.message = 'Your email has been verifed';
     }).catch((err) => {
-      this.message = 'Their was a problem verifying your email address.';
+      this.message = 'There was a problem verifying your email address.';
     });
   }
 
