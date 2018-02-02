@@ -63,8 +63,6 @@ export class ComicUploadComponent implements OnInit {
     }
 
     newChapter() {
-        console.log(this.selectedVolumeID);
-        console.log(this.selectedVolume);
         this.comic.addChapter(this.selectedVolume);
         this.onVolumeChange();
     }
@@ -120,8 +118,6 @@ export class ComicUploadComponent implements OnInit {
     }
 
     onVolumeChange(): void {
-        console.log(this.comic.volumes);
-        console.log(this.selectedVolumeID);
         this.selectedVolume = this.comic.volumes.find(vol => vol.volumeID === this.selectedVolumeID);
 
         this.chapterOptions = [];

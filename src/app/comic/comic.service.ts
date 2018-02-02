@@ -76,7 +76,6 @@ export class ComicService {
             .toPromise()
             .then((data: Array<any>) => {
                 this.myComics.length = 0;
-                console.log('mycomics', data);
                 for (let entry of data) {
                     this.myComics.push(this.unwrapComic(entry));
                 }

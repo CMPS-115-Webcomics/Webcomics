@@ -1,8 +1,16 @@
 .comic-list-card {
-    width: 300px;
+    display: inline-block;
+    width: 280px;
     margin: 20px;
-    float: left;
+    align-content: center;
+
     p {
         overflow: hidden;
     }
+}
+
+.list-container {
+    margin: 0 auto;
+    text-align: center;
+
 }
