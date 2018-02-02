@@ -44,11 +44,11 @@ export class ComicUploadComponent implements OnInit {
     }
 
     submit() {
-        for (let page of this.pages) {
-
-            page.imgURL = null;
-            this.comicService.uploadPage(page.file, page);
-        }
+        if (this.pages.length === 0)
+            return;
+        let curr = this.pages.shift();
+        this.comicService.uploadPage(curr.file, curr)
+            .then(() => this.submit());
     }
 
     gotoLastVolume() {

@@ -54,9 +54,8 @@ export class ComicService {
         }
         formData.append('comicID', this.comic.comicID.toString());
 
-        this.http.post(`${apiURL}/api/comics/addPage`, formData, { headers: this.auth.getAuthHeader() })
+        return this.http.post(`${apiURL}/api/comics/addPage`, formData, { headers: this.auth.getAuthHeader() })
             .toPromise()
-            .then(console.log)
             .catch(console.error);
     }
 
@@ -96,7 +95,6 @@ export class ComicService {
     getComic(comicURL: string): Observable<Comic> {
         return this.http.get(apiURL + '/api/comics/get/' + comicURL).map(data => {
             let entry = data;
-            console.log(entry);
 
             let chapters: Chapter[] = [];
             let volumes: Volume[] = [];
