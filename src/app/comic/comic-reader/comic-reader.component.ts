@@ -12,6 +12,9 @@ import { ComicMaps } from '../comic-maps';
 
 
 export class ComicReaderComponent implements OnInit {
+    private static pagesToPreload = 5;
+    private static preloadDelay = 250; // ms before preloading starts
+
     @Input() comic: Comic;
     @Input() page: Page;
     @Input() chapter: Chapter;
@@ -38,22 +41,24 @@ export class ComicReaderComponent implements OnInit {
             return this.volumeMap.get(volumeID)[0];
         return -1;
     }
+
     getChapterIndex(chapterID: number): number {
         if (this.chapterMap.get(chapterID))
             return this.chapterMap.get(chapterID)[0];
         return -1;
     }
+
     getVolume(volumeID: number): Volume {
         if (this.volumeMap.get(volumeID))
             return this.volumeMap.get(volumeID)[1];
         return null;
     }
+
     getChapter(chapterID: number): Chapter {
         if (this.chapterMap.get(chapterID))
             return this.chapterMap.get(chapterID)[1];
         return null;
     }
-
 
     // updates page, chapter, and volume given the array index of a page for the comic
     updatePage(): void {
@@ -62,6 +67,17 @@ export class ComicReaderComponent implements OnInit {
             this.chapter = this.comicMaps.getChapter(this.page.chapterID);
             if (this.chapter != null)
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
+            console.log('update page');
+            setTimeout(() => this.preloadNextPages(), ComicReaderComponent.preloadDelay);
+        }
+    }
+
+    preloadNextPages() {
+        for (let i = 1; i <= ComicReaderComponent.pagesToPreload; i++) {
+            let index = this.pageIndex + i;
+            if (!this.comic.pages[index]) break;
+            let img = new Image();
+            img.src = this.comic.pages[index].imgURL;
         }
     }
 
@@ -135,8 +151,7 @@ export class ComicReaderComponent implements OnInit {
         this.pageIndex = 0;
         this.route.params.subscribe(async (params) => {
             if (this.currentComic !== params.comicURL)
-                 this.loadComic(await this.comicService.getComic(params.comicURL).toPromise());
-            console.log(params);
+                this.loadComic(await this.comicService.getComic(params.comicURL).toPromise());
             this.loadURLPage(params as { page: string, chapter: string, volume: string });
         });
     }
