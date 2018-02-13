@@ -107,8 +107,9 @@ export class ComicService {
 
         const cached = this.unstoreComicList(name);
         unloader(cached);
-        this.http.get(apiURL + '/api/comics/' + name)
-            .toPromise()
+        this.http.get(apiURL + '/api/comics/' + name, {
+            headers: this.auth.getAuthHeader()
+        }) .toPromise()
             .then((data: Array<ComicListData>) => {
                 unloader(data.map(this.unpackComicListItem));
                 this.storeComicList(this.comics, 'comics');

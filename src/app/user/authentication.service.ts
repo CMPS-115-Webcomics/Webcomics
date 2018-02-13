@@ -43,7 +43,7 @@ export class AuthenticationService {
 
   public getAuthHeader() {
     return new HttpHeaders({
-      token: this.token
+      token: this.token || ''
     });
   }
 
