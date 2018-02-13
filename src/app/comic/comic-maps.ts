@@ -7,7 +7,7 @@ export class ComicMaps {
     private volumeMap: Map<number, [number, Volume]>;
     private chapterMap: Map<number, [number, Chapter]>;
 
-    constructor(comic: Comic) { 
+    constructor(comic: Comic) {
         this.comic = comic;
         this.volumeMap = new Map<number, [number, Volume]>();
         this.chapterMap = new Map<number, [number, Chapter]>();

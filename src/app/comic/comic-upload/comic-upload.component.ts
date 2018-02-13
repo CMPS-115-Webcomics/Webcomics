@@ -36,7 +36,7 @@ export class ComicUploadComponent implements OnInit {
 
     ngOnInit() {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
-        this.comicService.getComic(comicURL).subscribe(comic => {
+        this.comicService.getComic(comicURL).then(comic => {
             this.comic = comic;
             this.volumeOptions = this.comic.volumes;
             this.gotoLastVolume();

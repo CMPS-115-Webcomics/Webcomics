@@ -8,15 +8,16 @@ import { Comic } from '../comic';
     styleUrls: ['./comic-list.component.scss']
 })
 export class ComicListComponent implements OnInit {
-    public comics: Comic[] = [
-    ];
+    public comics: Comic[] = [];
 
-    constructor(private comicService: ComicService) { }
-
-    ngOnInit() {
+    constructor(private comicService: ComicService) {
         this.comics = this.comicService.comics;
         if (this.comicService.comics.length === 0)
             this.comicService.loadComics();
+    }
+
+    ngOnInit() {
+
     }
 
 }

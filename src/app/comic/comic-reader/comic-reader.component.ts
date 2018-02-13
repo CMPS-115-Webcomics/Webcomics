@@ -150,9 +150,23 @@ export class ComicReaderComponent implements OnInit {
     ngOnInit() {
         this.pageIndex = 0;
         this.route.params.subscribe(async (params) => {
-            if (this.currentComic !== params.comicURL)
-                this.loadComic(await this.comicService.getComic(params.comicURL).toPromise());
-            this.loadURLPage(params as { page: string, chapter: string, volume: string });
+            if (this.currentComic === params.comicURL) {
+                this.loadURLPage(params as { page: string, chapter: string, volume: string });
+                return;
+            }
+
+            this.currentComic = params.comicURL;
+            let cachedComic = this.comicService.getCachedComic(params.comicURL);
+
+            if (cachedComic) {
+                this.loadComic(cachedComic);
+                this.loadURLPage(params as { page: string, chapter: string, volume: string });
+            }
+            let networkComic = await this.comicService.getComic(params.comicURL);
+            this.loadComic(networkComic);
+            if (!cachedComic)
+                this.loadURLPage(params as { page: string, chapter: string, volume: string });
+
         });
     }
 
