@@ -7,16 +7,16 @@
          name="subject"  [(ngModel)]="subject" 
          [formControl]="subjectControl" maxlength="64" 
         placeholder="Message Subject" required>
-        <mat-error *ngIf="nameControl.invalid">{{subjectError()}}</mat-error>
+        <mat-error *ngIf="subjectControl.invalid">Cannot be blank</mat-error>
     </mat-form-field>
 
-    <mat-form-field hintLabel="Between 20 and 500 characters">
+    <mat-form-field>
       <textarea matInput #msgBody 
       name="body" [(ngModel)]="content"
       [formControl]="bodyControl" maxlength="5000" 
       placeholder="Message Content"  required></textarea>
       <mat-hint align="end">{{msgBody.value?.length || 0}}/5000</mat-hint>
-      <mat-error *ngIf="desc.invalid">{{bodyError()}}</mat-error>
+      <mat-error *ngIf="bodyControl.invalid">Cannot be blank</mat-error>
   </mat-form-field>
 </form>
 </div>

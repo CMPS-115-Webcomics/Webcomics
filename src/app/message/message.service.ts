@@ -29,16 +29,16 @@ export class MessageService {
     auth.onAuth(() => this.loadMessages());
   }
 
-  public openMessageDialog() {
+  public openMessageDialog(receiverID: number) {
     let dialogRef = this.dialog.open(ComposeMessageDialogComponent);
     dialogRef.afterClosed().toPromise().then(res => {
-      this.sendMessage(res.reciverID, res.subject, res.content);
+      this.sendMessage(receiverID, res.subject, res.content);
     });
   }
 
-  public sendMessage(reciverID: number, subject: string, content: string) {
+  public sendMessage(receiverID: number, subject: string, content: string) {
     this.http.post(`${apiURL}/api/messages/send`, {
-      reciverID: reciverID,
+      receiverID: receiverID,
       subject: subject,
       content: content
     }, { headers: this.auth.getAuthHeader() });

@@ -9,12 +9,11 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./compose-message-dialog.component.scss']
 })
 export class ComposeMessageDialogComponent implements OnInit {
-  public reciverID: number;
   public subject: string;
   public content: string;
 
-  public bodyControl = new FormControl('', [Validators.required]);
   public subjectControl = new FormControl('', [Validators.required]);
+  public bodyControl = new FormControl('', [Validators.required]);
 
   constructor(
     private ref: MatDialogRef<ComposeMessageDialogComponent>
@@ -22,9 +21,8 @@ export class ComposeMessageDialogComponent implements OnInit {
 
   public done() {
     this.ref.close({
-      reciverID: this.reciverID,
       subject: this.subject,
-      body: this.content
+      content: this.content
     });
   }
 

@@ -16,6 +16,7 @@ import { MessageService } from './message.service';
   ],
   declarations: [MessageListComponent, ComposeMessageDialogComponent],
   exports: [MessageListComponent],
-  providers: [MessageService]
+  providers: [MessageService],
+  entryComponents: [ComposeMessageDialogComponent]
 })
 export class MessageModule { }

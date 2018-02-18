@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ComicService } from '../comic.service';
 import { Comic } from '../comic';
+import { MessageService } from '../../message/message.service';
 
 @Component({
     selector: 'wcm-comics',
@@ -10,10 +11,17 @@ import { Comic } from '../comic';
 export class ComicListComponent implements OnInit {
     public comics: Comic[] = [];
 
-    constructor(private comicService: ComicService) {
+    constructor(
+        private comicService: ComicService,
+        private messageService: MessageService
+    ) {
         this.comics = this.comicService.comics;
         if (this.comicService.comics.length === 0)
             this.comicService.loadComics();
+    }
+
+    message(comic: Comic) {
+        this.messageService.openMessageDialog(comic.accountID);
     }
 
     ngOnInit() {

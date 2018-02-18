@@ -1,16 +1,20 @@
 
 
 <div class="list-container ">
-  <mat-card  *ngFor="let comic of comics" class="comic-list-card" routerLink="/comic/{{ comic.comicURL}}">
+  <mat-card  *ngFor="let comic of comics" class="comic-list-card" >
     <mat-card-header>
       <mat-card-title>{{ comic.title }}</mat-card-title>
     </mat-card-header>
   
-    <img mat-card-image [src]="comic.thumbnailURL">
+    <img routerLink="/comic/{{ comic.comicURL}}" mat-card-image [src]="comic.thumbnailURL">
 
     <mat-card-content>
       <p>{{ comic.description }}</p>
     </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="message(comic)">Send Message</button>
+    </mat-card-actions>
   
  
   </mat-card>
