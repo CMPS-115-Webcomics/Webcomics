@@ -10,6 +10,7 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { UserModule } from './user/user.module';
+import { MessageModule } from './message/message.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { UserModule } from './user/user.module';
     imports: [
         ComicModule,
         UserModule,
+        MessageModule,
         BrowserModule,
         AppRoutingModule,
         FormsModule,

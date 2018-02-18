@@ -1,0 +1,11 @@
+<mat-card *ngFor="let message of messages" class="message">
+  <mat-card-header>
+    <mat-card-title>Subject: {{ message.subject }} </mat-card-title>
+    <mat-card-subtitle>From: {{ message.sender }} </mat-card-subtitle>
+    <mat-card-subtitle>Sent: {{ message.timeSent | date : 'medium'}} </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>{{ message.content }}</p>
+  </mat-card-content>
+</mat-card>

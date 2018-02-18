@@ -9,6 +9,7 @@ import { RegisterComponent } from './user/register/register.component';
 import { LoginComponent } from './user/login/login.component';
 import { VerifyEmailComponent } from './user/verify-email/verify-email.component';
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
+import { MessageListComponent } from './message/message-list/message-list.component';
 
 const routes: Routes = [
     { path: '', component: ComicListComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'verify/:token', component: VerifyEmailComponent },
     { path: 'reset/:token', component: ResetPasswordComponent },
+    { path: 'messages', component: MessageListComponent },
     { path: 'comics', component: ComicListComponent },
     { path: 'comics/create', component: CreateComicComponent },
     { path: 'comic/:comicURL/upload', component: ComicUploadComponent },

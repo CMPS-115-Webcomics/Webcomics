@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Send Message</h1>
+
+<div mat-dialog-content>
+  <form  class="form-container">
+    <mat-form-field>
+        <input matInput #msgSubject
+         name="subject"  [(ngModel)]="subject" 
+         [formControl]="subjectControl" maxlength="64" 
+        placeholder="Message Subject" required>
+        <mat-error *ngIf="nameControl.invalid">{{subjectError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Between 20 and 500 characters">
+      <textarea matInput #msgBody 
+      name="body" [(ngModel)]="content"
+      [formControl]="bodyControl" maxlength="5000" 
+      placeholder="Message Content"  required></textarea>
+      <mat-hint align="end">{{msgBody.value?.length || 0}}/5000</mat-hint>
+      <mat-error *ngIf="desc.invalid">{{bodyError()}}</mat-error>
+  </mat-form-field>
+</form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="done()">Send</button>
+</div>
