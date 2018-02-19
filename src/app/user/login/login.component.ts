@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { unusedValidator } from '../../unused.validator';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
+import { MatFormField, MatFormFieldControl } from '@angular/material';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   startRequest() {
     this.working = true;
-    this.message = 'Request in progress';
+    this.message = 'Working..';
   }
 
   handleError(err) {

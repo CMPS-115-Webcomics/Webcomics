@@ -21,6 +21,9 @@ export class RegisterComponent implements OnInit {
   email: string;
   password: string;
 
+  message: string;
+  working = false;
+
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService,
@@ -33,10 +36,23 @@ export class RegisterComponent implements OnInit {
 
   }
 
+  startRequest() {
+    this.working = true;
+    this.message = 'Working...';
+  }
+
+  handleError(err) {
+    console.error(err, err.error);
+    this.message = err.error || err.status;
+    this.working = false;
+  }
+
+
   create() {
+    this.startRequest();
     this.auth.register(this.username, this.email, this.password).then(() => {
       this.router.navigate([`/comics/create`]);
-    });
+    }).catch(this.handleError.bind(this));
   }
 
   nameError() {
