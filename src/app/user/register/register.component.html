@@ -27,6 +27,8 @@
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="primary" [disabled]="!ok() || working" (click)="create()">Create Account</button>
+    <button mat-button routerLink="/login" [disabled]="working" >Login to Existing Account</button>
   </mat-card-actions>
 
 </mat-card>
+
