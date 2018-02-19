@@ -17,11 +17,12 @@
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                 <mat-error *ngIf="passwordControl.invalid">{{passwordError()}}</mat-error>
             </mat-form-field>
+            <p>{{message}}</p>
         </form>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" [disabled]="!ok()" (click)="submit()">Sign In</button>
-      <button mat-raised-button color="warn" [disabled]="!canReset()" (click)="reset()">Reset Password</button>
+      <button mat-raised-button color="primary" [disabled]="!ok() || working" (click)="submit()">Sign In</button>
+      <button mat-raised-button color="warn" [disabled]="!canReset() || working" (click)="reset()">Reset Password</button>
     </mat-card-actions>
   
   </mat-card>

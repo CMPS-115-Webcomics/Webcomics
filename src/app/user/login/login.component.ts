@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
 
   username: string;
   password: string;
+  message: string;
+  working = false;
 
   constructor(
     private auth: AuthenticationService,
@@ -28,25 +30,34 @@ export class LoginComponent implements OnInit {
     this.passwordControl = new FormControl('', [Validators.required]);
   }
 
+  startRequest() {
+    this.working = true;
+    this.message = 'Request in progress';
+  }
+
+  handleError(err) {
+    console.error(err, err.error);
+    this.message = err.error || err.status;
+    this.working = false;
+  }
+
   submit() {
+    this.startRequest();
     this.auth.login(this.username, this.password).then(() => {
       this.router.navigate([`/comics/create`]);
-    });
+    }).catch(this.handleError.bind(this));
   }
 
   reset() {
+    this.startRequest();
     this.auth.requestPasswordReset(this.username)
       .then(() =>
         alert('A password reset link has been sent to your email.')
-      ).catch(err => {
-        console.error(err);
-        alert('Account does not exist.');
-      });
+      ).catch(this.handleError.bind(this));
   }
 
   nameError() {
     return this.nameControl.hasError('required') ? 'You must enter a value' :
-
       '';
   }
 
