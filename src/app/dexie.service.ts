@@ -5,9 +5,10 @@ export class DexieService extends Dexie {
     constructor() {
         super('Ng2DexieComicStore');
         this.version(1).stores({
-            comicList: 'comicURL',
-            myComics: 'comicURL',
-            comic: 'comicURL'
+            comicList: 'comicurl',
+            myComics: 'comicurl',
+            comics: 'comicurl',
+            comic: 'comicurl',
         });
     }
 

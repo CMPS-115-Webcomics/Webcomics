@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import Dexie from 'dexie';
 import { DexieService } from '../dexie.service';
 import { Comic, Page, Chapter, Volume } from './comic';
@@ -9,9 +8,7 @@ export class ComicStoreService {
 
     constructor(
         private dexieService: DexieService,
-        private http: HttpClient
-    ) {
-    }
+    ) { }
 
     /*
     public cacheComic(comic: Comic) {
@@ -69,24 +66,26 @@ export class ComicStoreService {
 
     storeComicList(comics: Comic[], loc: string) {
     //let localStorageName = ComicService.localStoragePrefix + loc;
-        let comicListTable = this.dexieService.table(loc);
-        comicListTable.put(comics.map(this.packComicListItem));
+        console.log('storing comics in ' + loc);
+        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
+        comicListTable.bulkPut(comics.map(this.packComicListItem));
         /*
         localStorage.setItem(localStorageName,
             JSON.stringify(comics.map(this.packComicListItem)));
 */
     }
 
-    unstoreComicList(loc: string) {
-        console.log(loc);
-        let comicListTable = this.dexieService.table(loc);
-        return comicListTable.toArray().then(function (result) {
-            console.log(result);
-            return result.map(this.unpackComicListsItem);
+    async unstoreComicList(loc: string) {
+        console.log('unstoring comic list ' + loc);
+        //if (!(await this.dexieService.exists(loc))) return [];
+        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
+        console.log(comicListTable.toArray());
+        let data = await comicListTable.toArray();
+        console.log(data);
+        return data.map(this.unpackComicListItem);
         //if (!result) return [];
             //let data = JSON.parse(result) as ComicListData[];
             //return data.map(this.unpackComicListItem);
-        });
     /*
         let localStorageName = ComicService.localStoragePrefix + loc;
         let dataStr = localStorage.getItem(localStorageName);
@@ -183,16 +182,16 @@ export class ComicStoreService {
         localStorage.setItem(ComicService.localStoragePrefix + 'comic-' + comicURL,
             JSON.stringify(data));
     */
-        let comicTable = this.dexieService.table('comic');
+        let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
         comicTable.put(data);
     }
 
-    public getCachedComic(comicURL: string) {
+    public async getCachedComic(comicURL: string) {
         //let dataStr = localStorage.getItem(ComicService.localStoragePrefix + 'comic-' + comicURL);
-        let comicTable = this.dexieService.table('comic');
-        return comicTable.get({ 'comicURL': comicURL }).then(function (result) {
-            return this.unpackComic(result);
-        });
+        let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
+        //let data = await comicTable.get({ 'comicurl': comicURL });
+        let data = await comicTable.get({ comicurl: comicURL });
+        return this.unpackComic(data);
         //if (!dataStr) return null;
         //return this.unpackComic(JSON.parse(dataStr));
     }

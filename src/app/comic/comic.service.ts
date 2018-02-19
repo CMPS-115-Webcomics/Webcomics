@@ -10,7 +10,7 @@ import { ComicStoreService, ComicData, ComicListData } from './comic-store.servi
 
 @Injectable()
 export class ComicService {
-    private static localStoragePrefix = 'comics-cache-';
+//private static localStoragePrefix = 'comics-cache-';
 
     public comics: Comic[] = [];
     public comic: Comic;
@@ -74,9 +74,10 @@ export class ComicService {
 
     loadComicType(name: string, storage: Array<Comic>) {
         const unloader = (comics: Comic[]) => {
-            //storage.length = 0;
+            storage.length = 0;
             for (let comic of comics) {
                 storage.push(comic);
+                //this.comicStoreService.cacheComic(comic.comicURL, this.comicStoreService.packComic(comic));
             }
         };
 
@@ -87,7 +88,8 @@ export class ComicService {
             }) .toPromise()
                 .then((data: Array<ComicListData>) => {
                     unloader(data.map(this.comicStoreService.unpackComicListItem));
-                    this.comicStoreService.storeComicList(this.comics, 'comics');
+                    //this.comicStoreService.storeComicList(this.comics, 'comics');
+                    this.comicStoreService.storeComicList(storage, name);
                 });
         });
     }
