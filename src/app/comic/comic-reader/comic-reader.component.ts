@@ -156,16 +156,19 @@ export class ComicReaderComponent implements OnInit {
             }
 
             this.currentComic = params.comicURL;
-            let cachedComic = this.comicService.getCachedComic(params.comicURL);
-
-            if (cachedComic) {
-                this.loadComic(cachedComic);
-                this.loadURLPage(params as { page: string, chapter: string, volume: string });
-            }
-            let networkComic = await this.comicService.getComic(params.comicURL);
-            this.loadComic(networkComic);
-            if (!cachedComic)
-                this.loadURLPage(params as { page: string, chapter: string, volume: string });
+            //let cachedComic = this.comicService.getCachedComic(params.comicURL);
+            this.comicService.getCachedComic(params.comicURL).then(function (cachedComic) {
+                if (cachedComic) {
+                    this.loadComic(cachedComic);
+                    this.loadURLPage(params as { page: string, chapter: string, volume: string });
+                }
+                //let networkComic = await this.comicService.getComic(params.comicURL);
+                this.comicService.getComic(params.comicURL).then(function (networkComic) {
+                    this.loadComic(networkComic);
+                    if (!cachedComic)
+                        this.loadURLPage(params as { page: string, chapter: string, volume: string });
+                });
+            });
 
         });
     }

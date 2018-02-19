@@ -38,9 +38,11 @@ export class ComicDetailComponent implements OnInit {
 
     getComic(): void {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
-        let cached = this.comicService.getCachedComic(comicURL);
+        //let cached = this.comicService.getCachedComic(comicURL);
+        /*
         if (cached)
             this.loadComic(cached);
+*/
         this.comicService.getComic(comicURL)
             .then(comic => this.loadComic(comic));
     }
