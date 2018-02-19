@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { unusedValidator } from '../../unused.validator';
+import { existenceValidator } from '../../existence.validator';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
@@ -25,10 +25,12 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthenticationService,
-    private router: Router
+    private router: Router,
+    http: HttpClient
   ) {
-    this.nameControl = new FormControl('', [Validators.required]);
-    this.passwordControl = new FormControl('', [Validators.required]);
+    this.nameControl = new FormControl('', [Validators.required],
+      [existenceValidator(http, 'emailorpassword', false, true)]);
+    this.passwordControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
   }
 
   startRequest() {
@@ -58,8 +60,9 @@ export class LoginComponent implements OnInit {
   }
 
   nameError() {
-    return this.nameControl.hasError('required') ? 'You must enter a value' :
-      '';
+    return this.nameControl.hasError('required') ? 'You must enter a value.' :
+      this.nameControl.hasError('availability') ? 'No account exists with that username or email.' :
+        '';
   }
 
   passwordError() {

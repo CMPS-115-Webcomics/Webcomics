@@ -4,7 +4,7 @@ import { ComicService } from '../comic.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { apiURL } from '../../url';
-import { unusedValidator } from '../../unused.validator';
+import { existenceValidator } from '../../existence.validator';
 import { AuthenticationService } from '../../user/authentication.service';
 
 
@@ -29,8 +29,10 @@ export class CreateComicComponent implements OnInit {
         private comicService: ComicService,
         private http: HttpClient
     ) {
-        this.name = new FormControl('', [Validators.required], [unusedValidator(http, 'title')]);
-        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)], [unusedValidator(http, 'comicURL')]);
+        this.name = new FormControl('', [Validators.required],
+            [existenceValidator(http, 'title')]);
+        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
+            [existenceValidator(http, 'comicURL')]);
         this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(500)]);
     }
 

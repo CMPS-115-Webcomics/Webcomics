@@ -11,7 +11,7 @@
           </mat-form-field>
 
           <mat-form-field>
-              <input matInput [attr.disabled]="working" #emailIn name="email" [(ngModel)]="email"  placeholder="Email" type="text" [formControl]="emailControl" maxlength="30" required>
+              <input matInput [attr.disabled]="working" #emailIn name="email" [(ngModel)]="email"  placeholder="Email" type="text" [formControl]="emailControl" maxlength="254" required>
               <mat-error *ngIf="emailControl.invalid">{{emailError()}}</mat-error>
           </mat-form-field>
 

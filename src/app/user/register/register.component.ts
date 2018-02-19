@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { unusedValidator } from '../../unused.validator';
+import { existenceValidator } from '../../existence.validator';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'wcm-register',
@@ -30,8 +29,8 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) {
     this.nameControl = new FormControl('', [Validators.required, Validators.maxLength(30),
-    Validators.pattern(/^[a-zA-Z0-9\-\_]+$/)], [unusedValidator(http, 'username')]);
-    this.emailControl = new FormControl('', [Validators.required, Validators.email], [unusedValidator(http, 'email', true)]);
+    Validators.pattern(/^[a-zA-Z0-9\-\_]+$/)], [existenceValidator(http, 'username')]);
+    this.emailControl = new FormControl('', [Validators.required, Validators.email], [existenceValidator(http, 'email', true)]);
     this.passwordControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(256)]);
 
   }
