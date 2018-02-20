@@ -1,17 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 import { ComicMaps } from '../comic-maps';
+import { pageAnimation, pageChangeTime } from './page.animation';
 
 @Component({
     selector: 'wcm-comic-reader',
     templateUrl: './comic-reader.component.html',
-    styleUrls: ['./comic-reader.component.scss']
+    styleUrls: ['./comic-reader.component.scss'],
+    animations: [pageAnimation]
 })
-
-
-export class ComicReaderComponent implements OnInit {
+export class ComicReaderComponent implements OnInit, AfterViewInit {
     private static pagesToPreload = 5;
     private static preloadDelay = 250; // ms before preloading starts
 
@@ -20,8 +20,12 @@ export class ComicReaderComponent implements OnInit {
     @Input() chapter: Chapter;
     @Input() volume: Volume;
 
+    @ViewChild('readerDisplay') image: ElementRef;
+
+
     private currentComic: string;
     private pageIndex = -1;
+    public imageLoading = true;
 
     // these maps store array indices and corresponding objects, they are gotten by their ID key
     // i.e volumeMap.get(volumeID), volumeMap.set(volumeID, [arrayIndex, volume])
@@ -34,6 +38,40 @@ export class ComicReaderComponent implements OnInit {
         private comicService: ComicService,
         private router: Router
     ) { }
+
+    ngAfterViewInit() {
+        this.image.nativeElement.onload = (e) => {
+            setTimeout(() => this.imageLoading = false, 10);
+        };
+
+    }
+
+    ngOnInit() {
+        this.pageIndex = 0;
+        this.handleRoute();
+    }
+
+    handleRoute() {
+        this.route.params.subscribe(async (params) => {
+            if (this.currentComic === params.comicURL) {
+                this.animatePageChange(params as { page: string, chapter: string, volume: string });
+                return;
+            }
+
+            this.currentComic = params.comicURL;
+            let cachedComic = this.comicService.getCachedComic(params.comicURL);
+
+            if (cachedComic) {
+                this.loadComic(cachedComic);
+                this.animatePageChange(params as { page: string, chapter: string, volume: string });
+            }
+            let networkComic = await this.comicService.getComic(params.comicURL);
+            this.loadComic(networkComic);
+            if (!cachedComic)
+                this.animatePageChange(params as { page: string, chapter: string, volume: string });
+
+        });
+    }
 
     // functions utilizing on the maps
     getVolumeIndex(volumeID: number): number {
@@ -95,10 +133,48 @@ export class ComicReaderComponent implements OnInit {
         return URL;
     }
 
+    animatePageChange(params: { page: string, chapter: string, volume: string }) {
+        this.imageLoading = true;
+        setTimeout(this.loadURLPage(params), pageChangeTime);
+    }
+
+    loadURLPage(params: { page: string, chapter: string, volume: string }) {
+        const pageNum = parseInt(params.page, 10) || 0;
+        const chapNum = parseInt(params.chapter, 10) || 0;
+        const volNum = parseInt(params.volume, 10) || 0;
+
+        if (volNum > 0) {
+            for (let volume of this.comic.volumes)
+                if (volume.volumeNumber === volNum)
+                    this.volume = volume;
+        }
+        if (chapNum > 0) {
+            for (let chapter of this.comic.chapters)
+                if ((this.volume == null || this.volume.volumeID === chapter.volumeID) && chapter.chapterNumber === chapNum)
+                    this.chapter = chapter;
+        }
+        if (pageNum > 0) {
+            // finds first page with matching chapter and page numbers
+            for (let i in this.comic.pages) {
+                let page = this.comic.pages[i];
+                // don't need to check if volumes are matching since same chapter implies same volume
+                if ((this.chapter == null || this.chapter.chapterID === page.chapterID) && page.pageNumber === pageNum) {
+                    this.pageIndex = +i;
+                    break;
+                }
+            }
+        }
+        this.updatePage();
+    }
+
+    // Page Change Controls
+
     reload() {
-        let nextPage = this.comic.pages[this.pageIndex];
-        let URL = this.getURL(nextPage);
-        this.router.navigate([URL]);
+        this.imageLoading = true;
+        setTimeout(() => {
+            let nextPage = this.comic.pages[this.pageIndex];
+            this.router.navigateByUrl(this.getURL(nextPage));
+        }, pageChangeTime);
     }
 
     prevPage(): void {
@@ -146,63 +222,11 @@ export class ComicReaderComponent implements OnInit {
         return this.comic.pages.length > 1;
     }
 
-
-    ngOnInit() {
-        this.pageIndex = 0;
-        this.route.params.subscribe(async (params) => {
-            if (this.currentComic === params.comicURL) {
-                this.loadURLPage(params as { page: string, chapter: string, volume: string });
-                return;
-            }
-
-            this.currentComic = params.comicURL;
-            let cachedComic = this.comicService.getCachedComic(params.comicURL);
-
-            if (cachedComic) {
-                this.loadComic(cachedComic);
-                this.loadURLPage(params as { page: string, chapter: string, volume: string });
-            }
-            let networkComic = await this.comicService.getComic(params.comicURL);
-            this.loadComic(networkComic);
-            if (!cachedComic)
-                this.loadURLPage(params as { page: string, chapter: string, volume: string });
-
-        });
-    }
-
     loadComic(comic: Comic) {
         this.comic = comic;
         this.comicMaps = new ComicMaps(this.comic);
     }
 
-    loadURLPage(params: { page: string, chapter: string, volume: string }) {
-        const pageNum = parseInt(params.page, 10) || 0;
-        const chapNum = parseInt(params.chapter, 10) || 0;
-        const volNum = parseInt(params.volume, 10) || 0;
-
-        if (volNum > 0) {
-            for (let volume of this.comic.volumes)
-                if (volume.volumeNumber === volNum)
-                    this.volume = volume;
-        }
-        if (chapNum > 0) {
-            for (let chapter of this.comic.chapters)
-                if ((this.volume == null || this.volume.volumeID === chapter.volumeID) && chapter.chapterNumber === chapNum)
-                    this.chapter = chapter;
-        }
-        if (pageNum > 0) {
-            // finds first page with matching chapter and page numbers
-            for (let i in this.comic.pages) {
-                let page = this.comic.pages[i];
-                // don't need to check if volumes are matching since same chapter implies same volume
-                if ((this.chapter == null || this.chapter.chapterID === page.chapterID) && page.pageNumber === pageNum) {
-                    this.pageIndex = +i;
-                    break;
-                }
-            }
-        }
-        this.updatePage();
-    }
 
 
 

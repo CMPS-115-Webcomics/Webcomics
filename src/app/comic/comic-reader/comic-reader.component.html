@@ -6,7 +6,9 @@
         {{ comic.title }}
       </mat-card-title>
 
-      <img mat-card-image (click)="nextPage()" src="{{ page.imgURL }}" alt="{{ page.altText }}" title="{{ page.altText }}">
+      <img mat-card-image #readerDisplay
+       [@imageLoading]="imageLoading" 
+       (click)="nextPage()" src="{{ page.imgURL }}" alt="{{ page.altText }}" title="{{ page.altText }}">
 
       <mat-card-actions>
         <button mat-icon-button [disabled]="!hasPrevPage()" (click)="firstPage()" matTooltip="First Page" matTooltipPosition="above">
