@@ -13,7 +13,7 @@ import { CreateComicComponent } from './create-comic/create-comic.component';
 import { MaterialModule } from '../material.module';
 import { ComicStoreService } from './comic-store.service';
 
-import { DexieService } from '../dexie.service';
+//import { DexieService } from '../dexie.service';
 
 
 @NgModule({
@@ -39,7 +39,7 @@ import { DexieService } from '../dexie.service';
     providers: [
         ComicService,
         ComicStoreService,
-        DexieService,
+        //DexieService,
     ]
 })
 export class ComicModule { }

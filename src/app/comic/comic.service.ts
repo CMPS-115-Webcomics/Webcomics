@@ -75,6 +75,7 @@ export class ComicService {
     }
 
     loadComicType(name: string, storage: Array<Comic>) {
+        return this.comicStoreService.unstoreComicList(name);
         //console.log(storage);
         /*
         const unloader = (comics: Comic[]) => {
@@ -84,13 +85,11 @@ export class ComicService {
                 //this.comicStoreService.cacheComic(comic.comicURL, this.comicStoreService.packComic(comic));
             }
         };
-*/
 
         this.comicStoreService.unstoreComicList(name).then(function (cached: Comic[]) {
             console.log("hello");
             console.log(cached);
             //unloader(cached);
-            /*
             this.http.get(apiURL + '/api/comics/' + name, {
                 headers: this.auth.getAuthHeader()
             }) .toPromise()
@@ -99,8 +98,8 @@ export class ComicService {
                     //this.comicStoreService.storeComicList(this.comics, 'comics');
                     this.comicStoreService.storeComicList(storage, name);
                 });
-*/
         });
+        */
     }
 
     public getCachedComic(comicURL: string) {
@@ -112,7 +111,7 @@ export class ComicService {
     }
 
     public loadComics() {
-        this.loadComicType('comics', this.comics);
+        this.loadComicType('comicList', this.comics);
     }
 }
 
