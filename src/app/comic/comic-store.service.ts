@@ -5,10 +5,38 @@ import { Comic, Page, Chapter, Volume } from './comic';
 
 export interface ComicListData {
     comicurl: string;
+    comicid: number;
+    accountid: number;
+    title: string;
+    description: string;
+    thumbnailurl: string;
 };
 
 export interface ComicData {
     comicurl: string;
+    comicid: number;
+    accountid: number;
+    title: string;
+    description: string;
+    thumbnailurl: string;
+
+    pages: Array<{
+        pageid: number
+        pagenumber: number
+        chapterid: number
+        imgurl: string
+        alttext: string
+    }>;
+
+    chapters: Array<{
+        chapterid: number
+        volumeid: number
+        chapternumber: number
+    }>;
+
+    volumes: Array<{ volumeid: number
+        volumenumber: number
+    }>;
 };
 
 @Injectable()
@@ -20,13 +48,23 @@ export class ComicStoreService {
 
     unpackComicListItem(entry: ComicListData) {
         return new Comic(
-            1,1,"title",entry.comicurl,"desc","123.com"
+            entry.comicid,
+            entry.accountid,
+            entry.title,
+            entry.comicurl,
+            entry.description,
+            entry.thumbnailurl
         );
     }
 
     packComicListItem(comic: Comic): ComicListData {
         return {
             comicurl: comic.comicURL,
+            comicid: comic.comicID,
+            accountid: comic.accountID,
+            title: comic.title,
+            description: comic.description,
+            thumbnailurl: comic.thumbnailURL
         };
     }
 
@@ -37,8 +75,19 @@ export class ComicStoreService {
     }
 
     unstoreComicList(loc: string) {
-            let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table('comicList');
-            return comicListTable.toArray();
+        let ac = new Comic(1,1,"title","url","description","123.com",[],[],[]);
+        this.storeComicList([ac], 'comicList');
+
+
+        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table('comicList');
+        return new Promise((resolve, reject) => {
+            comicListTable.toArray().then((data: ComicListData[]) => {
+                resolve(data.map(this.unpackComicListItem));
+            }).catch((e) => {
+                console.error(e);
+                reject([]);
+            });
+        });
     }
 
 
@@ -59,7 +108,34 @@ export class ComicStoreService {
 
     packComic(comic: Comic): ComicData {
         return {
-        comicurl: comic.comicURL
+            comicurl: comic.comicURL,
+            comicid: comic.comicID,
+            accountid: comic.accountID,
+            title: comic.title,
+            description: comic.description,
+            thumbnailurl: comic.thumbnailURL,
+            volumes: comic.volumes.map(volume => {
+                return {
+                    volumeid: volume.volumeID,
+                    volumenumber: volume.volumeNumber
+                };
+            }),
+            chapters: comic.chapters.map(chapter => {
+                return {
+                    chapterid: chapter.chapterID,
+                    volumeid: chapter.volumeID,
+                    chapternumber: chapter.chapterNumber
+                };
+            }),
+            pages: comic.pages.map(page => {
+                return {
+                    pageid: page.pageID,
+                    pagenumber: page.pageNumber,
+                    chapterid: page.chapterID,
+                    imgurl: page.imgURL,
+                    alttext: page.altText
+                };
+            })
         };
     }
 
@@ -69,12 +145,8 @@ export class ComicStoreService {
     }
 
     public async getCachedComic(comicURL: string) {
-        //let dataStr = localStorage.getItem(ComicService.localStoragePrefix + 'comic-' + comicURL);
         let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
-        //let data = await comicTable.get({ 'comicurl': comicURL });
         let data = await comicTable.get({ comicurl: comicURL });
         return this.unpackComic(data);
-        //if (!dataStr) return null;
-        //return this.unpackComic(JSON.parse(dataStr));
     }
 }

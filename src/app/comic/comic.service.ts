@@ -106,12 +106,12 @@ export class ComicService {
         return this.comicStoreService.getCachedComic(comicURL);
     }
 
-    public loadMyComics() {
-        this.loadComicType('myComics', this.myComics);
+    public loadMyComics() : Promise<any> {
+        return this.loadComicType('myComics', this.myComics);
     }
 
-    public loadComics() {
-        this.loadComicType('comicList', this.comics);
+    public loadComics() : Promise<any> {
+        return this.loadComicType('comicList', this.comics);
     }
 }
 
