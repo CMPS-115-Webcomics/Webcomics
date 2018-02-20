@@ -25,6 +25,7 @@ export class ComicUploadComponent implements OnInit {
     selectedVolume: Volume;
     selectedChapter: Chapter;
     public message: string;
+    working = false;
 
     @ViewChild('fileInput') fileInput: ElementRef;
     public fileList: FileList = null;
@@ -44,8 +45,11 @@ export class ComicUploadComponent implements OnInit {
     }
 
     submit() {
-        if (this.pages.length === 0)
+        this.working = true;
+        if (this.pages.length === 0) {
+            this.working = false;
             return;
+        }
         let curr = this.pages.shift();
         this.comicService.uploadPage(curr.file, curr)
             .then(() => this.submit());

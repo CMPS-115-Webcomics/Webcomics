@@ -36,7 +36,7 @@ export class ComicService {
         body.set('description', description);
         body.set('thumbnail', thumbnail);
 
-        this.http.post(`${apiURL}/api/comics/create`, body, { headers: this.auth.getAuthHeader() })
+        return this.http.post(`${apiURL}/api/comics/create`, body, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .then(() => {
                 this.router.navigate([`comic/${comicURL}/upload`]);

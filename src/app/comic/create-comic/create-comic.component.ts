@@ -24,6 +24,7 @@ export class CreateComicComponent implements OnInit {
     name: FormControl;
     url: FormControl;
     desc: FormControl;
+    working = false;
 
     constructor(
         private comicService: ComicService,
@@ -61,7 +62,10 @@ export class CreateComicComponent implements OnInit {
 
 
     submitComic() {
-        this.comicService.createComic(this.title, this.comicURL, this.description, this.thumbnail);
+        this.working = true;
+        this.comicService.createComic(this.title, this.comicURL, this.description, this.thumbnail)
+            .then(() => this.working = false)
+            .catch(() => this.working = false);
     }
 
     ngOnInit() {
