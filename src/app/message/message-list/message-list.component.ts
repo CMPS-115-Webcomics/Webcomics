@@ -9,7 +9,7 @@ import { MessageService, Message } from '../message.service';
 export class MessageListComponent implements OnInit {
   public messages: Message[];
 
-  constructor(private messageService: MessageService) {
+  constructor(public messageService: MessageService) {
     messageService.getMessages().then(msgs => this.messages = msgs);
   }
 

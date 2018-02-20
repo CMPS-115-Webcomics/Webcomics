@@ -2,18 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiURL } from '../url';
 
+interface UserData {
+  token: string;
+  username: string;
+  role: string;
+}
 
 @Injectable()
 export class AuthenticationService {
   private token: string;
   private username: string;
+  private role: string;
   private authChangeCallbacks: Array<(username: string) => void> = [];
 
   constructor(private http: HttpClient) {
     try {
-      let data = JSON.parse(localStorage.getItem('login'));
-      this.setLogin(data.username, data.token);
-    } catch (e) { }
+      let data = JSON.parse(localStorage.getItem('login')) as UserData;
+      this.confirmLogin(data.token).then((res) => {
+        if (res) this.setLogin(data);
+      });
+    } catch (e) {
+    }
   }
 
   public loggedIn() {
@@ -23,15 +32,21 @@ export class AuthenticationService {
   public logout() {
     this.token = undefined;
     this.username = undefined;
+    this.role = undefined;
     localStorage.setItem('login', '');
     this.authChangeCallbacks.forEach(callback => callback(null));
   }
 
-  private setLogin(username: string, token: string) {
-    this.token = token;
-    this.username = username;
-    localStorage.setItem('login', JSON.stringify({ token: token, username: username }));
-    this.authChangeCallbacks.forEach(callback => callback(username));
+  private setLogin(data: UserData) {
+    this.username = data.username;
+    this.role = data.role;
+    this.token = data.token;
+    localStorage.setItem('login', JSON.stringify(data));
+    this.authChangeCallbacks.forEach(callback => callback(data.username));
+  }
+
+  public isModerator() {
+    return this.role && this.role !== 'user';
   }
 
   public onAuth(callback: (username: string) => void) {
@@ -70,9 +85,8 @@ export class AuthenticationService {
         })
       })
       .toPromise()
-      .then((res: any) => {
-        this.setLogin(res.username, res.token);
-      });
+      .then((data: UserData) => this.setLogin(data));
+
   }
 
   public register(username: string, email: string, password: string) {
@@ -81,9 +95,7 @@ export class AuthenticationService {
       email: email.toLowerCase(),
       password: password
     }).toPromise()
-      .then((res: any) => {
-        this.setLogin(username, res.token);
-      });
+      .then((data: UserData) => this.setLogin(data));
   }
 
   public login(usernameOrEmail: string, password: string) {
@@ -91,9 +103,18 @@ export class AuthenticationService {
       usernameOrEmail: usernameOrEmail,
       password: password
     }).toPromise()
-      .then((res: any) => {
-        this.setLogin(res.username, res.token);
-      });
+      .then((data: UserData) => this.setLogin(data));
   }
+
+  public confirmLogin(token: string) {
+    return this.http.get(`${apiURL}/api/comics/myComics`, {
+      headers: new HttpHeaders({
+        token: token
+      })
+    }).toPromise()
+      .then(res => true)
+      .catch(err => false);
+  }
+
 
 }

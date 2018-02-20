@@ -5,6 +5,10 @@
   </button>
   <span>ComicHub</span>
   <span class="fill-remaining-space"></span>
+  <span routerLink="/messages" *ngIf="auth.loggedIn()">
+    <mat-icon class="app-toolbar-menu" *ngIf="messages.getUnreadCount() === 0">notifications</mat-icon>
+    <mat-icon class="app-toolbar-menu" *ngIf="messages.getUnreadCount() !== 0">notifications_active</mat-icon>
+  </span>
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -12,7 +16,7 @@
     <h3>Navigation</h3>
     <ul>
       <li>
-        <a mat-line routerLink="/comics" routerLinkActive="active" (click)="start.close()">Comics List</a>
+        <a mat-line routerLink="/comics" (click)="start.close()">Comics List</a>
       </li>
     </ul>
     <h3 *ngIf="auth.loggedIn()">My Comics</h3>

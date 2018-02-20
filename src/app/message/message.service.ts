@@ -26,7 +26,10 @@ export class MessageService {
     private http: HttpClient,
     private dialog: MatDialog
   ) {
-    auth.onAuth(() => this.loadMessages());
+    auth.onAuth((username) => {
+      if (username) this.loadMessages();
+      else this.messages.length = 0;
+    });
   }
 
   public openMessageDialog(receiverID: number) {
@@ -41,13 +44,28 @@ export class MessageService {
       receiverID: receiverID,
       subject: subject,
       content: content
-    }, { headers: this.auth.getAuthHeader() });
+    }, { headers: this.auth.getAuthHeader() })
+      .toPromise()
+      .then(console.log)
+      .catch(console.log);
   }
 
   public getMessages() {
     if (this.loaded)
       return Promise.resolve(this.messages);
     return this.loadMessages();
+  }
+
+  public getUnreadCount() {
+    return this.messages.filter(msg => !msg.read).length;
+  }
+
+  private markRead(message: Message) {
+    message.read = true;
+    return this.http.post(`${apiURL}/api/messages/markRead`,
+      { messageID: message.messageID },
+      { headers: this.auth.getAuthHeader() })
+      .toPromise();
   }
 
   private loadMessages(): Promise<Message[]> {
