@@ -1,9 +1,11 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <mat-toolbar>
-  <button class="app-icon-button" (click)="start.toggle()">
-    <mat-icon class="app-toolbar-menu">menu</mat-icon>
+  <button mat-icon-button (click)="start.toggle()"><mat-icon>menu</mat-icon></button>
+  <span class="toolbar-title" >ComicHub</span>
+  <mat-form-field class="searchbar-width"><input matInput placeholder="Search Comics"></mat-form-field>
+  <button mat-icon-button>
+    <mat-icon>search</mat-icon>
   </button>
-  <span>ComicHub</span>
   <span class="fill-remaining-space"></span>
   <span routerLink="/messages" *ngIf="auth.loggedIn()">
     <mat-icon class="app-toolbar-menu" *ngIf="messages.getUnreadCount() === 0">notifications</mat-icon>

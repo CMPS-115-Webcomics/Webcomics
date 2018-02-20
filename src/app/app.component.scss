@@ -64,9 +64,9 @@
   vertical-align: middle;
   padding: 0 14px 0 14px;
   color: white;
+  flex: 0.3 1 auto;
+
 }
-
-
 
 .app-icon-button {
   color: white;
@@ -87,6 +87,15 @@
   padding: 0px;
 }
 
+.toolbar-title {
+  flex: 0 1 auto;
+}
+
 mat-sidenav-container {
   min-height: 100vh;
+}
+
+.searchbar-width {
+  margin-left: 25px;
+  flex: 0.15 1 auto;
 }
