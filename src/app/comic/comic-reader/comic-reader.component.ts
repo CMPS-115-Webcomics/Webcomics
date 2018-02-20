@@ -41,7 +41,10 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         this.image.nativeElement.onload = (e) => {
-            setTimeout(() => this.imageLoading = false, 10);
+            setTimeout(() => {
+                this.imageLoading = false;
+                this.preloadNextPages();
+            }, 10);
         };
 
     }
@@ -106,7 +109,6 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
             if (this.chapter != null)
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
             console.log('update page');
-            setTimeout(() => this.preloadNextPages(), ComicReaderComponent.preloadDelay);
         }
     }
 
