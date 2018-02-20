@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { UserModule } from './user/user.module';
-import { DexieService } from './dexie.service';
+//import { DexieService } from './dexie.service';
 
 
 @NgModule({
@@ -28,6 +28,6 @@ import { DexieService } from './dexie.service';
         MaterialModule
     ],
     bootstrap: [AppComponent],
-    providers: [DexieService]
+    providers: [/*DexieService*/]
 })
 export class AppModule { }

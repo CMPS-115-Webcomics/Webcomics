@@ -22,12 +22,14 @@ export class ComicService {
         private auth: AuthenticationService,
         private comicStoreService: ComicStoreService
     ) {
+    /*
         auth.onAuth((username) => {
             if (username)
                 this.loadMyComics();
             else
                 this.myComics.length = 0;
         });
+*/
     }
 
     public createComic(title: string, comicURL: string, description: string, thumbnail: File) {
@@ -66,13 +68,15 @@ export class ComicService {
     public getComic(comicURL: string): Promise<Comic> {
         return this.http.get(apiURL + '/api/comics/get/' + comicURL)
             .toPromise().then((data: ComicData) => {
-                this.comicStoreService.cacheComic(comicURL, data);
+                this.comicStoreService.cacheComic(data);
                 this.comic = this.comicStoreService.unpackComic(data);
                 return this.comic;
             });
     }
 
     loadComicType(name: string, storage: Array<Comic>) {
+        //console.log(storage);
+        /*
         const unloader = (comics: Comic[]) => {
             storage.length = 0;
             for (let comic of comics) {
@@ -80,9 +84,13 @@ export class ComicService {
                 //this.comicStoreService.cacheComic(comic.comicURL, this.comicStoreService.packComic(comic));
             }
         };
+*/
 
-        this.comicStoreService.unstoreComicList(name).then(function (cached) {
-            unloader(cached);
+        this.comicStoreService.unstoreComicList(name).then(function (cached: Comic[]) {
+            console.log("hello");
+            console.log(cached);
+            //unloader(cached);
+            /*
             this.http.get(apiURL + '/api/comics/' + name, {
                 headers: this.auth.getAuthHeader()
             }) .toPromise()
@@ -91,6 +99,7 @@ export class ComicService {
                     //this.comicStoreService.storeComicList(this.comics, 'comics');
                     this.comicStoreService.storeComicList(storage, name);
                 });
+*/
         });
     }
 
