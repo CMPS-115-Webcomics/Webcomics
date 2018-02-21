@@ -2,8 +2,10 @@
 <mat-toolbar>
   <button mat-icon-button (click)="start.toggle()"><mat-icon>menu</mat-icon></button>
   <span class="toolbar-title" >ComicHub</span>
-  <mat-form-field class="searchbar-width"><input matInput placeholder="Search Comics"></mat-form-field>
-  <button mat-icon-button>
+  <mat-form-field class="searchbar-width">
+    <input matInput [(ngModel)]="query" placeholder="Search Comics">
+  </mat-form-field>
+  <button mat-icon-button (click)="searchComic()">
     <mat-icon>search</mat-icon>
   </button>
   <span class="fill-remaining-space"></span>
