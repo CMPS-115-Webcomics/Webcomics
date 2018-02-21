@@ -18,16 +18,8 @@ export class ComicListComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.comicService.loadComics().then((r) => console.log(r));
-        /*
-        //this.readComicIDs = this.comicStoreService.getReadComicIDs();
-        this.comicStoreService.getReadComics().then(function (result) {
-            console.log(result);
-            console.log("hello");
-        });
         this.comics = this.comicService.comics;
         if (this.comicService.comics.length === 0)
             this.comicService.loadComics();
-        */
     }
 }

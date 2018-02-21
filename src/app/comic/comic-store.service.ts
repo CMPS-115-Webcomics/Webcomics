@@ -75,17 +75,16 @@ export class ComicStoreService {
     }
 
     unstoreComicList(loc: string) {
-        let ac = new Comic(1,1,"title","url","description","123.com",[],[],[]);
-        this.storeComicList([ac], 'comicList');
-
-
-        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table('comicList');
+        console.log(loc);
+        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
         return new Promise((resolve, reject) => {
+            comicListTable.clear().then(() =>  {
             comicListTable.toArray().then((data: ComicListData[]) => {
                 resolve(data.map(this.unpackComicListItem));
             }).catch((e) => {
                 console.error(e);
                 reject([]);
+            });
             });
         });
     }
@@ -95,9 +94,41 @@ export class ComicStoreService {
         let chapters: Chapter[] = [];
         let volumes: Volume[] = [];
         let pages: Page[] = [];
+        for (let chapter of entry.chapters) {
+            let c: Chapter = new Chapter(
+                chapter.chapterid,
+                chapter.volumeid,
+                chapter.chapternumber,
+            );
+            chapters.push(c);
+        }
+
+        for (let volume of entry.volumes) {
+            let v: Volume = new Volume(
+                volume.volumeid,
+                volume.volumenumber,
+            );
+            volumes.push(v);
+        }
+
+        for (let page of entry.pages) {
+            let p: Page = new Page(
+                page.pageid,
+                page.pagenumber,
+                page.chapterid,
+                page.imgurl,
+                page.alttext
+            );
+            pages.push(p);
+        }
 
         let comic = new Comic(
-            1,1,"title",entry.comicurl,"desc","123.com",
+            entry.comicid,
+            entry.accountid,
+            entry.title,
+            entry.comicurl,
+            entry.description,
+            entry.thumbnailurl,
             volumes,
             chapters,
             pages
@@ -144,9 +175,15 @@ export class ComicStoreService {
         comicTable.put(data);
     }
 
-    public async getCachedComic(comicURL: string) {
+    getCachedComic(comicURL: string) {
         let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
-        let data = await comicTable.get({ comicurl: comicURL });
-        return this.unpackComic(data);
+        return new Promise((resolve, reject) => {
+            comicTable.get({ comicurl: comicURL }).then((data) => {
+                resolve(this.unpackComic(data));
+            }).catch((e) => {
+                console.error(e);
+                reject([]);
+            });
+        });
     }
 }

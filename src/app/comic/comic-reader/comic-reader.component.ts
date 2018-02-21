@@ -157,6 +157,7 @@ export class ComicReaderComponent implements OnInit {
 
             this.currentComic = params.comicURL;
             //let cachedComic = this.comicService.getCachedComic(params.comicURL);
+            /*
             this.comicService.getCachedComic(params.comicURL).then(function (cachedComic) {
                 if (cachedComic) {
                     this.loadComic(cachedComic);
@@ -169,6 +170,7 @@ export class ComicReaderComponent implements OnInit {
                         this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 });
             });
+*/
 
         });
     }

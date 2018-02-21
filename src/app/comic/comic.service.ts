@@ -75,43 +75,41 @@ export class ComicService {
     }
 
     loadComicType(name: string, storage: Array<Comic>) {
-        return this.comicStoreService.unstoreComicList(name);
-        //console.log(storage);
-        /*
+        let ac = new Comic(1,1,"title","url","description","123.com",[],[],[]);
+        this.comicStoreService.storeComicList([ac], name);
+        console.log(storage);
         const unloader = (comics: Comic[]) => {
             storage.length = 0;
             for (let comic of comics) {
                 storage.push(comic);
-                //this.comicStoreService.cacheComic(comic.comicURL, this.comicStoreService.packComic(comic));
             }
         };
 
-        this.comicStoreService.unstoreComicList(name).then(function (cached: Comic[]) {
-            console.log("hello");
-            console.log(cached);
-            //unloader(cached);
+        this.comicStoreService.unstoreComicList(name).then((cached: Comic[]) => {
+            console.log("hello", cached);
             this.http.get(apiURL + '/api/comics/' + name, {
                 headers: this.auth.getAuthHeader()
-            }) .toPromise()
+            }).toPromise()
                 .then((data: Array<ComicListData>) => {
                     unloader(data.map(this.comicStoreService.unpackComicListItem));
                     //this.comicStoreService.storeComicList(this.comics, 'comics');
                     this.comicStoreService.storeComicList(storage, name);
-                });
+                    }).catch((e) => {
+                        console.error(e);
+                    });
         });
-        */
     }
 
     public getCachedComic(comicURL: string) {
-        return this.comicStoreService.getCachedComic(comicURL);
+        this.comicStoreService.getCachedComic(comicURL);
     }
 
-    public loadMyComics() : Promise<any> {
-        return this.loadComicType('myComics', this.myComics);
+    public loadMyComics() {
+        this.loadComicType('myComics', this.myComics);
     }
 
-    public loadComics() : Promise<any> {
-        return this.loadComicType('comicList', this.comics);
+    public loadComics() {
+        this.loadComicType('comics', this.comics);
     }
 }
 
