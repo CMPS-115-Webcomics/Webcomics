@@ -3,6 +3,7 @@ import { ComicService } from '../comic.service';
 import { Comic } from '../comic';
 import { MessageService } from '../../message/message.service';
 import { AuthenticationService } from '../../user/authentication.service';
+import { SearchService } from '../search.service';
 
 @Component({
     selector: 'wcm-comics',
@@ -15,9 +16,15 @@ export class ComicListComponent implements OnInit {
     constructor(
         private comicService: ComicService,
         private messageService: MessageService,
-        public auth: AuthenticationService
+        public auth: AuthenticationService,
+        private searchService: SearchService
     ) {
+        this.searchService.onSearch = (queriedComics) => {
+            this.comics = queriedComics;
+        }
+        
         this.comics = this.comicService.comics;
+
         if (this.comicService.comics.length === 0)
             this.comicService.loadComics();
     }
