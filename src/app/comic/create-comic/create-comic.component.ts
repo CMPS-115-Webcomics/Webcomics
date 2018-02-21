@@ -59,8 +59,6 @@ export class CreateComicComponent implements OnInit {
                 '';
     }
 
-
-
     submitComic() {
         this.working = true;
         this.comicService.createComic(this.title, this.comicURL, this.description, this.thumbnail)

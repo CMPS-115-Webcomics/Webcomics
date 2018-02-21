@@ -38,7 +38,7 @@
             <br/>
 
             <span>
-                <button [disabled]="working" mat-raised-button [disabled]="!isValid()" color="primary" type="submit" class="submit-button">Submit</button>
+                <button mat-raised-button [disabled]="!isValid() || working" color="primary" type="submit" class="submit-button">Submit</button>
             </span>
         </form>
 
