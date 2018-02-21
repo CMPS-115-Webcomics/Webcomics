@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 import { ComicMaps } from '../comic-maps';
+import { ComicStoreService } from '../comic-store.service';
 
 @Component({
     selector: 'wcm-comic-reader',
@@ -32,7 +33,8 @@ export class ComicReaderComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
-        private router: Router
+        private router: Router,
+        private comicStoreService: ComicStoreService,
     ) { }
 
     // functions utilizing on the maps
@@ -67,7 +69,6 @@ export class ComicReaderComponent implements OnInit {
             this.chapter = this.comicMaps.getChapter(this.page.chapterID);
             if (this.chapter != null)
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
-            console.log('update page');
             setTimeout(() => this.preloadNextPages(), ComicReaderComponent.preloadDelay);
         }
     }
@@ -156,21 +157,17 @@ export class ComicReaderComponent implements OnInit {
             }
 
             this.currentComic = params.comicURL;
-            //let cachedComic = this.comicService.getCachedComic(params.comicURL);
-            /*
-            this.comicService.getCachedComic(params.comicURL).then(function (cachedComic) {
+            this.comicStoreService.getCachedComic(params.comicURL).then((cachedComic) => {
                 if (cachedComic) {
                     this.loadComic(cachedComic);
                     this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 }
-                //let networkComic = await this.comicService.getComic(params.comicURL);
-                this.comicService.getComic(params.comicURL).then(function (networkComic) {
+                this.comicService.getComic(params.comicURL).then((networkComic) => {
                     this.loadComic(networkComic);
                     if (!cachedComic)
                         this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 });
             });
-*/
 
         });
     }

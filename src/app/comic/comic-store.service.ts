@@ -69,22 +69,18 @@ export class ComicStoreService {
     }
 
     storeComicList(comics: Comic[], loc: string) {
-        console.log('storing comics in ' + loc);
         let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
         comicListTable.bulkPut(comics.map(this.packComicListItem));
     }
 
     unstoreComicList(loc: string) {
-        console.log(loc);
         let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
         return new Promise((resolve, reject) => {
-            comicListTable.clear().then(() =>  {
             comicListTable.toArray().then((data: ComicListData[]) => {
                 resolve(data.map(this.unpackComicListItem));
             }).catch((e) => {
                 console.error(e);
                 reject([]);
-            });
             });
         });
     }
@@ -175,7 +171,7 @@ export class ComicStoreService {
         comicTable.put(data);
     }
 
-    getCachedComic(comicURL: string) {
+    getCachedComic(comicURL: string): Promise<Comic> {
         let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
         return new Promise((resolve, reject) => {
             comicTable.get({ comicurl: comicURL }).then((data) => {
