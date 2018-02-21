@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class SearchService {
-  public onSearch: (results:Comic[]) => void = () => null;
+  public onSearch: (results: Comic[]) => void = () => null;
 
 
   constructor(
@@ -14,11 +14,8 @@ export class SearchService {
   ) { }
 
   /**
-   * Returns the subset of pwcomcis whose title or description
+   * Returns the subset of comcis whose title or description
    * contains the given query.
-   * 
-   * @param comics 
-   * @param query 
    */
   private searchComic(comics: Comic[], query: string) {
     let results: Comic[] = [];
@@ -31,7 +28,7 @@ export class SearchService {
   }
 
 
-  public findComics(query: string) { 
+  public findComics(query: string) {
     this.router.navigateByUrl('/comics').then(() => {
       this.onSearch(this.searchComic(this.comicService.comics, query));
     });

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComicReaderComponetn } from './comic-reader.component';
+import { ComicReaderComponent } from './comic-reader.component';
 
 describe('ComicReaderComponent', () => {
   let component: ComicReaderComponent;
