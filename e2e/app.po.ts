@@ -5,7 +5,7 @@ export class AppPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('wcm-root h1')).getText();
+  getToolbarTitle() {
+    return element(by.css('.toolbar-title')).getText();
   }
 }
