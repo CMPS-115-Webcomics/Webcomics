@@ -12,6 +12,7 @@ import { ComicDetailComponent } from './comic-detail/comic-detail.component';
 import { CreateComicComponent } from './create-comic/create-comic.component';
 import { MaterialModule } from '../material.module';
 import { SearchService } from './search.service';
+import { ComicStoreService } from './comic-store.service';
 
 
 @NgModule({
@@ -34,6 +35,6 @@ import { SearchService } from './search.service';
         ComicDetailComponent,
         CreateComicComponent,
     ],
-    providers: [ComicService, SearchService]
+    providers: [ComicService, SearchService, ComicStoreService]
 })
 export class ComicModule { }

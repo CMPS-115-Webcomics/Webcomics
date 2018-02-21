@@ -4,6 +4,8 @@ import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 import { ComicMaps } from '../comic-maps';
 import { pageAnimation, pageChangeTime } from './page.animation';
+import { ComicStoreService } from '../comic-store.service';
+
 
 @Component({
     selector: 'wcm-comic-reader',
@@ -36,7 +38,8 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
-        private router: Router
+        private router: Router,
+        private comicStoreService: ComicStoreService,
     ) { }
 
     ngAfterViewInit() {
@@ -54,25 +57,26 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
         this.handleRoute();
     }
 
+
     handleRoute() {
         this.route.params.subscribe(async (params) => {
             if (this.currentComic === params.comicURL) {
-                this.animatePageChange(params as { page: string, chapter: string, volume: string });
+                this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 return;
             }
 
             this.currentComic = params.comicURL;
-            let cachedComic = this.comicService.getCachedComic(params.comicURL);
-
-            if (cachedComic) {
-                this.loadComic(cachedComic);
-                this.animatePageChange(params as { page: string, chapter: string, volume: string });
-            }
-            let networkComic = await this.comicService.getComic(params.comicURL);
-            this.loadComic(networkComic);
-            if (!cachedComic)
-                this.animatePageChange(params as { page: string, chapter: string, volume: string });
-
+            this.comicStoreService.getCachedComic(params.comicURL).then((cachedComic) => {
+                if (cachedComic) {
+                    this.loadComic(cachedComic);
+                    this.loadURLPage(params as { page: string, chapter: string, volume: string });
+                }
+                this.comicService.getComic(params.comicURL).then((networkComic) => {
+                    this.loadComic(networkComic);
+                    if (!cachedComic)
+                        this.loadURLPage(params as { page: string, chapter: string, volume: string });
+                });
+            });
         });
     }
 
@@ -108,7 +112,6 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
             this.chapter = this.comicMaps.getChapter(this.page.chapterID);
             if (this.chapter != null)
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
-            console.log('update page');
         }
     }
 
@@ -228,8 +231,5 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
         this.comic = comic;
         this.comicMaps = new ComicMaps(this.comic);
     }
-
-
-
 
 }
