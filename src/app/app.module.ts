@@ -10,11 +10,8 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { UserModule } from './user/user.module';
-<<<<<<< HEAD
 import { MessageModule } from './message/message.module';
-=======
 import { DexieService } from './dexie.service';
->>>>>>> 6bc59c7d9549434f95520f8f6ff819fdbd6d26f4
 
 
 @NgModule({
