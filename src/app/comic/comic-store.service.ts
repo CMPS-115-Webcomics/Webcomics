@@ -10,7 +10,7 @@ export interface ComicListData {
     title: string;
     description: string;
     thumbnailurl: string;
-};
+}
 
 export interface ComicData {
     comicurl: string;
@@ -37,7 +37,7 @@ export interface ComicData {
     volumes: Array<{ volumeid: number
         volumenumber: number
     }>;
-};
+}
 
 @Injectable()
 export class ComicStoreService {
@@ -75,16 +75,13 @@ export class ComicStoreService {
 
     unstoreComicList(loc: string) {
         let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
-        return new Promise((resolve, reject) => {
-            comicListTable.toArray().then((data: ComicListData[]) => {
-                resolve(data.map(this.unpackComicListItem));
-            }).catch((e) => {
-                console.error(e);
-                reject([]);
-            });
+        return comicListTable.toArray().then((data: ComicListData[]) => {
+            return data.map(this.unpackComicListItem);
+        }).catch((e) => {
+            console.error(e);
+            return new Array<Comic>();
         });
     }
-
 
     unpackComic(entry: ComicData) {
         let chapters: Chapter[] = [];

@@ -10,7 +10,6 @@ import { ComicStoreService, ComicData, ComicListData } from './comic-store.servi
 
 @Injectable()
 export class ComicService {
-//private static localStoragePrefix = 'comics-cache-';
     public comics: Comic[] = [];
     public comic: Comic;
     public myComics: Comic[] = [];
@@ -65,6 +64,7 @@ export class ComicService {
     public getComic(comicURL: string): Promise<Comic> {
         return this.http.get(apiURL + '/api/comics/get/' + comicURL)
             .toPromise().then((data: ComicData) => {
+                console.log('gc data', data);
                 this.comicStoreService.cacheComic(data);
                 this.comic = this.comicStoreService.unpackComic(data);
                 return this.comic;
@@ -72,8 +72,6 @@ export class ComicService {
     }
 
     loadComicType(name: string, storage: Array<Comic>) {
-        let ac = new Comic(1,1,"title","url","description","123.com",[],[],[]);
-        this.comicStoreService.storeComicList([ac], name);
         const unloader = (comics: Comic[]) => {
             storage.length = 0;
             for (let comic of comics) {
@@ -82,15 +80,16 @@ export class ComicService {
         };
 
         this.comicStoreService.unstoreComicList(name).then((cached: Comic[]) => {
+            this.comics = cached;
             this.http.get(apiURL + '/api/comics/' + name, {
                 headers: this.auth.getAuthHeader()
             }).toPromise()
                 .then((data: Array<ComicListData>) => {
                     unloader(data.map(this.comicStoreService.unpackComicListItem));
                     this.comicStoreService.storeComicList(storage, name);
-                    }).catch((e) => {
-                        console.error(e);
-                    });
+                }).catch((e) => {
+                    console.error(e);
+                });
         });
     }
 
