@@ -64,7 +64,6 @@ export class ComicService {
     public getComic(comicURL: string): Promise<Comic> {
         return this.http.get(apiURL + '/api/comics/get/' + comicURL)
             .toPromise().then((data: ComicData) => {
-                console.log('gc data', data);
                 this.comicStoreService.cacheComic(data);
                 this.comic = this.comicStoreService.unpackComic(data);
                 return this.comic;
