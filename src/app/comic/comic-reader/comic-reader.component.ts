@@ -17,8 +17,8 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
     private static pagesToPreload = 5;
     private static preloadDelay = 250; // ms before preloading starts
 
-    @Input() comic: Comic;
-    @Input() page: Page;
+    @Input() comic: Comic = Comic.empty;
+    @Input() page: Page = Page.empty;
     @Input() chapter: Chapter;
     @Input() volume: Volume;
 

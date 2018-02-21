@@ -14,6 +14,7 @@ export class Chapter {
 }
 
 export class Page {
+    static empty = new Page(0, 0, 0, '', '');
     constructor(
         public pageID: number,
         public pageNumber: number,
@@ -21,9 +22,12 @@ export class Page {
         public imgURL: string,
         public altText: string,
     ) { }
+
+
 }
 
 export class Comic {
+    static empty = new Comic(0, 0, '', '', '', '', [], [], []);
     constructor(
         public comicID: number,
         public accountID: number,
