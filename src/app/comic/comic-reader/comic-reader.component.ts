@@ -39,7 +39,6 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
         private route: ActivatedRoute,
         private comicService: ComicService,
         private router: Router,
-        private comicStoreService: ComicStoreService,
     ) { }
 
     ngAfterViewInit() {
@@ -66,7 +65,7 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
             }
 
             this.currentComic = params.comicURL;
-            this.comicStoreService.getCachedComic(params.comicURL).then((cachedComic) => {
+            this.comicService.getCachedComic(params.comicURL).then((cachedComic) => {
                 if (cachedComic) {
                     this.loadComic(cachedComic);
                     this.loadURLPage(params as { page: string, chapter: string, volume: string });
@@ -75,6 +74,13 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
                     this.loadComic(networkComic);
                     if (!cachedComic)
                         this.loadURLPage(params as { page: string, chapter: string, volume: string });
+                });
+
+                this.comicService.getCachedPagesRead(params.comicURL).then((cachedPagesRead) => {
+                    if (cachedPagesRead) {
+                        this.comicService.pagesRead = cachedPagesRead;
+                        console.log(cachedPagesRead);
+                    }
                 });
             });
         });
@@ -112,6 +118,7 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
             this.chapter = this.comicMaps.getChapter(this.page.chapterID);
             if (this.chapter != null)
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
+            this.comicService.addPageRead(this.comic.comicURL, this.page);
         }
     }
 
@@ -226,6 +233,7 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
     hasRandomPage(): boolean {
         return this.comic.pages.length > 1;
     }
+
 
     loadComic(comic: Comic) {
         this.comic = comic;

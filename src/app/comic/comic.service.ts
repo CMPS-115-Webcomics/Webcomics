@@ -12,6 +12,7 @@ import { ComicStoreService, ComicData, ComicListData } from './comic-store.servi
 export class ComicService {
     public comics: Comic[] = [];
     public comic: Comic;
+    public pagesRead: Page[];
     public myComics: Comic[] = [];
 
     constructor(
@@ -92,8 +93,28 @@ export class ComicService {
         });
     }
 
+    public addPageRead(comicURL: string, page: Page) {
+        this.getCachedPagesRead(comicURL).then((cachedPagesRead) => {
+            if (cachedPagesRead) {
+                this.pagesRead = cachedPagesRead;
+                if (this.pagesRead == null || this.comic == null || this.comic.comicURL !== comicURL)
+                    this.pagesRead = [];
+                if (!this.pagesRead.includes(page)) {
+                    this.pagesRead.push(page);
+                }
+
+                this.comicStoreService.cachePagesRead(
+                    this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
+            }
+        });
+    }
+
+    public getCachedPagesRead(comicURL: string) {
+        return this.comicStoreService.getCachedPagesRead(comicURL);
+    }
+
     public getCachedComic(comicURL: string) {
-        this.comicStoreService.getCachedComic(comicURL);
+        return this.comicStoreService.getCachedComic(comicURL);
     }
 
     public loadMyComics() {
