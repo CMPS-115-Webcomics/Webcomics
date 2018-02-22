@@ -96,12 +96,20 @@ export class ComicService {
     }
 
     public addPageRead(comicURL: string, page: Page) {
-    //if (this.comic.comicURL === comicURL) {
-        if (this.pagesRead == null) this.pagesRead = [];
-            this.pagesRead.push(page);
-            this.comicStoreService.cachePagesRead(
-                this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
-                //
+        this.getCachedPagesRead(comicURL).then((cachedPagesRead) => {
+            if (cachedPagesRead) {
+                this.pagesRead = cachedPagesRead;
+                console.log(cachedPagesRead);
+                if (this.pagesRead == null || this.comic == null || this.comic.comicURL != comicURL)
+                    this.pagesRead = [];
+                if (!this.pagesRead.includes(page)) {
+                    this.pagesRead.push(page);
+                }
+
+                this.comicStoreService.cachePagesRead(
+                    this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
+            }
+        });
     }
 
     public getCachedPagesRead(comicURL: string) {

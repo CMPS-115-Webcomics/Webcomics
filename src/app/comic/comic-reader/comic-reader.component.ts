@@ -167,13 +167,11 @@ export class ComicReaderComponent implements OnInit {
                         this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 });
 
-                console.log("hello?");
                 this.comicService.getCachedPagesRead(params.comicURL).then((cachedPagesRead) => {
                     if (cachedPagesRead) {
                         this.comicService.pagesRead = cachedPagesRead;
                         console.log(cachedPagesRead);
                     }
-                    console.log("dam");
                 });
             });
         });

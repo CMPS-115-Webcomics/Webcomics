@@ -221,26 +221,8 @@ export class ComicStoreService {
     cachePagesRead(data: PagesReadData) {
         let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
         pagesReadTable.put(data);
+        console.log(data);
     }
-
-    /* BROKEN
-    addPageRead(comicURL: string, page: Page, chapter: Chapter, volume: Volume) {
-        this.getCachedPagesRead(comicURL).then((cachedPagesRead: PagesReadData) => {
-            cachedPagesRead.pagesRead.push({
-                pageid: page.pageID,
-                pagenumber: page.pageNumber,
-                chapterid: chapter.chapterID,
-                chapternumber: chapter.chapterNumber,
-                volumeid: volume.volumeID,
-                volumenumber: volume.volumeNumber
-            });
-            let pagesRead = [];
-            if (cachedPagesRead != null) pagesRead = cachedPagesRead;
-
-            let pagesReadData = this.packPagesRead(comicURL, pagesRead);
-        });
-    }
-*/
 
     getCachedPagesRead(comicURL: string): Promise<Page[]> {
         let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
