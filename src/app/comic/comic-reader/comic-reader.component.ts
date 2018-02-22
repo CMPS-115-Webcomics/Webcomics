@@ -60,12 +60,6 @@ export class ComicReaderComponent implements OnInit {
         return null;
     }
 
-    /*
-    addPageRead() {
-        this.comicService.addPageRead(this.comic.comicURL, this.page, this.chapter, this.volume);
-    }
-*/
-
     // updates page, chapter, and volume given the array index of a page for the comic
     updatePage(): void {
         if (this.pageIndex >= 0) {
@@ -75,8 +69,7 @@ export class ComicReaderComponent implements OnInit {
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
             setTimeout(() => this.preloadNextPages(), ComicReaderComponent.preloadDelay);
         }
-        //this.addPageRead();
-        console.log("hello");
+        this.comicService.addPageRead(this.comic.comicURL, this.page);
     }
 
     preloadNextPages() {
@@ -173,8 +166,16 @@ export class ComicReaderComponent implements OnInit {
                     if (!cachedComic)
                         this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 });
-            });
 
+                console.log("hello?");
+                this.comicService.getCachedPagesRead(params.comicURL).then((cachedPagesRead) => {
+                    if (cachedPagesRead) {
+                        this.comicService.pagesRead = cachedPagesRead;
+                        console.log(cachedPagesRead);
+                    }
+                    console.log("dam");
+                });
+            });
         });
     }
 

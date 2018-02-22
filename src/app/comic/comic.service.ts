@@ -13,7 +13,6 @@ export class ComicService {
 //private static localStoragePrefix = 'comics-cache-';
     public comics: Comic[] = [];
     public comic: Comic;
-    //public latestPageReadID: number;
     public pagesRead: Page[];
     public myComics: Comic[] = [];
 
@@ -97,12 +96,16 @@ export class ComicService {
     }
 
     public addPageRead(comicURL: string, page: Page) {
-        if (this.comic.comicURL === comicURL) {
+    //if (this.comic.comicURL === comicURL) {
+        if (this.pagesRead == null) this.pagesRead = [];
             this.pagesRead.push(page);
-            this.comicStoreService.getCachedPagesRead(comicURL).then((data: Page[]) => {
-                this.comicStoreService.packPagesRead(comicURL, this.pagesRead);
-            });
-        }
+            this.comicStoreService.cachePagesRead(
+                this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
+                //
+    }
+
+    public getCachedPagesRead(comicURL: string) {
+        return this.comicStoreService.getCachedPagesRead(comicURL);
     }
 
     public getCachedComic(comicURL: string) {

@@ -114,7 +114,6 @@ export class ComicStoreService {
         };
     }
 
-    // returns an array of pageids in descending order (index 0 has latest page)
     unpackPagesRead(entry: PagesReadData): Page[] {
         let pagesRead = entry.pagesRead;
 
@@ -128,7 +127,7 @@ export class ComicStoreService {
             if (n1.pagenumber > n2.pagenumber) return -1;
             return 0;
         });
-*/
+        */
 
         return pagesRead.map(pageRead => new Page(
             pageRead.pageid,
@@ -247,7 +246,10 @@ export class ComicStoreService {
         let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
         return new Promise((resolve, reject) => {
             pagesReadTable.get({ comicurl: comicURL }).then((data) => {
-                resolve(this.unpackPagesRead(data));
+                if (data)
+                    resolve(this.unpackPagesRead(data));
+                else
+                    resolve([]);
             }).catch((e) => {
                 console.error(e);
                 reject([]);
@@ -264,7 +266,10 @@ export class ComicStoreService {
         let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
         return new Promise((resolve, reject) => {
             comicTable.get({ comicurl: comicURL }).then((data) => {
-                resolve(this.unpackComic(data));
+                if (data)
+                    resolve(this.unpackComic(data));
+                else
+                    resolve(null);
             }).catch((e) => {
                 console.error(e);
                 reject([]);
