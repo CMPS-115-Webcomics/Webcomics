@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 import { ComicMaps } from '../comic-maps';
-import { ComicStoreService } from '../comic-store.service';
 
 @Component({
     selector: 'wcm-comic-reader',
@@ -34,7 +33,6 @@ export class ComicReaderComponent implements OnInit {
         private route: ActivatedRoute,
         private comicService: ComicService,
         private router: Router,
-        private comicStoreService: ComicStoreService,
     ) { }
 
     // functions utilizing on the maps
@@ -62,6 +60,12 @@ export class ComicReaderComponent implements OnInit {
         return null;
     }
 
+    /*
+    addPageRead() {
+        this.comicService.addPageRead(this.comic.comicURL, this.page, this.chapter, this.volume);
+    }
+*/
+
     // updates page, chapter, and volume given the array index of a page for the comic
     updatePage(): void {
         if (this.pageIndex >= 0) {
@@ -71,6 +75,8 @@ export class ComicReaderComponent implements OnInit {
                 this.volume = this.comicMaps.getVolume(this.chapter.volumeID);
             setTimeout(() => this.preloadNextPages(), ComicReaderComponent.preloadDelay);
         }
+        //this.addPageRead();
+        console.log("hello");
     }
 
     preloadNextPages() {
@@ -157,7 +163,7 @@ export class ComicReaderComponent implements OnInit {
             }
 
             this.currentComic = params.comicURL;
-            this.comicStoreService.getCachedComic(params.comicURL).then((cachedComic) => {
+            this.comicService.getCachedComic(params.comicURL).then((cachedComic) => {
                 if (cachedComic) {
                     this.loadComic(cachedComic);
                     this.loadURLPage(params as { page: string, chapter: string, volume: string });

@@ -12,6 +12,17 @@ export interface ComicListData {
     thumbnailurl: string;
 };
 
+export interface PagesReadData {
+    comicurl: string;
+    pagesRead: Array<{
+        pageid: number
+        pagenumber: number
+        chapterid: number
+        imgurl: string
+        alttext: string
+    }>;
+};
+
 export interface ComicData {
     comicurl: string;
     comicid: number;
@@ -85,6 +96,48 @@ export class ComicStoreService {
         });
     }
 
+    packPagesRead(comicURL: string, pagesRead: Page[]): PagesReadData {
+        let detailedPagesRead = [];
+        for (let page of pagesRead) {
+            detailedPagesRead.push({
+                pageid: page.pageID,
+                pagenumber: page.pageNumber,
+                chapterid: page.chapterID,
+                imgurl: page.imgURL,
+                alttext: page.altText
+            });
+        }
+
+        return {
+            comicurl: comicURL,
+            pagesRead: detailedPagesRead
+        };
+    }
+
+    // returns an array of pageids in descending order (index 0 has latest page)
+    unpackPagesRead(entry: PagesReadData): Page[] {
+        let pagesRead = entry.pagesRead;
+
+        /*
+        pagesRead = pagesRead.sort((n1, n2) => {
+            if (n1.volumenumber < n2.volumenumber) return 1;
+            if (n1.volumenumber > n2.volumenumber) return -1;
+            if (n1.chapternumber < n2.chapternumber) return 1;
+            if (n1.chapternumber > n2.chapternumber) return -1;
+            if (n1.pagenumber < n2.pagenumber) return 1;
+            if (n1.pagenumber > n2.pagenumber) return -1;
+            return 0;
+        });
+*/
+
+        return pagesRead.map(pageRead => new Page(
+            pageRead.pageid,
+            pageRead.pagenumber,
+            pageRead.chapterid,
+            pageRead.imgurl,
+            pageRead.alttext
+        ));
+    }
 
     unpackComic(entry: ComicData) {
         let chapters: Chapter[] = [];
@@ -164,6 +217,42 @@ export class ComicStoreService {
                 };
             })
         };
+    }
+
+    cachePagesRead(data: PagesReadData) {
+        let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
+        pagesReadTable.put(data);
+    }
+
+    /* BROKEN
+    addPageRead(comicURL: string, page: Page, chapter: Chapter, volume: Volume) {
+        this.getCachedPagesRead(comicURL).then((cachedPagesRead: PagesReadData) => {
+            cachedPagesRead.pagesRead.push({
+                pageid: page.pageID,
+                pagenumber: page.pageNumber,
+                chapterid: chapter.chapterID,
+                chapternumber: chapter.chapterNumber,
+                volumeid: volume.volumeID,
+                volumenumber: volume.volumeNumber
+            });
+            let pagesRead = [];
+            if (cachedPagesRead != null) pagesRead = cachedPagesRead;
+
+            let pagesReadData = this.packPagesRead(comicURL, pagesRead);
+        });
+    }
+*/
+
+    getCachedPagesRead(comicURL: string): Promise<Page[]> {
+        let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
+        return new Promise((resolve, reject) => {
+            pagesReadTable.get({ comicurl: comicURL }).then((data) => {
+                resolve(this.unpackPagesRead(data));
+            }).catch((e) => {
+                console.error(e);
+                reject([]);
+            });
+        });
     }
 
     cacheComic(data: ComicData) {
