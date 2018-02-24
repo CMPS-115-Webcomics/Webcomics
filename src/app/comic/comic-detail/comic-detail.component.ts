@@ -36,9 +36,13 @@ export class ComicDetailComponent implements OnInit {
         this.baseLink = '/comic/' + this.comic.comicURL;
     }
 
+    getLastUnreadPage(): string {
+        return `${this.baseLink}/1`;
+    }
+
     getComic(): void {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
-        //let cached = this.comicService.getCachedComic(comicURL);
+        // let cached = this.comicService.getCachedComic(comicURL);
         /*
         if (cached)
             this.loadComic(cached);

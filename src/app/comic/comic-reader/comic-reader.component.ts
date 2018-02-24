@@ -121,6 +121,9 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
             this.comicService.addPageRead(this.comic.comicURL, this.page);
         }
     }
+    isSmartSkip() {
+        return false;
+    }
 
     preloadNextPages() {
         for (let i = 1; i <= ComicReaderComponent.pagesToPreload; i++) {

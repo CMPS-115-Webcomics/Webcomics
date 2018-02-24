@@ -7,9 +7,17 @@
     title="{{ page.altText }}">
 
   <mat-card-actions>
-    <button mat-icon-button [disabled]="!hasPrevPage()" (click)="firstPage()" matTooltip="First Page" matTooltipPosition="above">
-      <mat-icon aria-label="First page">first_page</mat-icon>
-    </button>
+    <div *ngIf="isSmartSkip(); else firstPageButton">
+      <button mat-icon-button (click)="smartReturn()" matTooltip="Smart Return" matTooltipPosition="above">
+        <mat-icon aria-label="Smart return">first_page</mat-icon>
+      </button>
+    </div>
+    <ng-template #firstPageButton>
+      <button mat-icon-button [disabled]="!hasPrevPage()" (click)="firstPage()" matTooltip="First Page" matTooltipPosition="above">
+        <mat-icon aria-label="First page">first_page</mat-icon>
+      </button>
+    </ng-template>
+
     <button mat-icon-button [disabled]="!hasPrevPage()" (click)="prevPage()" matTooltip="Previous Page" matTooltipPosition="above">
       <mat-icon aria-label="Previous page">chevron_left</mat-icon>
     </button>
@@ -25,8 +33,16 @@
     <button mat-icon-button [disabled]="!hasNextPage()" (click)="nextPage()" matTooltip="Next Page" matTooltipPosition="above">
       <mat-icon aria-label="Next page">chevron_right</mat-icon>
     </button>
-    <button mat-icon-button [disabled]="!hasNextPage()" (click)="lastPage()" matTooltip="Last Page" matTooltipPosition="above">
-      <mat-icon aria-label="Last page">last_page</mat-icon>
-    </button>
+
+    <div *ngIf="isSmartSkip(); else lastPageButton">
+      <button mat-icon-button (click)="smartSkip()" matTooltip="Smart Skip" matTooltipPosition="above">
+        <mat-icon aria-label="Smart skip">last_page</mat-icon>
+      </button>
+    </div>
+    <ng-template #lastPageButton>
+      <button mat-icon-button [disabled]="!hasNextPage()" (click)="lastPage()" matTooltip="Last Page" matTooltipPosition="above">
+        <mat-icon aria-label="Last page">last_page</mat-icon>
+      </button>
+    </ng-template>
   </mat-card-actions>
 </mat-card>

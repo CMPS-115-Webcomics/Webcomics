@@ -40,9 +40,8 @@
 
       <!--  Pages only -->
       <div *ngIf="comic.volumes.length == 0 && comic.chapters.length == 0 && comic.pages.length > 0">
-        <a routerLink="{{ baseLink }}/1">
-          <button mat-raised-button color="primary">Start Reading</button>
-        </a>
+        <button mat-raised-button color="primary" routerLink="{{ baseLink }}/1">Start Reading</button>
+        <button mat-raised-button color="primary" routerLink="getLastUnreadPage()">Continue Reading</button>
       </div>
 
       <!-- Nothing -->
