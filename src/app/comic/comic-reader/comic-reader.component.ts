@@ -75,13 +75,6 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
                     if (!cachedComic)
                         this.loadURLPage(params as { page: string, chapter: string, volume: string });
                 });
-
-                this.comicService.getCachedPagesRead(params.comicURL).then((cachedPagesRead) => {
-                    if (cachedPagesRead) {
-                        this.comicService.pagesRead = cachedPagesRead;
-                        console.log(cachedPagesRead);
-                    }
-                });
             });
         });
     }
@@ -121,9 +114,8 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
             this.comicService.addPageRead(this.comic.comicURL, this.page);
         }
     }
-    isSmartSkip() {
-        return false;
-    }
+
+
 
     preloadNextPages() {
         for (let i = 1; i <= ComicReaderComponent.pagesToPreload; i++) {
@@ -223,6 +215,36 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
         if (!this.hasNextPage()) return;
         this.pageIndex = this.comic.pages.length - 1;
         this.reload();
+    }
+
+    smartSkip() {
+        if (!this.hasSmartSkip()) return;
+        this.pageIndex = this.getSmartSkipDest();
+        this.reload();
+    }
+
+    smartReturn() {
+        if (!this.hasSmartReturn()) return;
+        this.pageIndex = this.getSmartSkipDest(-1);
+        this.reload();
+    }
+
+    private getSmartSkipDest(dir = 1) {
+        const pages = this.comic.pages;
+        for (let i = this.pageIndex;  i >= 0 && i < pages.length; i += dir) {
+            if (!this.comicService.pagesRead.has(pages[i].pageID)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    hasSmartSkip() {
+        return this.getSmartSkipDest() !== null;
+    }
+
+    hasSmartReturn() {
+        return this.getSmartSkipDest(-1) !== null;
     }
 
     hasNextPage(): boolean {

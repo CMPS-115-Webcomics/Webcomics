@@ -14,13 +14,7 @@ export interface ComicListData {
 
 export interface PagesReadData {
     comicurl: string;
-    pagesRead: Array<{
-        pageid: number
-        pagenumber: number
-        chapterid: number
-        imgurl: string
-        alttext: string
-    }>;
+    pagesRead: Array<number>;
 }
 
 export interface ComicData {
@@ -45,7 +39,8 @@ export interface ComicData {
         chapternumber: number
     }>;
 
-    volumes: Array<{ volumeid: number
+    volumes: Array<{
+        volumeid: number
         volumenumber: number
     }>;
 }
@@ -94,46 +89,16 @@ export class ComicStoreService {
         });
     }
 
-    packPagesRead(comicURL: string, pagesRead: Page[]): PagesReadData {
-        let detailedPagesRead = [];
-        for (let page of pagesRead) {
-            detailedPagesRead.push({
-                pageid: page.pageID,
-                pagenumber: page.pageNumber,
-                chapterid: page.chapterID,
-                imgurl: page.imgURL,
-                alttext: page.altText
-            });
-        }
-
+    packPagesRead(comicURL: string, pagesRead: Set<number>): PagesReadData {
         return {
             comicurl: comicURL,
-            pagesRead: detailedPagesRead
+            pagesRead: Array.from(pagesRead.values())
         };
     }
 
-    unpackPagesRead(entry: PagesReadData): Page[] {
+    unpackPagesRead(entry: PagesReadData): number[] {
         let pagesRead = entry.pagesRead;
-
-        /*
-        pagesRead = pagesRead.sort((n1, n2) => {
-            if (n1.volumenumber < n2.volumenumber) return 1;
-            if (n1.volumenumber > n2.volumenumber) return -1;
-            if (n1.chapternumber < n2.chapternumber) return 1;
-            if (n1.chapternumber > n2.chapternumber) return -1;
-            if (n1.pagenumber < n2.pagenumber) return 1;
-            if (n1.pagenumber > n2.pagenumber) return -1;
-            return 0;
-        });
-        */
-
-        return pagesRead.map(pageRead => new Page(
-            pageRead.pageid,
-            pageRead.pagenumber,
-            pageRead.chapterid,
-            pageRead.imgurl,
-            pageRead.alttext
-        ));
+        return entry.pagesRead;
     }
 
     unpackComic(entry: ComicData) {
@@ -219,43 +184,37 @@ export class ComicStoreService {
     cachePagesRead(data: PagesReadData) {
         let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
         pagesReadTable.put(data)
-        .then(console.log)
-        .catch(console.error);
-        console.log(data);
+            .catch(console.error);
     }
 
-    getCachedPagesRead(comicURL: string): Promise<Page[]> {
+    getCachedPagesRead(comicURL: string): Promise<number[]> {
         let pagesReadTable: Dexie.Table<PagesReadData, string> = this.dexieService.table('pagesRead');
-        return new Promise((resolve, reject) => {
-            pagesReadTable.get({ comicurl: comicURL }).then((data) => {
-                if (data)
-                    resolve(this.unpackPagesRead(data));
-                else
-                    resolve([]);
-            }).catch((e) => {
-                console.error(e);
-                reject([]);
-            });
+        return pagesReadTable.get({ comicurl: comicURL }).then((data) => {
+            if (data)
+                return this.unpackPagesRead(data);
+            else
+                return [];
+        }).catch((e) => {
+            console.error(e);
+            return [];
         });
     }
 
     cacheComic(data: ComicData) {
-        let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
+        let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comic');
         comicTable.put(data);
     }
 
     getCachedComic(comicURL: string): Promise<Comic> {
-        let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comics');
-        return new Promise((resolve, reject) => {
-            comicTable.get({ comicurl: comicURL }).then((data) => {
-                if (data)
-                    resolve(this.unpackComic(data));
-                else
-                    resolve(null);
-            }).catch((e) => {
-                console.error(e);
-                reject([]);
-            });
+        let comicTable: Dexie.Table<ComicData, string> = this.dexieService.table('comic');
+        return comicTable.get({ comicurl: comicURL }).then((data) => {
+            if (data)
+                return this.unpackComic(data);
+            else
+                return null;
+        }).catch((e) => {
+            console.error(e);
+            return null;
         });
     }
 }

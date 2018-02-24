@@ -7,8 +7,8 @@
     title="{{ page.altText }}">
 
   <mat-card-actions>
-    <div *ngIf="isSmartSkip(); else firstPageButton">
-      <button mat-icon-button (click)="smartReturn()" matTooltip="Smart Return" matTooltipPosition="above">
+    <div *ngIf="hasSmartReturn(); else firstPageButton">
+      <button mat-icon-button (click)="smartReturn()" matTooltip="Skip to last unread page" matTooltipPosition="above">
         <mat-icon aria-label="Smart return">first_page</mat-icon>
       </button>
     </div>
@@ -34,8 +34,8 @@
       <mat-icon aria-label="Next page">chevron_right</mat-icon>
     </button>
 
-    <div *ngIf="isSmartSkip(); else lastPageButton">
-      <button mat-icon-button (click)="smartSkip()" matTooltip="Smart Skip" matTooltipPosition="above">
+    <div *ngIf="hasSmartSkip(); else lastPageButton">
+      <button mat-icon-button (click)="smartSkip()" matTooltip="Skip to next unread page" matTooltipPosition="above">
         <mat-icon aria-label="Smart skip">last_page</mat-icon>
       </button>
     </div>

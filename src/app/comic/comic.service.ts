@@ -12,7 +12,7 @@ import { ComicStoreService, ComicData, ComicListData } from './comic-store.servi
 export class ComicService {
     public comics: Comic[] = [];
     public comic: Comic;
-    public pagesRead: Page[];
+    public pagesRead = new Set<number>();
     public myComics: Comic[] = [];
 
     constructor(
@@ -63,12 +63,25 @@ export class ComicService {
     }
 
     public getComic(comicURL: string): Promise<Comic> {
-        return this.http.get(apiURL + '/api/comics/get/' + comicURL)
-            .toPromise().then((data: ComicData) => {
-                this.comicStoreService.cacheComic(data);
-                this.comic = this.comicStoreService.unpackComic(data);
-                return this.comic;
-            });
+        return Promise.all([
+            this.loadCachedPageRead(comicURL),
+            this.http.get(apiURL + '/api/comics/get/' + comicURL)
+                .toPromise()
+                .then((data: ComicData) => {
+                    this.comicStoreService.cacheComic(data);
+                    this.comic = this.comicStoreService.unpackComic(data);
+                    this.pagesRead = new Set<number>();
+
+                    return this.comic;
+                })
+            ]).then(res => res[1]);
+
+    }
+
+    public getCachedComic(comicURL: string) {
+        return this.loadCachedPageRead(comicURL).then(() =>
+            this.comicStoreService.getCachedComic(comicURL));
+
     }
 
     loadComicType(name: string, storage: Array<Comic>) {
@@ -93,29 +106,22 @@ export class ComicService {
         });
     }
 
-    public addPageRead(comicURL: string, page: Page) {
-        this.getCachedPagesRead(comicURL).then((cachedPagesRead) => {
-            if (cachedPagesRead) {
-                this.pagesRead = cachedPagesRead;
-                if (this.pagesRead == null || this.comic == null || this.comic.comicURL !== comicURL)
-                    this.pagesRead = [];
-                if (!this.pagesRead.includes(page)) {
-                    this.pagesRead.push(page);
-                }
-
-                this.comicStoreService.cachePagesRead(
-                    this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
+    private loadCachedPageRead(comicURL: string) {
+        return this.comicStoreService.getCachedPagesRead(comicURL).then((cachedPagesRead) => {
+            if (!cachedPagesRead) return;
+            for (let pageID of cachedPagesRead) {
+                this.pagesRead.add(pageID);
             }
         });
     }
 
-    public getCachedPagesRead(comicURL: string) {
-        return this.comicStoreService.getCachedPagesRead(comicURL);
+    public addPageRead(comicURL: string, page: Page) {
+        this.pagesRead.add(page.pageID);
+        this.comicStoreService.cachePagesRead(
+            this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
     }
 
-    public getCachedComic(comicURL: string) {
-        return this.comicStoreService.getCachedComic(comicURL);
-    }
+
 
     public loadMyComics() {
         this.loadComicType('myComics', this.myComics);
