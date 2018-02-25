@@ -66,33 +66,6 @@ export class ComicStoreService {
         );
     }
 
-    packComicListItem(comic: Comic): ComicListData {
-        return {
-            comicurl: comic.comicURL,
-            comicid: comic.comicID,
-            accountid: comic.accountID,
-            tagline: comic.tagline,
-            title: comic.title,
-            description: comic.description,
-            thumbnailurl: comic.thumbnailURL
-        };
-    }
-
-    storeComicList(comics: Comic[], loc: string) {
-        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
-        comicListTable.bulkPut(comics.map(this.packComicListItem));
-    }
-
-    unstoreComicList(loc: string) {
-        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
-        return comicListTable.toArray().then((data: ComicListData[]) => {
-            return data.map(this.unpackComicListItem);
-        }).catch((e) => {
-            console.error(e);
-            return new Array<Comic>();
-        });
-    }
-
     packPagesRead(comicURL: string, pagesRead: Set<number>): PagesReadData {
         return {
             comicurl: comicURL,
@@ -185,6 +158,21 @@ export class ComicStoreService {
                 };
             })
         };
+    }
+
+    cacheComicList(data: ComicListData[], loc: string) {
+        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
+        comicListTable.bulkPut(data);
+    }
+
+    getCachedComicList(loc: string) {
+        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
+        return comicListTable.toArray().then((data: ComicListData[]) => {
+            return data.map(this.unpackComicListItem);
+        }).catch((e) => {
+            console.error(e);
+            return new Array<Comic>();
+        });
     }
 
     cachePagesRead(data: PagesReadData) {

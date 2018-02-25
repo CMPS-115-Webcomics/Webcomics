@@ -46,7 +46,7 @@ export class MessageService {
       content: content
     }, { headers: this.auth.getAuthHeader() })
       .toPromise()
-      .catch(console.log);
+      .catch(console.error);
   }
 
   public getMessages() {

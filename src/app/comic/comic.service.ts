@@ -94,14 +94,14 @@ export class ComicService {
             }
         };
 
-        this.comicStoreService.unstoreComicList(name).then((cached: Comic[]) => {
+        this.comicStoreService.getCachedComicList(name).then((cached: Comic[]) => {
             this.comics = cached;
             this.http.get(apiURL + '/api/comics/' + name, {
                 headers: this.auth.getAuthHeader()
             }).toPromise()
-                .then((data: Array<ComicListData>) => {
+                .then((data: ComicListData[]) => {
                     unloader(data.map(this.comicStoreService.unpackComicListItem));
-                    this.comicStoreService.storeComicList(storage, name);
+                    this.comicStoreService.cacheComicList(data, name);
                 }).catch((e) => {
                     console.error(e);
                 });
