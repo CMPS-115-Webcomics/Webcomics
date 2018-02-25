@@ -14,7 +14,6 @@ import { AuthenticationService } from '../../user/authentication.service';
     templateUrl: './create-comic.component.html',
     styleUrls: ['./create-comic.component.scss']
 })
-
 export class CreateComicComponent implements OnInit {
     public title: string;
     public comicURL: string;
@@ -69,6 +68,15 @@ export class CreateComicComponent implements OnInit {
     ngOnInit() {
     }
 
+    validateImage(data) {
+        let img = new Image();
+        img.src = data;
+        img.onload =  () => {
+            console.log(img.height, img.width, img.width / img.height);
+        };
+    }
+
+
     fileChange(event): void {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
@@ -76,9 +84,9 @@ export class CreateComicComponent implements OnInit {
         }
         const reader = new FileReader();
         reader.onload = (e: any) => {
-            this.previewWidth = 128;
-            this.previewHeight = 128;
             this.previewSrc = e.target.result;
+            this.validateImage(e.target.result);
+
         };
         reader.readAsDataURL(this.thumbnail);
     }

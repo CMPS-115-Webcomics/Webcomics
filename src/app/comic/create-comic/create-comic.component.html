@@ -31,7 +31,7 @@
 
             <br/>
 
-            <label>Thumbnail
+            <label>Thumbnail (16:9 aspect ratio)
                 <input [disabled]="working"  #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*">
             </label>
 
@@ -45,8 +45,9 @@
 
         <br/>
         <br/>
-        <img #previewImg *ngIf="previewSrc" [src]="previewSrc" [width]="previewWidth" [height]="previewHeight">
+        <img #previewImg *ngIf="previewSrc"  [src]="previewSrc" class="preview">
         <br/>
+
 
     </mat-card-content>
 
