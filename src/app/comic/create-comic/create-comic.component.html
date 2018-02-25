@@ -10,7 +10,7 @@
             <mat-form-field hintLabel="Max 30 characters">
                 <input [attr.disabled]="working" matInput #titleIn name="Title" p [(ngModel)]="title" [formControl]="name" maxlength="30" placeholder="Title">
                 <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
-                <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+                <mat-error *ngIf="name.invalid">{{nameError()}}</mat-error>
             </mat-form-field>
 
 
@@ -21,11 +21,20 @@
                 <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
             </mat-form-field>
 
+            <mat-form-field hintLabel="Short tagline used to advertise your comic">
+                <input [attr.disabled]="working" matInput
+                   #taglineIn placeholder="Comic Tagline" name="tagline"
+                    maxlength="30" [(ngModel)]="tagline" [formControl]="tag"
+                    name="tagline">
+                <mat-hint align="end">{{taglineIn.value?.length || 0}}/30</mat-hint>
+                <mat-error *ngIf="tag.invalid">{{tagError()}}</mat-error>
+            </mat-form-field>
 
-            <mat-form-field hintLabel="Between 20 and 500 characters">
-                <textarea [attr.disabled]="working" matInput #descIn placeholder="Comic description" name="description" maxlength="500" [(ngModel)]="description" [formControl]="desc"
+
+            <mat-form-field hintLabel="Longer description of comic.">
+                <textarea [attr.disabled]="working" matInput #descIn placeholder="Comic description" name="description" maxlength="1000" [(ngModel)]="description" [formControl]="desc"
                     name="description"></textarea>
-                <mat-hint align="end">{{descIn.value?.length || 0}}/500</mat-hint>
+                <mat-hint align="end">{{descIn.value?.length || 0}}/1000</mat-hint>
                 <mat-error *ngIf="desc.invalid">{{descError()}}</mat-error>
             </mat-form-field>
 

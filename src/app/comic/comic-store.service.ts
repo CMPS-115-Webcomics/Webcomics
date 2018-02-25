@@ -9,6 +9,7 @@ export interface ComicListData {
     accountid: number;
     title: string;
     description: string;
+    tagline: string;
     thumbnailurl: string;
 }
 
@@ -24,6 +25,7 @@ export interface ComicData {
     title: string;
     description: string;
     thumbnailurl: string;
+    tagline: string;
 
     pages: Array<{
         pageid: number
@@ -59,6 +61,7 @@ export class ComicStoreService {
             entry.title,
             entry.comicurl,
             entry.description,
+            entry.tagline,
             entry.thumbnailurl
         );
     }
@@ -68,6 +71,7 @@ export class ComicStoreService {
             comicurl: comic.comicURL,
             comicid: comic.comicID,
             accountid: comic.accountID,
+            tagline: comic.tagline,
             title: comic.title,
             description: comic.description,
             thumbnailurl: comic.thumbnailURL
@@ -139,6 +143,7 @@ export class ComicStoreService {
             entry.title,
             entry.comicurl,
             entry.description,
+            entry.tagline,
             entry.thumbnailurl,
             volumes,
             chapters,
@@ -153,6 +158,7 @@ export class ComicStoreService {
             comicurl: comic.comicURL,
             comicid: comic.comicID,
             accountid: comic.accountID,
+            tagline: comic.tagline,
             title: comic.title,
             description: comic.description,
             thumbnailurl: comic.thumbnailURL,

@@ -27,13 +27,14 @@ export class Page {
 }
 
 export class Comic {
-    static empty = new Comic(0, 0, '', '', '', '', [], [], []);
+    static empty = new Comic(0, 0, '', '', '', '', '', [], [], []);
     constructor(
         public comicID: number,
         public accountID: number,
         public title: string,
         public comicURL: string,
         public description: string,
+        public tagline: string,
         public thumbnailURL: string,
         public volumes: Volume[] = [],
         public chapters: Chapter[] = [],

@@ -18,11 +18,13 @@ export class CreateComicComponent implements OnInit {
     public title: string;
     public comicURL: string;
     public description: string;
+    public tagline: string;
     public thumbnail: File;
 
     name: FormControl;
     url: FormControl;
     desc: FormControl;
+    tag: FormControl;
     working = false;
 
     constructor(
@@ -33,7 +35,8 @@ export class CreateComicComponent implements OnInit {
             [existenceValidator(http, 'title')]);
         this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
             [existenceValidator(http, 'comicURL')]);
-        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(500)]);
+        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
+        this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
     }
 
 
@@ -43,24 +46,36 @@ export class CreateComicComponent implements OnInit {
     public previewHeight;
 
     isValid() {
-        return this.name.valid && this.url.valid && this.desc.valid && this.thumbnail;
+        return this.name.valid && this.url.valid && this.desc.valid && this.thumbnail && this.tag.valid;
+    }
+
+    nameError() {
+        return this.name.hasError('required') ? 'You must enter a value' :
+            this.name.hasError('availability') ? 'That title is already in use.' :
+                '';
     }
 
     urlError() {
-        return this.url.hasError('required') ? 'You must enter a value' :
+        return this.url.hasError('required') ? 'You must enter a value.' :
             this.url.hasError('pattern') ? 'Only lower case letters, numbers and dashes may be used.' :
+                this.url.hasError('availability') ? 'That URL is already in use.' :
                 '';
     }
 
     descError() {
-        return this.desc.hasError('required') ? 'You must enter a value' :
+        return this.desc.hasError('required') ? 'You must enter a value.' :
             this.desc.hasError('minlength') ? 'Must be at least 20 characters long.' :
                 '';
     }
 
+    tagError() {
+        return this.desc.hasError('required') ? 'You must enter a value.' :
+            '';
+    }
+
     submitComic() {
         this.working = true;
-        this.comicService.createComic(this.title, this.comicURL, this.description, this.thumbnail)
+        this.comicService.createComic(this.title, this.comicURL, this.description, this.tagline, this.thumbnail)
             .then(() => this.working = false)
             .catch(() => this.working = false);
     }
@@ -71,7 +86,7 @@ export class CreateComicComponent implements OnInit {
     validateImage(data) {
         let img = new Image();
         img.src = data;
-        img.onload =  () => {
+        img.onload = () => {
             console.log(img.height, img.width, img.width / img.height);
         };
     }
