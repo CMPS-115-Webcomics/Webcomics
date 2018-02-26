@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) {
     this.nameControl = new FormControl('', [Validators.required, Validators.maxLength(30),
-    Validators.pattern(/^[a-zA-Z0-9\-\_]+$/)], [existenceValidator(http, 'username')]);
+    Validators.pattern(/^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$/)], [existenceValidator(http, 'username')]);
     this.emailControl = new FormControl('', [Validators.required, Validators.email], [existenceValidator(http, 'email', true)]);
     this.passwordControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(256)]);
 
@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
 
   nameError() {
     return this.nameControl.hasError('required') ? 'You must enter a value' :
-      this.nameControl.hasError('pattern') ? 'Only lower case letters, numbers, dashes or underscores may be used.' :
+      this.nameControl.hasError('pattern') ? 'Only lower case letters, numbers, and single spaces between words be used.' :
         this.nameControl.hasError('availability') ? 'That username is already in use.' :
           '';
   }
