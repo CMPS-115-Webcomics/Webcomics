@@ -25,6 +25,7 @@ const routes: Routes = [
     { path: 'comic/:comicURL/:page', component: ComicReaderComponent },
     { path: 'comic/:comicURL/:chapter/:page', component: ComicReaderComponent },
     { path: 'comic/:comicURL/:volume/:chapter/:page', component: ComicReaderComponent },
+    { path: '**', redirectTo: 'comics' },
 ];
 
 @NgModule({
