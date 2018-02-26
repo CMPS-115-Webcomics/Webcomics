@@ -14,17 +14,16 @@ export class SearchService {
   ) { }
 
   /**
-   * Returns the subset of comcis whose title or description
+   * Returns the subset of comcis whose title, tagline or description
    * contains the given query.
    */
   private searchComic(comics: Comic[], query: string) {
-    let results: Comic[] = [];
-    for (let i = 0; i < comics.length; i++) {
-      if (comics[i].title.includes(query) || comics[i].description.includes(query)) {
-        results.push(comics[i]);
-      }
-    }
-    return results;
+    query = query.toLowerCase();
+    return comics.filter(comic =>
+      comic.title.toLowerCase().includes(query) ||
+      comic.tagline.toLowerCase().includes(query) ||
+      comic.description.toLocaleLowerCase().includes(query)
+    );
   }
 
 
