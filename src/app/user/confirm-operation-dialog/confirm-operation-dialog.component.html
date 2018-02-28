@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Do You Want to Ban?</h1>
+
+<div mat-dialog-content>
+  <form class="form-container"  #confirmForm="ngForm">
+    <mat-form-field>
+      <input matInput [(ngModel)]="input"  [formControl]="challengeControl" placeholder="Are you sure you wish to ban them?">
+      <mat-hint align="end">Enter {{challenge}} to confirm.</mat-hint>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="done()">Ban</button>
+</div>

@@ -10,6 +10,8 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ComposeOperationDialogComponent } from './confirm-operation-dialog/confirm-operation-dialog.component';
+
 
 
 @NgModule({
@@ -21,9 +23,10 @@ import { RouterModule } from '@angular/router';
     MaterialModule
   ],
   exports: [
-    RegisterComponent, LoginComponent, VerifyEmailComponent
+    RegisterComponent, LoginComponent, VerifyEmailComponent, ComposeOperationDialogComponent
   ],
   providers: [AuthenticationService],
-  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ResetPasswordComponent]
+  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ResetPasswordComponent, ComposeOperationDialogComponent],
+  entryComponents: [ComposeOperationDialogComponent]
 })
 export class UserModule { }
