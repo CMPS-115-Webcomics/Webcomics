@@ -10,6 +10,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -24,6 +25,6 @@ import { RouterModule } from '@angular/router';
     RegisterComponent, LoginComponent, VerifyEmailComponent
   ],
   providers: [AuthenticationService],
-  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ResetPasswordComponent]
+  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ResetPasswordComponent, ProfileComponent]
 })
 export class UserModule { }

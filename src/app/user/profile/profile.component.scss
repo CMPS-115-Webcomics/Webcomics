@@ -1,0 +1,70 @@
+  /* Styles go here */
+
+  .profile-image {
+    border-radius: 50%;
+    width: 96px;
+    height: 96px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .name {
+    font-size: 34px;
+    color: #FFF;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .center-div {
+    margin-top: 100px;
+    margin: auto;
+    width: 50%;
+  }
+
+  .headerbtn-div {
+    margin: auto;
+    width: 50%;
+    height: 50px;
+  }
+
+  .tab-container {
+    margin-top: 50px;
+  }
+
+  .profile-box {
+    margin-bottom: 15px;
+  }
+
+  .profile-box .content {
+    background-color: fff;
+  }
+
+  .profile-box.info-box .info-line {
+    margin-top: 15px;
+    margin-bottom: 24px;
+  }
+
+  .profile-box.info-box .info-line .title {
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 4px;
+  }
+
+  .profile-box.info-box .info-line .info {
+    font-size: 13px;
+  }
+
+  .info-line {
+    margin-bottom: 24px;
+  }
+
+  .info-line .title {
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 4px;
+  }
+
+  .info-line .info {
+    font-size: 13px;
+  }

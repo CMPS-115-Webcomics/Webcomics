@@ -19,7 +19,8 @@ import {
   MatTooltipModule,
   MatFormFieldModule,
   MatDividerModule,
-  MatOptionModule
+  MatOptionModule,
+  MatTabsModule
 } from '@angular/material';
 
 
@@ -38,7 +39,8 @@ import {
     MatSidenavModule,
     MatSlideToggleModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule
   ],
   exports: [
     MatButtonModule,
@@ -54,7 +56,8 @@ import {
     MatSidenavModule,
     MatSlideToggleModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule
   ]
 })
 export class MaterialModule { }
