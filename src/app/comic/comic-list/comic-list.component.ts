@@ -36,4 +36,8 @@ export class ComicListComponent implements OnInit {
         this.messageService.openMessageDialog(comic.accountID);
     }
 
+    banOwner(comic: Comic) {
+        this.auth.ban(comic.accountID, comic.title);
+    }
+
 }

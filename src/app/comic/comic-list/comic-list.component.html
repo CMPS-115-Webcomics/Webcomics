@@ -14,8 +14,10 @@
 
     <mat-card-actions>
       <button *ngIf="auth.isModerator()" mat-button (click)="message(comic)">Send Message</button>
+      <button *ngIf="auth.isModerator()" mat-button (click)="banOwner(comic)">Ban User</button>
     </mat-card-actions>
+
   
- 
+
   </mat-card>
 </div>

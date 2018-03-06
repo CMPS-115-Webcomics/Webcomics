@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { apiURL } from '../url';
+import { MatDialog } from '@angular/material';
+import { ComposeOperationDialogComponent } from './confirm-operation-dialog/confirm-operation-dialog.component';
 
 interface UserData {
   token: string;
@@ -15,7 +17,10 @@ export class AuthenticationService {
   private role: string;
   private authChangeCallbacks: Array<(username: string) => void> = [];
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private dialog: MatDialog
+  ) {
     try {
       let data = JSON.parse(localStorage.getItem('login')) as UserData;
       this.confirmLogin(data.token).then((res) => {
@@ -116,5 +121,16 @@ export class AuthenticationService {
       .catch(err => false);
   }
 
-
+  public ban(comicOwner: number, comicName: string) {
+    let dialogRef = this.dialog.open(ComposeOperationDialogComponent);
+    dialogRef.componentInstance.challenge = comicName;
+    dialogRef.afterClosed().toPromise().then(res => {
+      if (!res) return;
+      this.http.post(`${apiURL}/api/auth/ban`, {
+        accountID: comicOwner,
+      }, {
+        headers: this.getAuthHeader()
+      }).toPromise();
+    });
+  }
 }
