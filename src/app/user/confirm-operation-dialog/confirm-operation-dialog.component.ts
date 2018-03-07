@@ -19,7 +19,11 @@ export class ComposeOperationDialogComponent implements OnInit {
   ) { }
 
   public done() {
-    this.ref.close(this.input === this.challenge);
+    this.ref.close(true);
+  }
+
+  public cancel() {
+    this.ref.close(false);
   }
 
   ngOnInit() {

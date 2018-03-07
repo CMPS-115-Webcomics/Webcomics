@@ -12,9 +12,10 @@
       <p>{{ comic.tagline }}</p>
     </mat-card-content>
 
-    <mat-card-actions>
-      <button *ngIf="auth.isModerator()" mat-button (click)="message(comic)">Send Message</button>
-      <button *ngIf="auth.isModerator()" mat-button (click)="banOwner(comic)">Ban User</button>
+    <mat-card-actions *ngIf="auth.isModerator()">
+      <button mat-button (click)="message(comic)">Send Message</button>
+      <button mat-button (click)="delete(comic)">Delete Comic</button>
+      <button mat-button (click)="banOwner(comic)">Ban User</button>
     </mat-card-actions>
 
   

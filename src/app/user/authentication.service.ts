@@ -121,16 +121,20 @@ export class AuthenticationService {
       .catch(err => false);
   }
 
-  public ban(comicOwner: number, comicName: string) {
+  public openChallengePrompt(challenge: string, onSuccess: () => void) {
     let dialogRef = this.dialog.open(ComposeOperationDialogComponent);
-    dialogRef.componentInstance.challenge = comicName;
+    dialogRef.componentInstance.challenge = challenge;
     dialogRef.afterClosed().toPromise().then(res => {
       if (!res) return;
-      this.http.post(`${apiURL}/api/auth/ban`, {
-        accountID: comicOwner,
-      }, {
-        headers: this.getAuthHeader()
-      }).toPromise();
+      onSuccess();
     });
+  }
+
+  public ban(comicOwner: number) {
+    this.http.post(`${apiURL}/api/auth/ban`, {
+      accountID: comicOwner,
+    }, {
+      headers: this.getAuthHeader()
+    }).toPromise();
   }
 }

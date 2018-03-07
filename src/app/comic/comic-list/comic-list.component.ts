@@ -36,8 +36,16 @@ export class ComicListComponent implements OnInit {
         this.messageService.openMessageDialog(comic.accountID);
     }
 
+    delete(comic: Comic) {
+        this.auth.openChallengePrompt(comic.title, () => {
+            this.comicService.delete(comic);
+        });
+    }
+
     banOwner(comic: Comic) {
-        this.auth.ban(comic.accountID, comic.title);
+        this.auth.openChallengePrompt(comic.title, () => {
+            this.auth.ban(comic.accountID);
+        });
     }
 
 }

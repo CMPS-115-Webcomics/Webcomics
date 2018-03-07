@@ -23,13 +23,21 @@ export class ComicService {
         private imageService: ImagesService,
         private comicStoreService: ComicStoreService
     ) {
-        console.log(imageService, imageService.getImageUrl);
         auth.onAuth((username) => {
             if (username)
                 this.loadMyComics();
             else
                 this.myComics.length = 0;
         });
+    }
+
+    public delete(comic: Comic) {
+        return this.http.post(`${apiURL}/api/comics/deleteComic`, {
+            comicID: comic.comicID,
+        }, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .then(() => alert(`Comic ${comic.title} Deleted`))
+            .catch(console.error);
     }
 
     public createComic(title: string, comicURL: string, description: string, tagline: string, thumbnail: File) {
@@ -74,7 +82,7 @@ export class ComicService {
                 .toPromise()
                 .then((data: ComicData) => {
                     data.pages.forEach(page => {
-                        page.imgurl =  this.imageService.getImageUrl(page.imgurl);
+                        page.imgurl = this.imageService.getImageUrl(page.imgurl);
                     });
                     this.comicStoreService.cacheComic(data);
                     this.comic = this.comicStoreService.unpackComic(data);
