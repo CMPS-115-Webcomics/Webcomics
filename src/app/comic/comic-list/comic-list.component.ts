@@ -37,13 +37,13 @@ export class ComicListComponent implements OnInit {
     }
 
     delete(comic: Comic) {
-        this.auth.openChallengePrompt(comic.title, () => {
+        this.auth.openChallengePrompt(comic.title, `delete the comic "${comic.title}"` , () => {
             this.comicService.delete(comic);
         });
     }
 
     banOwner(comic: Comic) {
-        this.auth.openChallengePrompt(comic.title, () => {
+        this.auth.openChallengePrompt(comic.title, `ban the owner of the comic "${comic.title}` , () => {
             this.auth.ban(comic.accountID);
         });
     }

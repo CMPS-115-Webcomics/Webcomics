@@ -13,9 +13,9 @@
     </mat-card-content>
 
     <mat-card-actions *ngIf="auth.isModerator()">
-      <button mat-button (click)="message(comic)">Send Message</button>
-      <button mat-button (click)="delete(comic)">Delete Comic</button>
-      <button mat-button (click)="banOwner(comic)">Ban User</button>
+      <button mat-mini-fab color="accent" (click)="message(comic)"  matTooltip="Send this comic's owner a message."><mat-icon>message</mat-icon></button>
+      <button mat-mini-fab color="warn"   (click)="delete(comic)"   matTooltip="Delete this comic."><mat-icon>delete</mat-icon></button>
+      <button mat-mini-fab color="warn"   (click)="banOwner(comic)" matTooltip="Ban this comic's owner."><mat-icon>delete_forever</mat-icon></button>
     </mat-card-actions>
 
   

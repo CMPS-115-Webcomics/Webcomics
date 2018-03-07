@@ -121,8 +121,9 @@ export class AuthenticationService {
       .catch(err => false);
   }
 
-  public openChallengePrompt(challenge: string, onSuccess: () => void) {
+  public openChallengePrompt(challenge: string, message: string, onSuccess: () => void) {
     let dialogRef = this.dialog.open(ComposeOperationDialogComponent);
+    dialogRef.componentInstance.message = message;
     dialogRef.componentInstance.challenge = challenge;
     dialogRef.afterClosed().toPromise().then(res => {
       if (!res) return;
@@ -134,7 +135,7 @@ export class AuthenticationService {
     this.http.post(`${apiURL}/api/auth/ban`, {
       accountID: comicOwner,
     }, {
-      headers: this.getAuthHeader()
-    }).toPromise();
+        headers: this.getAuthHeader()
+      }).toPromise();
   }
 }

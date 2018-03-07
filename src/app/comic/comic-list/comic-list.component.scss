@@ -1,11 +1,16 @@
 .comic-list-card {
   box-sizing: border-box;
   display: inline-block;
+  text-align: center;
   width: 300px;
   margin: 20px;
   align-content: center;
   p {
     overflow: hidden;
+  }
+  button {
+    margin-right: 15px;
+    margin-left: 15px;
   }
   .mat-card-image {
     width: 300px;

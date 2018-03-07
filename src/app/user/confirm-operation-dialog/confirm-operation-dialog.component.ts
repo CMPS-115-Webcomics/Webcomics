@@ -10,6 +10,7 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class ComposeOperationDialogComponent implements OnInit {
   public challenge: string;
+  public message: string;
   public input: string;
 
   public challengeControl = new FormControl('', [Validators.required]);
