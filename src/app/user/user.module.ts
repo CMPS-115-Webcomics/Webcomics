@@ -12,6 +12,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ComposeOperationDialogComponent } from './confirm-operation-dialog/confirm-operation-dialog.component';
 
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -23,10 +24,11 @@ import { ComposeOperationDialogComponent } from './confirm-operation-dialog/conf
     MaterialModule
   ],
   exports: [
-    RegisterComponent, LoginComponent, VerifyEmailComponent, ComposeOperationDialogComponent
+    RegisterComponent, LoginComponent, VerifyEmailComponent, ProfileComponent, ComposeOperationDialogComponent
   ],
   providers: [AuthenticationService],
-  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ResetPasswordComponent, ComposeOperationDialogComponent],
+  declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ProfileComponent,
+    ResetPasswordComponent, ComposeOperationDialogComponent],
   entryComponents: [ComposeOperationDialogComponent]
 })
 export class UserModule { }
