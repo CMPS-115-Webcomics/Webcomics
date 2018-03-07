@@ -7,6 +7,7 @@ import { apiURL } from '../url';
 import { AuthenticationService } from '../user/authentication.service';
 import { Router } from '@angular/router';
 import { ComicStoreService, ComicData, ComicListData } from './comic-store.service';
+import { ImagesService } from './images.service';
 
 @Injectable()
 export class ComicService {
@@ -19,8 +20,10 @@ export class ComicService {
         private http: HttpClient,
         private router: Router,
         private auth: AuthenticationService,
+        private imageService: ImagesService,
         private comicStoreService: ComicStoreService
     ) {
+        console.log(imageService, imageService.getImageUrl);
         auth.onAuth((username) => {
             if (username)
                 this.loadMyComics();
@@ -70,6 +73,9 @@ export class ComicService {
             this.http.get(apiURL + '/api/comics/get/' + comicURL)
                 .toPromise()
                 .then((data: ComicData) => {
+                    data.pages.forEach(page => {
+                        page.imgurl =  this.imageService.getImageUrl(page.imgurl);
+                    });
                     this.comicStoreService.cacheComic(data);
                     this.comic = this.comicStoreService.unpackComic(data);
                     this.pagesRead = new Set<number>();
@@ -100,6 +106,7 @@ export class ComicService {
                 headers: this.auth.getAuthHeader()
             }).toPromise()
                 .then((data: ComicListData[]) => {
+                    data.forEach(item => item.thumbnailurl = this.imageService.getImageUrl(item.thumbnailurl, false));
                     unloader(data.map(this.comicStoreService.unpackComicListItem));
                     this.comicStoreService.cacheComicList(data, name);
                 }).catch((e) => {

@@ -13,6 +13,7 @@ import { CreateComicComponent } from './create-comic/create-comic.component';
 import { MaterialModule } from '../material.module';
 import { SearchService } from './search.service';
 import { ComicStoreService } from './comic-store.service';
+import { ImagesService } from './images.service';
 
 
 @NgModule({
@@ -33,8 +34,8 @@ import { ComicStoreService } from './comic-store.service';
         ComicReaderComponent,
         ComicUploadComponent,
         ComicDetailComponent,
-        CreateComicComponent,
+        CreateComicComponent
     ],
-    providers: [ComicService, SearchService, ComicStoreService]
+    providers: [ComicService, SearchService, ImagesService, ComicStoreService]
 })
 export class ComicModule { }
