@@ -4,7 +4,7 @@
   </mat-card-header>
 
   <mat-card-content>
-      <form #registerForm="ngForm" class="form-container">
+      <form #registerForm="ngForm" class="form-container" (ngSubmit)="create()">
           <mat-form-field>
               <input matInput [attr.disabled]="working" #titleIn name="username"  [(ngModel)]="username" [formControl]="nameControl" maxlength="30" placeholder="Username" required>
               <mat-error *ngIf="nameControl.invalid">{{nameError()}}</mat-error>
@@ -22,7 +22,7 @@
               <mat-error *ngIf="passwordControl.invalid">{{passwordError()}}</mat-error>
           </mat-form-field>
 
-          <p>{{message}}</p>
+          <p *ngIf="message">{{message}}</p>
       </form>
   </mat-card-content>
   <mat-card-actions>
