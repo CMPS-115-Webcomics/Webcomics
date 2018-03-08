@@ -14,6 +14,7 @@ import { MaterialModule } from '../material.module';
 import { SearchService } from './search.service';
 import { ComicStoreService } from './comic-store.service';
 import { ImagesService } from './images.service';
+import { HotkeyModule } from 'angular2-hotkeys';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ImagesService } from './images.service';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
+        HotkeyModule
     ],
     exports: [
         ComicListComponent,

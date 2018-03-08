@@ -12,6 +12,8 @@ import { MaterialModule } from './material.module';
 import { UserModule } from './user/user.module';
 import { MessageModule } from './message/message.module';
 import { DexieService } from './dexie.service';
+import { HotkeyModule } from 'angular2-hotkeys';
+
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { DexieService } from './dexie.service';
         FormsModule,
         BrowserAnimationsModule,
         ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-        MaterialModule
+        MaterialModule,
+        HotkeyModule.forRoot()
     ],
     bootstrap: [AppComponent],
     providers: [DexieService]

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
 import { ComicMaps } from '../comic-maps';
 import { pageAnimation, pageChangeTime } from './page.animation';
 import { ComicStoreService } from '../comic-store.service';
+import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { ComicStoreService } from '../comic-store.service';
     styleUrls: ['./comic-reader.component.scss'],
     animations: [pageAnimation]
 })
-export class ComicReaderComponent implements OnInit, AfterViewInit {
+export class ComicReaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private static pagesToPreload = 5;
     private static preloadDelay = 250; // ms before preloading starts
 
@@ -35,11 +36,86 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
     private chapterMap: Map<number, [number, Chapter]> = new Map<number, [number, Chapter]>();
     private comicMaps: ComicMaps;
 
+    private lastPoppedUrl: string;
+    private yScrollStack: number[] = [];
+
+    private nextHotkey = new Hotkey('right', (event: KeyboardEvent): boolean => {
+        this.nextPage();
+        return false;
+    }, undefined, 'Goto the next page.');
+
+    private prevHotkey = new Hotkey('left', (event: KeyboardEvent): boolean => {
+        this.prevPage();
+        return false;
+    }, undefined, 'Goto the previous page.');
+
+    private smartSkipHotkey = new Hotkey('shift+right', (event: KeyboardEvent): boolean => {
+        this.smartSkip();
+        return false;
+    }, undefined, 'Goto the next unread page.');
+
+    private smartReturnHotkey = new Hotkey('shift+left', (event: KeyboardEvent): boolean => {
+        this.smartReturn();
+        return false;
+    }, undefined, 'Goto the last unread page.');
+
+    private lastPageHotkey = new Hotkey('ctrl+right', (event: KeyboardEvent): boolean => {
+        this.lastPage();
+        return false;
+    }, undefined, 'Goto the last page.');
+
+    private firstPageHotkey = new Hotkey('ctrl+left', (event: KeyboardEvent): boolean => {
+        this.firstPage();
+        return false;
+    }, undefined, 'Goto the first page.');
+
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
         private router: Router,
-    ) { }
+        private hotkeyService: HotkeysService
+    ) {
+        this.scrollToTop();
+        this.addHotkeys();
+    }
+
+    ngOnDestroy() {
+        this.removeHotkeys();
+    }
+
+
+    private addHotkeys() {
+        this.hotkeyService.add([
+            this.nextHotkey, this.prevHotkey,
+            this.smartSkipHotkey, this.smartReturnHotkey,
+            this.lastPageHotkey, this.firstPageHotkey
+        ]);
+    }
+
+    private removeHotkeys() {
+        this.hotkeyService.remove([
+            this.nextHotkey, this.prevHotkey,
+            this.smartSkipHotkey, this.smartReturnHotkey,
+            this.lastPageHotkey, this.firstPageHotkey
+        ]);
+    }
+
+    private scrollToTop() {
+        this.router.events.subscribe((ev: any) => {
+            if (ev instanceof NavigationStart) {
+                if (ev.url !== this.lastPoppedUrl)
+                    this.yScrollStack.push(window.scrollY);
+            } else if (ev instanceof NavigationEnd) {
+                if (ev.url === this.lastPoppedUrl) {
+                    this.lastPoppedUrl = undefined;
+                    window.scrollTo(0, this.yScrollStack.pop());
+                } else
+                    window.scrollTo(0, 0);
+            }
+        });
+    }
+
+
 
     ngAfterViewInit() {
         this.image.nativeElement.onload = (e) => {
@@ -218,20 +294,20 @@ export class ComicReaderComponent implements OnInit, AfterViewInit {
     }
 
     smartSkip() {
-        if (!this.hasSmartSkip()) return;
+        if (!this.hasSmartSkip()) return this.lastPage();
         this.pageIndex = this.getSmartSkipDest();
         this.reload();
     }
 
     smartReturn() {
-        if (!this.hasSmartReturn()) return;
+        if (!this.hasSmartReturn()) return this.firstPage();
         this.pageIndex = this.getSmartSkipDest(-1);
         this.reload();
     }
 
     private getSmartSkipDest(dir = 1) {
         const pages = this.comic.pages;
-        for (let i = this.pageIndex;  i >= 0 && i < pages.length; i += dir) {
+        for (let i = this.pageIndex; i >= 0 && i < pages.length; i += dir) {
             if (!this.comicService.pagesRead.has(pages[i].pageID)) {
                 return i;
             }
