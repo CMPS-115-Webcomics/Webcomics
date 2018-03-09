@@ -33,7 +33,7 @@ export class ProfileService {
   }
 
   public getUserProfile(profileURL: string) {
-    return this.http.get(`${apiURL}/api/profile/${profileURL}`).toPromise() as Promise<Profile>;
+    return this.http.get(`${apiURL}/api/profile/profiles/${profileURL}`).toPromise() as Promise<Profile>;
   }
 
   public updateUsername(username: string) {
