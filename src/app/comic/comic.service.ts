@@ -87,7 +87,6 @@ export class ComicService {
                     this.comicStoreService.cacheComic(data);
                     this.comic = this.comicStoreService.unpackComic(data);
                     this.pagesRead = new Set<number>();
-
                     return this.comic;
                 })
         ]).then(res => res[1]);

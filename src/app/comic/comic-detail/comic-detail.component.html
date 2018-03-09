@@ -4,6 +4,9 @@
     <mat-card-title>
       {{ comic.title }}
     </mat-card-title>
+    <mat-card-subtitle>
+        <a [class.active-link]="urlActive" [routerLink]="profileURL">By {{comic.owner.username}} </a>
+    </mat-card-subtitle>
 
     <mat-card-content>
 

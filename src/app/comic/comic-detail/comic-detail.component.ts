@@ -12,6 +12,8 @@ import { Comic, Page, Chapter, Volume } from '../comic';
 export class ComicDetailComponent implements OnInit {
     @Input() comic: Comic;
     @Input() baseLink: string;
+    urlActive = false;
+    profileURL = [];
 
     constructor(
         private route: ActivatedRoute,
@@ -34,6 +36,10 @@ export class ComicDetailComponent implements OnInit {
     loadComic(comic: Comic) {
         this.comic = comic;
         this.baseLink = '/comic/' + this.comic.comicURL;
+        if (this.comic.owner.profileURL) {
+            this.profileURL = ['/profile', this.comic.owner.profileURL];
+            this.urlActive = true;
+        }
     }
 
     getLastUnreadPage(): string {
