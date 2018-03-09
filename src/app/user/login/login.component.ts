@@ -34,14 +34,25 @@ export class LoginComponent implements OnInit {
   }
 
   startRequest() {
-    this.working = true;
     this.message = 'Working..';
+    this.working = true;
+    this.nameControl.disable();
+    this.passwordControl.disable();
+  }
+
+  endRequest() {
+    this.working = false;
+    this.nameControl.enable();
+    this.passwordControl.enable();
   }
 
   handleError(err) {
     console.error(err, err.error);
-    this.message = err.error || err.status;
-    this.working = false;
+    if (err.error)
+      this.message = err.error.message || err.error;
+    else
+      this.message = err.status;
+    this.endRequest();
   }
 
   submit() {
@@ -54,9 +65,10 @@ export class LoginComponent implements OnInit {
   reset() {
     this.startRequest();
     this.auth.requestPasswordReset(this.username)
-      .then(() =>
-        alert('A password reset link has been sent to your email.')
-      ).catch(this.handleError.bind(this));
+      .then(() => {
+        alert('A password reset link has been sent to your email.');
+        this.endRequest();
+      }).catch(this.handleError.bind(this));
   }
 
   nameError() {

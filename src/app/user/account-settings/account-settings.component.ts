@@ -38,7 +38,7 @@ export class AccountSettingsComponent {
     this.auth.onAuth(() => {
       this.profiles.getMyProfile().then(profile => {
         this.profile = profile;
-        this.profileEnabled = this.profile.url !== undefined;
+        this.profileEnabled = this.profile.url !== null;
         if (!this.profileEnabled)
           this.profile.url = this.profile.username.toLowerCase().replace(/ /g, '-');
       });
@@ -51,6 +51,7 @@ export class AccountSettingsComponent {
   }
 
   handleError(err) {
+    console.error(err);
     this.message = err.error || err.status;
     this.working = false;
   }
