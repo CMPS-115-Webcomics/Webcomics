@@ -46,8 +46,20 @@ export class AccountSettingsComponent {
   }
 
   startRequest() {
+    this.nameControl.disable();
+    this.emailControl.disable();
+    this.urlControl.disable();
+    this.biographyControl.disable();
     this.working = true;
     this.message = 'Working...';
+  }
+
+  endRequest() {
+    this.nameControl.enable();
+    this.emailControl.enable();
+    this.urlControl.enable();
+    this.biographyControl.enable();
+    this.working = false;
   }
 
   handleError(err) {
@@ -60,14 +72,21 @@ export class AccountSettingsComponent {
   updateUsername() {
     this.startRequest();
     this.profiles.updateUsername(this.profile.username)
-      .then(() => this.working = false)
+      .then(() => this.endRequest())
       .catch(err => this.handleError(err));
   }
 
   updateEmail() {
     this.startRequest();
     this.profiles.updateEmail(this.profile.email)
-      .then(() => this.working = false)
+      .then(() => this.endRequest())
+      .catch(err => this.handleError(err));
+  }
+
+  updateBiography() {
+    this.startRequest();
+    this.profiles.updateBiography(this.profile.biography)
+      .then(() => this.endRequest())
       .catch(err => this.handleError(err));
   }
 
@@ -75,16 +94,9 @@ export class AccountSettingsComponent {
     this.startRequest();
     this.profiles.enableProfile(this.profile.url)
       .then(() => {
-        this.working = false;
+        this.endRequest();
         this.profileEnabled = true;
       })
-      .catch(err => this.handleError(err));
-  }
-
-  updateBiography() {
-    this.startRequest();
-    this.profiles.updateBiography(this.profile.biography)
-      .then(() => this.working = false)
       .catch(err => this.handleError(err));
   }
 

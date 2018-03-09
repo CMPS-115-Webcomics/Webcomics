@@ -20,7 +20,7 @@ export class ProfileService {
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService
-  ) {}
+  ) { }
 
   public getMyProfile() {
     return this.http.get(`${apiURL}/api/profile/myProfile`,
@@ -38,26 +38,28 @@ export class ProfileService {
 
   public updateUsername(username: string) {
     return this.http.put(`${apiURL}/api/profile/updateUsername`,
-      { username: username }, { headers: this.auth.getAuthHeader() }
+      { username: username },
+      { headers: this.auth.getAuthHeader(), responseType: 'text' }
     ).toPromise();
   }
 
   public updateEmail(email: string) {
     return this.http.put(`${apiURL}/api/profile/updateEmail`,
-      { email: email }, { headers: this.auth.getAuthHeader() }
+      { email: email },
+      { headers: this.auth.getAuthHeader(), responseType: 'text' }
     ).toPromise();
   }
 
   public enableProfile(url: string) {
     return this.http.put(`${apiURL}/api/profile/enableProfile`,
-    { profileURL: url }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
-  ).toPromise();
+      { profileURL: url }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
+    ).toPromise();
   }
 
   public updateBiography(biography: string) {
     return this.http.put(`${apiURL}/api/profile/updateBiography`,
-    { biography }, { headers: this.auth.getAuthHeader() }
-  ).toPromise();
+      { biography }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
+    ).toPromise();
   }
 
   public updateInformation(profile: Profile) {
