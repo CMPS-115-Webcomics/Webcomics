@@ -13,6 +13,8 @@ import { RouterModule } from '@angular/router';
 import { ComposeOperationDialogComponent } from './confirm-operation-dialog/confirm-operation-dialog.component';
 
 import { ProfileComponent } from './profile/profile.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { ProfileService } from './profile-service.service';
 
 
 @NgModule({
@@ -24,11 +26,12 @@ import { ProfileComponent } from './profile/profile.component';
     MaterialModule
   ],
   exports: [
-    RegisterComponent, LoginComponent, VerifyEmailComponent, ProfileComponent, ComposeOperationDialogComponent
+    RegisterComponent, LoginComponent, AccountSettingsComponent,
+     VerifyEmailComponent, ProfileComponent, ComposeOperationDialogComponent
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, ProfileService],
   declarations: [RegisterComponent, LoginComponent, VerifyEmailComponent, ProfileComponent,
-    ResetPasswordComponent, ComposeOperationDialogComponent],
+    ResetPasswordComponent, ComposeOperationDialogComponent, AccountSettingsComponent],
   entryComponents: [ComposeOperationDialogComponent]
 })
 export class UserModule { }

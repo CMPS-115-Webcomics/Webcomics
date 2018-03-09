@@ -11,11 +11,13 @@ import { VerifyEmailComponent } from './user/verify-email/verify-email.component
 import { ResetPasswordComponent } from './user/reset-password/reset-password.component';
 import { MessageListComponent } from './message/message-list/message-list.component';
 import { ProfileComponent } from './user/profile/profile.component';
+import { AccountSettingsComponent } from './user/account-settings/account-settings.component';
 
 const routes: Routes = [
     { path: '', component: ComicListComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'account', component: AccountSettingsComponent },
     { path: 'verify/:token', component: VerifyEmailComponent },
     { path: 'reset/:token', component: ResetPasswordComponent },
     { path: 'messages', component: MessageListComponent },

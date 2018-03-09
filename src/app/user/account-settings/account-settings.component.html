@@ -1,0 +1,71 @@
+<mat-card class="create-form">
+
+
+  <mat-card-content>
+    <p *ngIf="!profile">Loading...</p>
+
+    <mat-tab-group>
+      <mat-tab label="Basic Information">
+        <form *ngIf="profile" (ngSubmit)="updateInfo()" #settingsForm="ngForm" class="form-container">
+          <!-- Username -->
+          <mat-form-field>
+            <input matInput [attr.disabled]="working" #titleIn name="username" [(ngModel)]="profile.username" [formControl]="nameControl"
+              maxlength="30" placeholder="Username" required>
+            <mat-error *ngIf="nameControl.invalid">{{nameError()}}</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button class="submit-button" [disabled]="nameControl.invalid || working" color="primary" (click)="updateUsername()">Update Username</button>
+
+
+          <!-- Email -->
+          <mat-form-field>
+            <input matInput [attr.disabled]="working" #emailIn name="email" [(ngModel)]="profile.email" placeholder="Email" type="text"
+              [formControl]="emailControl" maxlength="254" required>
+            <mat-error *ngIf="emailControl.invalid">{{emailError()}}</mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button class="submit-button" [disabled]="emailControl.invalid || working" color="primary" (click)="updateEmail()">Update Email</button>
+
+        </form>
+      </mat-tab>
+      <mat-tab label="My Profile">
+        <form *ngIf="profile" (ngSubmit)="updateBio()" #settingsForm="ngForm" class="form-container">
+
+
+          <!-- Profile URL -->
+          <ng-template [ngIf]="!profileEnabled">
+            <p>Your profile is not yet enabled. Please set a profile url to enable it. Be warned that you cannot change your
+              profile's url once it has been set {{profileEnabled}}</p>
+            <mat-form-field hintLabel="Max 30 characters">
+              <input [attr.disabled]="working" matInput #urlIn name="URL" [(ngModel)]="profile.url" placeholder="URL" type="text" [formControl]="urlControl"
+                maxlength="30" required>
+              <span matPrefix>www.comichub.io/profile/&nbsp;</span>
+              <mat-hint align="end">{{urlIn.value?.length || 0}}/30</mat-hint>
+              <mat-error *ngIf="urlControl.invalid">{{urlError()}}</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button class="submit-button" [disabled]="urlControl.invalid || working" color="primary" (click)="enableProfile()">Enable Profile</button>
+          </ng-template>
+
+          <ng-template [ngIf]="profileEnabled">
+
+            <!-- Biograph -->
+            <mat-form-field hintLabel="Longer description of comic.">
+              <textarea [attr.disabled]="working" matInput #descIn placeholder="Biography" name="biography" maxlength="1000" [(ngModel)]="profile.biography"
+                [formControl]="biographyControl"></textarea>
+              <mat-hint align="end">{{descIn.value?.length || 0}}/1000</mat-hint>
+              <mat-error *ngIf="biographyControl.invalid">{{biographyError()}}</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button class="submit-button" [disabled]="biographyControl.invalid || working" color="primary" 
+            (click)="updateBiography()">Update Biography</button>
+          </ng-template>
+
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-card-content>
+
+
+</mat-card>
