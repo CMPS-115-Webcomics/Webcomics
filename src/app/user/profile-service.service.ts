@@ -20,8 +20,7 @@ export class ProfileService {
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService
-  ) {
-  }
+  ) {}
 
   public getMyProfile() {
     return this.http.get(`${apiURL}/api/profile/myProfile`,
@@ -52,7 +51,7 @@ export class ProfileService {
 
   public enableProfile(url: string) {
     return this.http.put(`${apiURL}/api/profile/enableProfile`,
-    { profileURL: url }, { headers: this.auth.getAuthHeader() }
+    { profileURL: url }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
   ).toPromise();
   }
 
@@ -66,9 +65,4 @@ export class ProfileService {
 
   }
 
-
-
-
-
 }
-
