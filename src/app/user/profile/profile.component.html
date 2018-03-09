@@ -102,17 +102,8 @@
     <mat-tab label="Commics">
       <div class="mat-padding">
         <div class="period-media" layout="row" layout-wrap>
-          <div class="media">
-            <img class="preview" title="Mountain Sunset" src="http://lorempixel.com/400/200/animals">
-          </div>
-          <div class="media">
-            <img class="preview" title="Mountain Sunset" src="http://lorempixel.com/400/200/animals">
-          </div>
-          <div class="media">
-            <img class="preview" title="Mountain Sunset" src="http://lorempixel.com/400/200/animals">
-          </div>
-          <div class="media">
-            <img class="preview" title="Mountain Sunset" src="http://lorempixel.com/400/200/animals">
+          <div *ngFor="let comic of comics" class="media">
+            <img class="preview" style="width: 200px; height: 200px;" [title]="comic.title" [src]="comic.thumbnailURL">
           </div>
         </div>
       </div>
