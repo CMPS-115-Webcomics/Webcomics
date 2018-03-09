@@ -1,0 +1,23 @@
+.create-form {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-form-field {
+  margin-top: 10px;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.submit-button {
+  max-width: 250px;
+}

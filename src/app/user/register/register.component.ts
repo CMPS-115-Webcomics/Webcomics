@@ -32,20 +32,28 @@ export class RegisterComponent implements OnInit {
     Validators.pattern(/^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$/)], [existenceValidator(http, 'username')]);
     this.emailControl = new FormControl('', [Validators.required, Validators.email], [existenceValidator(http, 'email', true)]);
     this.passwordControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(256)]);
-
   }
 
   startRequest() {
     this.working = true;
     this.message = 'Working...';
+    this.nameControl.disable();
+    this.emailControl.disable();
+    this.passwordControl.disable();
+  }
+
+  endRequest() {
+    this.working = false;
+    this.nameControl.disable();
+    this.emailControl.disable();
+    this.passwordControl.disable();
   }
 
   handleError(err) {
     console.error(err, err.error);
     this.message = err.error || err.status;
-    this.working = false;
+    this.endRequest();
   }
-
 
   create() {
     this.startRequest();

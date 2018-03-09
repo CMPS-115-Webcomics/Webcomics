@@ -6,17 +6,17 @@
   <mat-card-content>
       <form #registerForm="ngForm" class="form-container" (ngSubmit)="create()">
           <mat-form-field>
-              <input matInput [attr.disabled]="working" #titleIn name="username"  [(ngModel)]="username" [formControl]="nameControl" maxlength="30" placeholder="Username" required>
+              <input matInput #titleIn name="username"  [(ngModel)]="username" [formControl]="nameControl" maxlength="30" placeholder="Username" required>
               <mat-error *ngIf="nameControl.invalid">{{nameError()}}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-              <input matInput [attr.disabled]="working" #emailIn name="email" [(ngModel)]="email"  placeholder="Email" type="text" [formControl]="emailControl" maxlength="254" required>
+              <input matInput #emailIn name="email" [(ngModel)]="email"  placeholder="Email" type="text" [formControl]="emailControl" maxlength="254" required>
               <mat-error *ngIf="emailControl.invalid">{{emailError()}}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-              <input matInput [attr.disabled]="working" #passIn placeholder="Password" name="password" [(ngModel)]="password" [formControl]="passwordControl"
+              <input matInput #passIn placeholder="Password" name="password" [(ngModel)]="password" [formControl]="passwordControl"
               [type]="hide ? 'password' : 'text'" required>
                   <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
               <mat-error *ngIf="passwordControl.invalid">{{passwordError()}}</mat-error>

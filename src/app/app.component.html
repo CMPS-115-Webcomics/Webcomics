@@ -43,8 +43,11 @@
       <li *ngIf="!auth.loggedIn()">
         <a mat-line routerLink="/register" (click)="start.close()">Register Account</a>
       </li>
+      <li *ngIf="auth.loggedIn()">
+        <a mat-line routerLink="/account" (click)="start.close()">Account Settings</a>
+      </li>
       <li *ngIf="auth.loggedIn()" style="cursor: pointer;">
-        <a mat-line (click)="logout()">Logout</a>
+        <a mat-line routerLink="/login" (click)="logout()">Logout</a>
       </li>
     </ul>
   </mat-sidenav>
