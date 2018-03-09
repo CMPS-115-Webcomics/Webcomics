@@ -28,7 +28,7 @@ const routes: Routes = [
     { path: 'comic/:comicURL/:page', component: ComicReaderComponent },
     { path: 'comic/:comicURL/:chapter/:page', component: ComicReaderComponent },
     { path: 'comic/:comicURL/:volume/:chapter/:page', component: ComicReaderComponent },
-    { path: 'user/:accountID', component: ProfileComponent },
+    { path: 'profile/:accountID', component: ProfileComponent },
     { path: '**', redirectTo: 'comics' },
 ];
 

@@ -27,7 +27,7 @@ export class Page {
 }
 
 export class Comic {
-    static empty = new Comic(0, 0, '', '', '', '', '', [], [], []);
+    static empty = new Comic(0, 0, '', '', '', '', '', { username: '', profileURL: '' }, [], [], []);
     constructor(
         public comicID: number,
         public accountID: number,
@@ -36,6 +36,10 @@ export class Comic {
         public description: string,
         public tagline: string,
         public thumbnailURL: string,
+        public owner: {
+            username: string,
+            profileURL: string
+        },
         public volumes: Volume[] = [],
         public chapters: Chapter[] = [],
         public pages: Page[] = [],
@@ -50,7 +54,7 @@ export class Comic {
             Math.max(...this.chapters
                 .filter(chapter => chapter.volumeID === volId)
                 .map(chapter => chapter.chapterNumber)
-                 .concat(0)) + 1
+                .concat(0)) + 1
         );
         // chapterId needs to be loaded from server
         this.chapters.push(newChapter);

@@ -28,7 +28,6 @@ export class ProfileService {
     ).toPromise()
       .then((profile: Profile) => {
         profile.comics = [];
-        console.log(profile);
         return profile;
       });
   }

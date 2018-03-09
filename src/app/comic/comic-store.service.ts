@@ -27,6 +27,11 @@ export interface ComicData {
     thumbnailurl: string;
     tagline: string;
 
+    owner: {
+        username: string;
+        profileurl: string;
+    };
+
     pages: Array<{
         pageid: number
         pagenumber: number
@@ -62,7 +67,8 @@ export class ComicStoreService {
             entry.comicurl,
             entry.description,
             entry.tagline,
-            entry.thumbnailurl
+            entry.thumbnailurl,
+            null
         );
     }
 
@@ -118,6 +124,7 @@ export class ComicStoreService {
             entry.description,
             entry.tagline,
             entry.thumbnailurl,
+            {username: entry.owner.username, profileURL: entry.owner.profileurl},
             volumes,
             chapters,
             pages
@@ -135,6 +142,10 @@ export class ComicStoreService {
             title: comic.title,
             description: comic.description,
             thumbnailurl: comic.thumbnailURL,
+            owner: {
+                username: comic.owner.username,
+                profileurl: comic.owner.profileURL
+            },
             volumes: comic.volumes.map(volume => {
                 return {
                     volumeid: volume.volumeID,

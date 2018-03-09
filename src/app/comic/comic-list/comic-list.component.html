@@ -12,10 +12,6 @@
       <p>{{ comic.tagline }}</p>
     </mat-card-content>
 
-    <mat-card-content>
-      <a [routerLink]="['/user', comic.accountID]" style="color: white">Check my profile</a>
-    </mat-card-content>
-
     <mat-card-actions *ngIf="auth.isModerator()">
       <button mat-mini-fab color="accent" (click)="message(comic)"  matTooltip="Send this comic's owner a message."><mat-icon>message</mat-icon></button>
       <button mat-mini-fab color="warn"   (click)="delete(comic)"   matTooltip="Delete this comic."><mat-icon>delete</mat-icon></button>
