@@ -108,7 +108,7 @@ export class ComicUploadComponent implements OnInit {
     getLastChapter() {
         let chapters = this.comic.chapters.filter(chapter => chapter.volumeID === this.selectedVolumeID);
         if (chapters.length === 0)
-            return new Chapter(0, null, 0);
+            return new Chapter(null, null, null);
         return chapters[chapters.length - 1];
     }
 
