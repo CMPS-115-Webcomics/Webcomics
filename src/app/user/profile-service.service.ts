@@ -20,7 +20,7 @@ export class ProfileService {
   constructor(
     private http: HttpClient,
     private auth: AuthenticationService
-  ) {}
+  ) { }
 
   public getMyProfile() {
     return this.http.get(`${apiURL}/api/profile/myProfile`,
@@ -33,7 +33,16 @@ export class ProfileService {
   }
 
   public getUserProfile(profileURL: string) {
-    return this.http.get(`${apiURL}/api/profile/profiles/${profileURL}`).toPromise() as Promise<Profile>;
+    return this.http.get(`${apiURL}/api/profile/profiles/${profileURL}`)
+      .toPromise()
+      .then((data: any) => {
+        return {
+          username: data.user.username,
+          biography: data.user.biography,
+          url: profileURL,
+          comics: data.comics
+        } as Profile;
+      });
   }
 
   public updateUsername(username: string) {
@@ -50,14 +59,14 @@ export class ProfileService {
 
   public enableProfile(url: string) {
     return this.http.put(`${apiURL}/api/profile/enableProfile`,
-    { profileURL: url }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
-  ).toPromise();
+      { profileURL: url }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
+    ).toPromise();
   }
 
   public updateBiography(biography: string) {
     return this.http.put(`${apiURL}/api/profile/updateBiography`,
-    { biography }, { headers: this.auth.getAuthHeader() }
-  ).toPromise();
+      { biography }, { headers: this.auth.getAuthHeader() }
+    ).toPromise();
   }
 
   public updateInformation(profile: Profile) {
