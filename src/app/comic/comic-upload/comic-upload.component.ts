@@ -67,14 +67,17 @@ export class ComicUploadComponent implements OnInit {
     }
 
     newChapter() {
-        this.comic.addChapter(this.selectedVolume);
-        this.onVolumeChange();
+        this.comicService.addChapter(this.comic, this.selectedVolume).then(() => {
+            this.volumeOptions = this.comic.volumes;
+            this.onVolumeChange();
+        });
     }
 
     newVolume() {
-        this.comic.addVolume();
-        this.volumeOptions = this.comic.volumes;
-        this.gotoLastVolume();
+        this.comicService.addVolume(this.comic).then(() => {
+            this.volumeOptions = this.comic.volumes;
+            this.gotoLastVolume();
+        });
     }
 
     deletePage(index: number) {
@@ -105,7 +108,7 @@ export class ComicUploadComponent implements OnInit {
     getLastChapter() {
         let chapters = this.comic.chapters.filter(chapter => chapter.volumeID === this.selectedVolumeID);
         if (chapters.length === 0)
-            return new Chapter(0, null, 0);
+            return new Chapter(null, null, null);
         return chapters[chapters.length - 1];
     }
 

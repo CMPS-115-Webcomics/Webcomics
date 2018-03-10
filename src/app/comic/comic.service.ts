@@ -49,7 +49,6 @@ export class ComicService {
         body.set('tagline', tagline);
         body.set('thumbnail', thumbnail);
 
-
         return this.http.post(`${apiURL}/api/comics/create`, body, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .then(() => {
@@ -73,6 +72,47 @@ export class ComicService {
         return this.http.post(`${apiURL}/api/comics/addPage`, formData, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .catch(console.error);
+    }
+
+    public addVolume(comic: Comic) {
+        let volNum = Math.max(1, Math.max(...comic.volumes.map(volume => volume.volumeNumber)) + 1);
+        return this.http.post(`${apiURL}/api/comics/addVolume`, {
+            comicID: comic.comicID,
+            volumeNumber: volNum
+        }, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .then((data: any) => {
+                let newVolume = new Volume(
+                    data.volumeid,
+                    volNum
+                );
+                comic.addVolume(newVolume);
+                return newVolume;
+            });
+    }
+
+    public addChapter(comic: Comic, volume?: Volume) {
+        const parent = volume || comic.volumes[comic.volumes.length - 1];
+        const volumeID = parent ? parent.volumeID : null;
+        const chapterNumber = Math.max(...comic.chapters
+            .filter(chapter => chapter.volumeID === volumeID)
+            .map(chapter => chapter.chapterNumber)
+            .concat(0)) + 1;
+        return this.http.post(`${apiURL}/api/comics/addChapter`, {
+            comicID: comic.comicID,
+            chapterNumber,
+            volumeID
+        }, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .then((data: any) => {
+                let newChapter = new Chapter(
+                    data.chapterid,
+                    volumeID,
+                    chapterNumber
+                );
+                comic.addChapter(newChapter);
+                return newChapter;
+            });
     }
 
     public getComic(comicURL: string): Promise<Comic> {
@@ -99,7 +139,7 @@ export class ComicService {
 
     }
 
-    loadComicType(name: string, storage: Array<Comic>) {
+    private loadComicType(name: string, storage: Array<Comic>) {
         const unloader = (comics: Comic[]) => {
             storage.length = 0;
             for (let comic of comics) {
@@ -136,8 +176,6 @@ export class ComicService {
         this.comicStoreService.cachePagesRead(
             this.comicStoreService.packPagesRead(comicURL, this.pagesRead));
     }
-
-
 
     public loadMyComics() {
         this.loadComicType('myComics', this.myComics);
