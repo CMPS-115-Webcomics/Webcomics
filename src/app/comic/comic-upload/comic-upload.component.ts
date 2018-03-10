@@ -67,14 +67,17 @@ export class ComicUploadComponent implements OnInit {
     }
 
     newChapter() {
-        this.comic.addChapter(this.selectedVolume);
-        this.onVolumeChange();
+        this.comicService.addChapter(this.comic, this.selectedVolume).then(() => {
+            this.volumeOptions = this.comic.volumes;
+            this.onVolumeChange();
+        });
     }
 
     newVolume() {
-        this.comic.addVolume();
-        this.volumeOptions = this.comic.volumes;
-        this.gotoLastVolume();
+        this.comicService.addVolume(this.comic).then(() => {
+            this.volumeOptions = this.comic.volumes;
+            this.gotoLastVolume();
+        });
     }
 
     deletePage(index: number) {
