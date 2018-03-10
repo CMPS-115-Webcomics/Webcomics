@@ -86,7 +86,7 @@ export class ComicService {
                     data.volumeid,
                     volNum
                 );
-                comic.volumes.push(newVolume);
+                comic.addVolume(newVolume);
                 return newVolume;
             });
     }
@@ -110,7 +110,7 @@ export class ComicService {
                     volumeID,
                     chapterNumber
                 );
-                comic.chapters.push(newChapter);
+                comic.addChapter(newChapter);
                 return newChapter;
             });
     }

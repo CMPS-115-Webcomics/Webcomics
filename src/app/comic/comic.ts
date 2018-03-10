@@ -26,6 +26,12 @@ export class Page {
 
 export class Comic {
     static empty = new Comic(0, 0, '', '', '', '', '', { username: '', profileURL: '' }, [], [], []);
+    private chapterMap: Map<number, Chapter>;
+    private volumeMap: Map<number, Volume>;
+    private highestChapter: number;
+    private highestVolume: number;
+
+
     constructor(
         public comicID: number,
         public accountID: number,
@@ -41,5 +47,33 @@ export class Comic {
         public volumes: Volume[] = [],
         public chapters: Chapter[] = [],
         public pages: Page[] = [],
-    ) { }
+    ) {
+        this.chapterMap = new Map(this.chapters.map(chap => [chap.chapterID, chap] as [number, Chapter]));
+        this.volumeMap = new Map(this.volumes.map(vol => [vol.volumeID, vol] as [number, Volume]));
+        this.highestChapter = Math.max(...this.chapters.map(chapter => chapter.chapterID));
+        this.highestVolume = Math.max(...this.volumes.map(volume => volume.volumeID));
+        this.pages.sort((p1, p2) => this.pageSortValue(p1) - this.pageSortValue(p2));
+    }
+
+    public addVolume(volume: Volume) {
+        this.volumes.push(volume);
+        this.volumeMap.set(volume.volumeID, volume);
+        this.highestVolume = Math.max(this.highestVolume, volume.volumeNumber);
+    }
+
+    public addChapter(chapter: Chapter) {
+        this.chapters.push(chapter);
+        this.chapterMap.set(chapter.chapterID, chapter);
+        this.highestChapter = Math.max(this.highestVolume, chapter.chapterNumber);
+    }
+
+    private pageSortValue(page: Page) {
+        let chapter = this.chapterMap.get(page.chapterID);
+        let volume = chapter ? this.volumeMap.get(chapter.volumeID) : null;
+        let chapterNumber = chapter ? chapter.chapterNumber : -1;
+        let volumeNumber = volume ? volume.volumeNumber : -1;
+        return page.pageNumber +
+            chapterNumber * this.pages.length +
+            volumeNumber * this.pages.length * this.chapters.length;
+    }
 }
