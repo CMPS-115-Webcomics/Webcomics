@@ -48,13 +48,15 @@ export class ProfileService {
 
   public updateUsername(username: string) {
     return this.http.put(`${apiURL}/api/profile/updateUsername`,
-      { username: username }, { headers: this.auth.getAuthHeader() }
+      { username: username },
+      { headers: this.auth.getAuthHeader(), responseType: 'text' }
     ).toPromise();
   }
 
   public updateEmail(email: string) {
     return this.http.put(`${apiURL}/api/profile/updateEmail`,
-      { email: email }, { headers: this.auth.getAuthHeader() }
+      { email: email },
+      { headers: this.auth.getAuthHeader(), responseType: 'text' }
     ).toPromise();
   }
 
@@ -66,7 +68,7 @@ export class ProfileService {
 
   public updateBiography(biography: string) {
     return this.http.put(`${apiURL}/api/profile/updateBiography`,
-      { biography }, { headers: this.auth.getAuthHeader() }
+      { biography }, { headers: this.auth.getAuthHeader(), responseType: 'text' }
     ).toPromise();
   }
 
