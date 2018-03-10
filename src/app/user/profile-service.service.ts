@@ -33,7 +33,17 @@ export class ProfileService {
   }
 
   public getUserProfile(profileURL: string) {
-    return this.http.get(`${apiURL}/api/profile/${profileURL}`).toPromise() as Promise<Profile>;
+    return this.http.get(`${apiURL}/api/profile/profiles/${profileURL}`)
+      .toPromise()
+      .then((data: any) => {
+        return {
+          username: data.user.username,
+          biography: data.user.biography,
+          url: profileURL,
+          comics: data.comics,
+          email: data.user.email
+        } as Profile;
+      });
   }
 
   public updateUsername(username: string) {

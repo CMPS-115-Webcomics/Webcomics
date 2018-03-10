@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ComicService } from '../../comic/comic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comic } from '../../comic/comic';
+import { ProfileService, Profile } from '../profile-service.service';
+import { AuthenticationService } from '../authentication.service';
+import { ImagesService } from '../../comic/images.service';
 
 @Component({
     selector: 'wcm-profile',
@@ -10,17 +13,26 @@ import { Comic } from '../../comic/comic';
 })
 export class ProfileComponent implements OnInit {
     public comics: Comic[] = [];
+    public profile: Profile;
+    public profileEnabled = true;
 
     constructor(
         private comicService: ComicService,
         private route: ActivatedRoute,
-        private router: Router
-    ) {}
+        private router: Router,
+        private profiles: ProfileService,
+        private auth: AuthenticationService,
+        public images: ImagesService
+    ) { }
 
     ngOnInit() {
-        const accountID = this.route.snapshot.paramMap.get('accountID');
-        this.comics = this.comicService.comics;
-        if (this.comicService.comics.length === 0)
-            this.comicService.loadComics();
+        const profileUrl = this.route.snapshot.paramMap.get('profileUrl');
+        this.profiles.getUserProfile(profileUrl).then(profile => {
+            this.profile = profile;
+        });
+    }
+
+    img(url: string) {
+        return this.images.getImageUrl(url, false);
     }
 }

@@ -46,7 +46,7 @@
       <li *ngIf="auth.loggedIn()">
         <a mat-line routerLink="/account" (click)="start.close()">Account Settings</a>
       </li>
-      <li *ngIf="auth.loggedIn()">
+      <li *ngIf="auth.loggedIn()" style="cursor: pointer;">
         <a mat-line routerLink="/login" (click)="logout()">Logout</a>
       </li>
     </ul>
