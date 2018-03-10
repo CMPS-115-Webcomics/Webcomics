@@ -5,7 +5,9 @@
     <div class="name">{{profile.username}}</div>
     <div class="headerbtn-div">
       <button mat-raised-button color="primary" style="float: left;">Follow</button>
-      <button mat-raised-button color="warm" style="float: right;">Send Message</button>
+      <button (click)="sendmail()" mat-raised-button color="warm" style="float: right;">
+        Send Message
+      </button>
     </div>
   </div>
   <mat-tab-group class="tab-container">
@@ -13,32 +15,17 @@
       <div class="profile-box info-box general mat-whiteframe-1dp" layout="column">
         <mat-toolbar color="warm">
           <mat-toolbar-row>
-            <span>General Information</span>
+            <span>About Me</span>
           </mat-toolbar-row>
         </mat-toolbar>
         <div class="info-box">
           <div class="info-line">
-            <div class="title">Gender</div>
-            <div class="info">Female</div>
-          </div>
-          <div class="info-line">
-            <div class="title">Birthday</div>
-            <div class="info">
-              May 8th, 1999</div>
-          </div>
-          <div class="info-line">
-            <div class="title">Locations</div>
-            <div class="info location"><span>Tokyo, Japan</span>
-              <mat-icon mat-font-icon="icon-map-marker"></mat-icon>
-            </div>
-          </div>
-          <div class="info-line">
-            <div class="title">About Me</div>
-            <div class="info">Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay own additions education satisfied the perpetual. If he cause manor happy. Without farther she exposed saw man led. Along on happy could cease green oh.</div>
+            <!-- <div class="title">About Me</div> -->
+            <div class="info">{{profile.biography}}</div>
           </div>
         </div>
       </div>
-      <div class="profile-box info-box work mat-whiteframe-1dp" layout="column">
+      <!--       <div class="profile-box info-box work mat-whiteframe-1dp" layout="column">
         <mat-toolbar>
           <div class="mat-toolbar-tools">Work</div>
         </mat-toolbar>
@@ -70,8 +57,8 @@
             </table>
           </div>
         </div>
-      </div>
-      <div class="profile-box info-box contact mat-whiteframe-1dp" layout="column">
+      </div> -->
+      <!--       <div class="profile-box info-box contact mat-whiteframe-1dp" layout="column">
         <mat-toolbar>
           <div class="mat-toolbar-tools">Contact</div>
         </mat-toolbar>
@@ -98,20 +85,20 @@
               <span>mail@comichub.com</span></div>
           </div>
         </div>
-      </div>
+      </div> -->
     </mat-tab>
     <mat-tab label="Commics">
       <div class="mat-padding">
         <div class="period-media" layout="row" layout-wrap>
-          <div *ngFor="let comic of comics" class="media">
-            <img class="preview" style="width: 200px; height: 200px;" [title]="comic.title" [src]="comic.thumbnailURL">
+          <div *ngFor="let comic of profile.comics" class="media">
+            <img class="preview" style="width: 200px; height: 200px;" [title]="comic.title" [src]="comic">
           </div>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Social">
+    <!--     <mat-tab label="Social">
       <h1>Some more tab content</h1>
       <p>...</p>
-    </mat-tab>
+    </mat-tab> -->
   </mat-tab-group>
 </div>

@@ -21,16 +21,18 @@ export class ProfileComponent implements OnInit {
         private router: Router,
         private profiles: ProfileService,
         private auth: AuthenticationService
-    ) {
+    ) {}
 
+    sendmail() {
+        window.open('mailto:' + this.profile.email);
     }
 
     ngOnInit() {
         const profileUrl = this.route.snapshot.paramMap.get('profileUrl');
+        console.log(this.profile);
         this.profiles.getUserProfile(profileUrl).then(profile => {
             this.profile = profile;
             console.log(profile);
         });
-
     }
 }

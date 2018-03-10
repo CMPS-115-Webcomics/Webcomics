@@ -40,7 +40,8 @@ export class ProfileService {
           username: data.user.username,
           biography: data.user.biography,
           url: profileURL,
-          comics: data.comics
+          comics: data.comics,
+          email: data.user.email
         } as Profile;
       });
   }
