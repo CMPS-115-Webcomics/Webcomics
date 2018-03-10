@@ -1,28 +1,22 @@
-
-
 <div class="list-container ">
-  <mat-card  *ngFor="let comic of comics" class="comic-list-card" >
+  <mat-card *ngFor="let comic of comics" class="comic-list-card">
     <mat-card-header>
       <mat-card-title>{{ comic.title }}</mat-card-title>
     </mat-card-header>
-  
     <img routerLink="/comic/{{ comic.comicURL}}" mat-card-image [src]="comic.thumbnailURL">
-
     <mat-card-content>
       <p>{{ comic.tagline }}</p>
     </mat-card-content>
-
-    <mat-card-content>
-      <a [routerLink]="['/user', comic.accountID]" style="color: white">Check my profile</a>
-    </mat-card-content>
-
     <mat-card-actions *ngIf="auth.isModerator()">
-      <button mat-mini-fab color="accent" (click)="message(comic)"  matTooltip="Send this comic's owner a message."><mat-icon>message</mat-icon></button>
-      <button mat-mini-fab color="warn"   (click)="delete(comic)"   matTooltip="Delete this comic."><mat-icon>delete</mat-icon></button>
-      <button mat-mini-fab color="warn"   (click)="banOwner(comic)" matTooltip="Ban this comic's owner."><mat-icon>delete_forever</mat-icon></button>
+      <button mat-mini-fab color="accent" (click)="message(comic)" matTooltip="Send this comic's owner a message.">
+        <mat-icon>message</mat-icon>
+      </button>
+      <button mat-mini-fab color="warn" (click)="delete(comic)" matTooltip="Delete this comic.">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-mini-fab color="warn" (click)="banOwner(comic)" matTooltip="Ban this comic's owner.">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
     </mat-card-actions>
-
-  
-
   </mat-card>
 </div>
