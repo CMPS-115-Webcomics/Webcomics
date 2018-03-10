@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import { DexieService } from '../dexie.service';
-import { Comic, Page, Chapter, Volume } from './comic';
+import { Comic, Page, Chapter, Volume, OrganizationType } from './comic';
 
 export interface ComicListData {
     comicurl: string;
@@ -26,6 +26,7 @@ export interface ComicData {
     description: string;
     thumbnailurl: string;
     tagline: string;
+    organization: string;
 
     owner: {
         username: string;
@@ -68,6 +69,7 @@ export class ComicStoreService {
             entry.description,
             entry.tagline,
             entry.thumbnailurl,
+            null,
             null
         );
     }
@@ -124,6 +126,7 @@ export class ComicStoreService {
             entry.description,
             entry.tagline,
             entry.thumbnailurl,
+            entry.organization,
             {username: entry.owner.username, profileURL: entry.owner.profileurl},
             volumes,
             chapters,
@@ -142,6 +145,7 @@ export class ComicStoreService {
             title: comic.title,
             description: comic.description,
             thumbnailurl: comic.thumbnailURL,
+            organization: OrganizationType[comic.getOrganization()],
             owner: {
                 username: comic.owner.username,
                 profileurl: comic.owner.profileURL

@@ -4,7 +4,8 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div>
+
+    <div *ngIf="comic.hasVolumes()">
       <mat-form-field>
         <mat-select placeholder="Volume" [(ngModel)]="selectedVolumeID" (ngModelChange)="onVolumeChange()">
           <mat-option [value]="null">None</mat-option>
@@ -19,7 +20,7 @@
       </button>
     </div>
 
-    <div>
+    <div *ngIf="comic.hasChapters()">
       <mat-form-field>
         <mat-select placeholder="Chapter" [(ngModel)]="selectedChapterID" (ngModelChange)="onChapterChange()" id="chapOption">
           <mat-option [value]="null" *ngIf="selectedVolumeID === null">None</mat-option>
