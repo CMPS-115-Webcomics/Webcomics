@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Comic } from '../../comic/comic';
 import { ProfileService, Profile } from '../profile-service.service';
 import { AuthenticationService } from '../authentication.service';
+import { ImagesService } from '../../comic/images.service';
 
 @Component({
     selector: 'wcm-profile',
@@ -20,19 +21,18 @@ export class ProfileComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private profiles: ProfileService,
-        private auth: AuthenticationService
-    ) {}
-
-    sendmail() {
-        window.open('mailto:' + this.profile.email);
-    }
+        private auth: AuthenticationService,
+        public images: ImagesService
+    ) { }
 
     ngOnInit() {
         const profileUrl = this.route.snapshot.paramMap.get('profileUrl');
-        console.log(this.profile);
         this.profiles.getUserProfile(profileUrl).then(profile => {
             this.profile = profile;
-            console.log(profile);
         });
+    }
+
+    img(url: string) {
+        return this.images.getImageUrl(url, false);
     }
 }

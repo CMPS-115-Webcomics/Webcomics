@@ -1,104 +1,37 @@
 <div *ngIf="profile">
   <div class="center-div" layout="column" layout-align="center center" layout-gt-sm="row" layout-align-gt-sm="space-between end">
-    <img class="profile-image" src="https://cdn2.iconfinder.com/data/icons/avatar-2/512/Matthew_school_boy-256.png">
-    <!-- <div class="name">User Name</div> -->
-    <div class="name">{{profile.username}}</div>
-    <div class="headerbtn-div">
-      <button mat-raised-button color="primary" style="float: left;">Follow</button>
-      <button (click)="sendmail()" mat-raised-button color="warm" style="float: right;">
-        Send Message
-      </button>
+
+    <div class="name">{{profile.username}}'s Profile</div>
+
+  </div>
+
+  <div class="profile-box info-box general mat-whiteframe-1dp" layout="column">
+    <mat-toolbar color="warm">
+      <mat-toolbar-row>
+        <span>About {{profile.username}}</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="info-box">
+      <div class="info-line">
+        <!-- <div class="title">About Me</div> -->
+        <div class="info">{{profile.biography}}</div>
+      </div>
+    </div>
+
+    <mat-toolbar color="warm">
+      <mat-toolbar-row>
+        <span>{{profile.username}}'s Comics</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div class="mat-padding">
+      <ul>
+        <li *ngFor="let comic of profile.comics" [routerLink]="['/comic', comic.comicurl]">
+          <h3>{{comic.title}}</h3>
+          <img class="preview" style="width: 200px; height: 112.5px;" [title]="comic.title" [src]="img(comic.thumbnailurl)">
+          <p>{{comic.description}}</p>
+        </li>
+      </ul>
     </div>
   </div>
-  <mat-tab-group class="tab-container">
-    <mat-tab label="About">
-      <div class="profile-box info-box general mat-whiteframe-1dp" layout="column">
-        <mat-toolbar color="warm">
-          <mat-toolbar-row>
-            <span>About Me</span>
-          </mat-toolbar-row>
-        </mat-toolbar>
-        <div class="info-box">
-          <div class="info-line">
-            <!-- <div class="title">About Me</div> -->
-            <div class="info">{{profile.biography}}</div>
-          </div>
-        </div>
-      </div>
-      <!--       <div class="profile-box info-box work mat-whiteframe-1dp" layout="column">
-        <mat-toolbar>
-          <div class="mat-toolbar-tools">Work</div>
-        </mat-toolbar>
-        <div class="content mat-padding">
-          <div class="info-line">
-            <div class="title">Occupation</div>
-            <div class="info">Developer</div>
-          </div>
-          <div class="info-line">
-            <div class="title">Skills</div>
-            <div class="info">HTML, CSS, JavaScript, Angular
-            </div>
-          </div>
-          <div class="info-line">
-            <div class="title">Jobs</div>
-            <table class="info jobs">
-              <tbody>
-                <tr class="job">
-                  <td class="company">Self-Employed</td>
-                  <td class="date">2010 - Now
-                  </td>
-                </tr>
-                <tr class="job">
-                  <td class="company">Google</td>
-                  <td class="date">2008 - 2010
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div> -->
-      <!--       <div class="profile-box info-box contact mat-whiteframe-1dp" layout="column">
-        <mat-toolbar>
-          <div class="mat-toolbar-tools">Contact</div>
-        </mat-toolbar>
-        <div class="content mat-padding">
-          <div class="info-line">
-            <div class="title">Address</div>
-            <div class="info">
-              123 Main Street, Tokyo, Japan</div>
-          </div>
-          <div class="info-line">
-            <div class="title">Tel.</div>
-            <div class="info"><span>+1 123 4567</span></div>
-            <div class="info"><span>+0 987 6543</span></div>
-          </div>
-          <div class="info-line">
-            <div class="title">Website</div>
-            <div class="info"><span>comichub.com</span></div>
-          </div>
-          <div class="info-line">
-            <div class="title">Emails</div>
-            <div class="info">
-              <span>contact@comichub.com</span></div>
-            <div class="info">
-              <span>mail@comichub.com</span></div>
-          </div>
-        </div>
-      </div> -->
-    </mat-tab>
-    <mat-tab label="Commics">
-      <div class="mat-padding">
-        <div class="period-media" layout="row" layout-wrap>
-          <div *ngFor="let comic of profile.comics" class="media">
-            <img class="preview" style="width: 200px; height: 200px;" [title]="comic.title" [src]="comic">
-          </div>
-        </div>
-      </div>
-    </mat-tab>
-    <!--     <mat-tab label="Social">
-      <h1>Some more tab content</h1>
-      <p>...</p>
-    </mat-tab> -->
-  </mat-tab-group>
 </div>
