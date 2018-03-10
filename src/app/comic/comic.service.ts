@@ -40,11 +40,12 @@ export class ComicService {
             .catch(console.error);
     }
 
-    public createComic(title: string, comicURL: string, description: string, tagline: string, thumbnail: File) {
+    public createComic(title: string, comicURL: string, organization: string, description: string, tagline: string, thumbnail: File) {
         let body = new FormData();
 
         body.set('title', title);
         body.set('comicURL', comicURL);
+        body.set('organization', organization);
         body.set('description', description);
         body.set('tagline', tagline);
         body.set('thumbnail', thumbnail);

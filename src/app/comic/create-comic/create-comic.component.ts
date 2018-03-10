@@ -20,6 +20,7 @@ export class CreateComicComponent implements OnInit {
     public description: string;
     public tagline: string;
     public thumbnail: File;
+    public organization = 'chapters';
 
     name: FormControl;
     url: FormControl;
@@ -45,6 +46,15 @@ export class CreateComicComponent implements OnInit {
     public previewWidth;
     public previewHeight;
 
+
+    titleChange(title: string) {
+        if (!this.url.dirty)
+            this.comicURL = this.title
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^a-z0-9\-]+/g, '');
+    }
+
     isValid() {
         return this.name.valid && this.url.valid && this.desc.valid && this.thumbnail && this.tag.valid;
     }
@@ -59,7 +69,7 @@ export class CreateComicComponent implements OnInit {
         return this.url.hasError('required') ? 'You must enter a value.' :
             this.url.hasError('pattern') ? 'Only lower case letters, numbers and dashes may be used.' :
                 this.url.hasError('availability') ? 'That URL is already in use.' :
-                '';
+                    '';
     }
 
     descError() {
@@ -75,7 +85,7 @@ export class CreateComicComponent implements OnInit {
 
     submitComic() {
         this.working = true;
-        this.comicService.createComic(this.title, this.comicURL, this.description, this.tagline, this.thumbnail)
+        this.comicService.createComic(this.title, this.comicURL, this.organization, this.description, this.tagline, this.thumbnail)
             .then(() => this.working = false)
             .catch(() => this.working = false);
     }
