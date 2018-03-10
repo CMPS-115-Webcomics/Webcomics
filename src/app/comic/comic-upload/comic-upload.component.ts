@@ -61,7 +61,7 @@ export class ComicUploadComponent implements OnInit {
             this.selectedVolume = lastVol;
             this.selectedVolumeID = lastVol.volumeID;
         } else {
-            this.selectedVolumeID = 0;
+            this.selectedVolumeID = null;
         }
         this.onVolumeChange();
     }
