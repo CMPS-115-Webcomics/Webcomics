@@ -36,6 +36,19 @@ export class EditComicComponent implements OnInit {
     public previewWidth;
     public previewHeight;
 
+    constructor(
+        private route: ActivatedRoute,
+        private comicService: ComicService,
+        private http: HttpClient
+    ) {
+        this.name = new FormControl('', [Validators.required]);
+            // [existenceValidator(http, 'title')]);
+        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
+            [existenceValidator(http, 'comicURL')]);
+        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
+        this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
+    }
+
     ngOnInit() {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
         this.comicService.getComic(comicURL).then(comic => {
@@ -45,21 +58,8 @@ export class EditComicComponent implements OnInit {
             this.description = comic.description;
             this.comicID = comic.comicID;
         });
+        // this.name.setValidators(existingValidator(this.comic.comicURL, this.title, this.comic.title));
     }
-
-    constructor(
-        private route: ActivatedRoute,
-        private comicService: ComicService,
-        private http: HttpClient
-    ) {
-        this.name = new FormControl('', [Validators.required],
-            [existenceValidator(http, 'title')]);
-        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
-            [existenceValidator(http, 'comicURL')]);
-        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
-        this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
-    }
-
 
 
     isValid() {
