@@ -30,19 +30,6 @@ export class EditComicComponent implements OnInit {
     tag: FormControl;
     working = false;
 
-    constructor(
-        private route: ActivatedRoute,
-        private comicService: ComicService,
-        private http: HttpClient
-    ) {
-        this.name = new FormControl('', [Validators.required],
-            [existingValidator(http, 'title', this.comic.title)]);
-        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
-            [existenceValidator(http, 'comicURL')]);
-        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
-        this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
-    }
-
 
     @ViewChild('previewImg') previewImg: ElementRef;
     public previewSrc;
@@ -58,8 +45,22 @@ export class EditComicComponent implements OnInit {
             this.description = comic.description;
             this.comicID = comic.comicID;
         });
-        // this.name.setValidators(existingValidator(this.http, 'title', this.comic.title));
     }
+
+    constructor(
+        private route: ActivatedRoute,
+        private comicService: ComicService,
+        private http: HttpClient
+    ) {
+        this.name = new FormControl('', [Validators.required],
+            [existenceValidator(http, 'title')]);
+        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
+            [existenceValidator(http, 'comicURL')]);
+        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
+        this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
+    }
+
+
 
     isValid() {
         return this.name.valid && this.desc.valid && this.thumbnail && this.tag.valid;
@@ -91,10 +92,10 @@ export class EditComicComponent implements OnInit {
 
     submitComic() {
         this.working = true;
-        this.comicService.editComic(this.title, this.description, this.tagline, this.thumbnail, this.comicURL, this.comicID)
+        /*this.comicService.editComic(this.title, this.description, this.tagline, this.thumbnail, this.comicURL, this.comicID)
             .then(() => this.working = false)
             .catch(() => this.working = false);
-    }
+    */}
 
     validateImage(data) {
         let img = new Image();

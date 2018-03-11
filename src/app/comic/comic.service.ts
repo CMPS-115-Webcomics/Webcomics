@@ -69,7 +69,7 @@ export class ComicService {
             })
             .catch(console.error);
     }
-
+/*
     public editComic(title: string, description: string, tagline: string, thumbnail: File, comicURL: string, comicID: number) {
         let newThumbnail = new FormData();
 
@@ -90,12 +90,11 @@ export class ComicService {
         this.http.post(`${apiURL}/api/comics/updateComic`, JSON, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .catch(console.error);
-            */
         return this.http.put(`${apiURL}/api/comics/updateThumbnail`, newThumbnail, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .catch(console.error);
     }
-
+*/
     public uploadPage(file: File, page: Page) {
         let formData = new FormData();
 
