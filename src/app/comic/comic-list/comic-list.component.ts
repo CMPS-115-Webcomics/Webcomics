@@ -14,6 +14,7 @@ import { SearchService } from '../search.service';
 export class ComicListComponent implements OnInit {
     public comics: Comic[] = [];
     public readComicIDs: number[];
+    private filter: ((comics: Comic[]) => Comic[]) = (comics) => comics;
 
     constructor(
         private comicService: ComicService,
@@ -21,15 +22,17 @@ export class ComicListComponent implements OnInit {
         public auth: AuthenticationService,
         private searchService: SearchService,
         private comicStoreService: ComicStoreService
-    ) {}
+    ) { }
 
     ngOnInit() {
-        this.comics = this.comicService.comics;
-        if (this.comicService.comics.length === 0)
-            this.comicService.loadComics();
-        this.searchService.onSearch = (queriedComics) => {
-            this.comics = queriedComics;
+        this.comics = this.comicService.getComics();
+        this.searchService.onSearch = (filter) => {
+            this.filter = filter;
         };
+    }
+
+    getComics() {
+        return this.filter(this.comicService.comics);
     }
 
     message(comic: Comic) {
@@ -37,13 +40,13 @@ export class ComicListComponent implements OnInit {
     }
 
     delete(comic: Comic) {
-        this.auth.openChallengePrompt(comic.title, `delete the comic "${comic.title}"` , () => {
+        this.auth.openChallengePrompt(comic.title, `delete the comic "${comic.title}"`, () => {
             this.comicService.delete(comic);
         });
     }
 
     banOwner(comic: Comic) {
-        this.auth.openChallengePrompt(comic.title, `ban the owner of the comic "${comic.title}` , () => {
+        this.auth.openChallengePrompt(comic.title, `ban the owner of the comic "${comic.title}`, () => {
             this.auth.ban(comic.accountID);
         });
     }

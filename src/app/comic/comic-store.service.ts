@@ -176,8 +176,15 @@ export class ComicStoreService {
     }
 
     cacheComicList(data: ComicListData[], loc: string) {
-        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
+        const comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
         comicListTable.bulkPut(data);
+        const validIds = new Set(data.map(comic => comic.comicid));
+        this.getCachedComicList(loc).then(comics => {
+            const toDelete = comics
+                .filter(comic => !validIds.has(comic.comicID))
+                .map(comic => comic.comicURL);
+            comicListTable.bulkDelete(toDelete);
+        });
     }
 
     getCachedComicList(loc: string) {
