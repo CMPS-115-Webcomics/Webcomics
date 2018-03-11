@@ -78,12 +78,16 @@ export class Comic {
     private groupPages() {
         if (this.hasVolumes()) {
             for (let chapter of this.chapters) {
-                this.volumeMap.get(chapter.volumeID).chapters.push(chapter);
+                if (this.volumeMap.has(chapter.volumeID))
+                    this.volumeMap.get(chapter.volumeID).chapters.push(chapter);
+                else
+                    console.error('chatpter', chapter, 'has no coresponding volume');
             }
         }
         if (this.hasChapters()) {
             for (let page of this.pages) {
-                this.chapterMap.get(page.chapterID).pages.push(page);
+                if (this.chapterMap.has(page.chapterID))
+                    this.chapterMap.get(page.chapterID).pages.push(page);
             }
         }
     }
