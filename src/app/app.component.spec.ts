@@ -1,59 +1,58 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
-import { MaterialModule } from './material.module';
-import { AppModule } from './app.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AuthenticationService } from './user/authentication.service';
 import { ComicService } from './comic/comic.service';
 import { MessageService } from './message/message.service';
 import { SearchService } from './comic/search.service';
-import { HttpClientModule } from '@angular/common/http';
-import { UserModule } from './user/user.module';
-import { ComicModule } from './comic/comic.module';
-import { DexieService } from './dexie.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        MaterialModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        CommonModule,
-        HttpClientModule,
-        UserModule,
-        ComicModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-      providers: [
-        AuthenticationService,
-        ComicService,
-        MessageService,
-        SearchService,
-        DexieService
-      ]
-    }).compileComponents();
-  }));
+    let comp: AppComponent;
+    let fixture: ComponentFixture<AppComponent>;
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
+    beforeEach(() => {
+        const authenticationServiceStub = {
+            logout: () => ({})
+        };
+        const comicServiceStub = {};
+        const messageServiceStub = {};
+        const searchServiceStub = {
+            findComics: () => ({})
+        };
+        TestBed.configureTestingModule({
+            declarations: [ AppComponent ],
+            schemas: [ NO_ERRORS_SCHEMA ],
+            providers: [
+                { provide: AuthenticationService, useValue: authenticationServiceStub },
+                { provide: ComicService, useValue: comicServiceStub },
+                { provide: MessageService, useValue: messageServiceStub },
+                { provide: SearchService, useValue: searchServiceStub }
+            ]
+        });
+        fixture = TestBed.createComponent(AppComponent);
+        comp = fixture.componentInstance;
+    });
 
-  it('should render title in an element with .toolbar-title class', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.toolbar-title').textContent).toContain('ComicHub');
-  }));
+    it('can load instance', () => {
+        expect(comp).toBeTruthy();
+    });
+
+    describe('logout', () => {
+        it('makes expected calls', () => {
+            const authenticationServiceStub: AuthenticationService = fixture.debugElement.injector.get(AuthenticationService);
+            spyOn(authenticationServiceStub, 'logout');
+            comp.logout();
+            expect(authenticationServiceStub.logout).toHaveBeenCalled();
+        });
+    });
+
+    describe('searchComic', () => {
+        it('makes expected calls', () => {
+            const searchServiceStub: SearchService = fixture.debugElement.injector.get(SearchService);
+            spyOn(searchServiceStub, 'findComics');
+            comp.searchComic();
+            expect(searchServiceStub.findComics).toHaveBeenCalled();
+        });
+    });
 
 });

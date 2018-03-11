@@ -1,25 +1,31 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MessageService } from '../message.service';
 import { MessageListComponent } from './message-list.component';
 
 describe('MessageListComponent', () => {
-  let component: MessageListComponent;
-  let fixture: ComponentFixture<MessageListComponent>;
+    let comp: MessageListComponent;
+    let fixture: ComponentFixture<MessageListComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MessageListComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        const messageServiceStub = {
+            getMessages: () => ({
+                then: () => ({})
+            })
+        };
+        TestBed.configureTestingModule({
+            declarations: [ MessageListComponent ],
+            schemas: [ NO_ERRORS_SCHEMA ],
+            providers: [
+                { provide: MessageService, useValue: messageServiceStub }
+            ]
+        });
+        fixture = TestBed.createComponent(MessageListComponent);
+        comp = fixture.componentInstance;
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MessageListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    it('can load instance', () => {
+        expect(comp).toBeTruthy();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

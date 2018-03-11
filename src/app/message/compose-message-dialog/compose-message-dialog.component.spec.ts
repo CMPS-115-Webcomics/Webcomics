@@ -1,25 +1,30 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { ComposeMessageDialogComponent } from './compose-message-dialog.component';
 
 describe('ComposeMessageDialogComponent', () => {
-  let component: ComposeMessageDialogComponent;
-  let fixture: ComponentFixture<ComposeMessageDialogComponent>;
+    let comp: ComposeMessageDialogComponent;
+    let fixture: ComponentFixture<ComposeMessageDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ComposeMessageDialogComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        const matDialogRefStub = {
+            close: () => ({})
+        };
+        TestBed.configureTestingModule({
+            declarations: [ ComposeMessageDialogComponent ],
+            schemas: [ NO_ERRORS_SCHEMA ],
+            providers: [
+                { provide: MatDialogRef, useValue: matDialogRefStub }
+            ]
+        });
+        fixture = TestBed.createComponent(ComposeMessageDialogComponent);
+        comp = fixture.componentInstance;
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ComposeMessageDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    it('can load instance', () => {
+        expect(comp).toBeTruthy();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+
 });

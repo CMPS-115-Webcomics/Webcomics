@@ -1,15 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { ImagesService } from './images.service';
 
 describe('ImagesService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [ImagesService]
-    });
-  });
+    let service: ImagesService;
 
-  it('should be created', inject([ImagesService], (service: ImagesService) => {
-    expect(service).toBeTruthy();
-  }));
+    beforeEach(() => {
+        service = new ImagesService();
+    });
+
+    it('produces an of image url', () => {
+        expect(service.getImageUrl('test')).toBeDefined();
+    });
+
 });
