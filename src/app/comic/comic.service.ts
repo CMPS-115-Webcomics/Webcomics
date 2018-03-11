@@ -69,7 +69,6 @@ export class ComicService {
             })
             .catch(console.error);
     }
-
     public editComic(title: string, description: string, tagline: string, thumbnail: File, comicURL: string, comicID: number) {
         let newThumbnail = new FormData();
 
@@ -93,7 +92,6 @@ export class ComicService {
             .toPromise()
             .catch(console.error);
     }
-
     public uploadPage(file: File, page: Page) {
         let formData = new FormData();
 
