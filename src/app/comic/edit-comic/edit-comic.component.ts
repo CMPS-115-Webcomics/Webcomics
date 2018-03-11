@@ -92,10 +92,10 @@ export class EditComicComponent implements OnInit {
 
     submitComic() {
         this.working = true;
-        /*this.comicService.editComic(this.title, this.description, this.tagline, this.thumbnail, this.comicURL, this.comicID)
+        this.comicService.editComic(this.title, this.description, this.tagline, this.thumbnail, this.comicURL, this.comicID)
             .then(() => this.working = false)
             .catch(() => this.working = false);
-    */}
+    }
 
     validateImage(data) {
         let img = new Image();
