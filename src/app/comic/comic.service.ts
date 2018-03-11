@@ -33,8 +33,7 @@ export class ComicService {
     }
 
     public getComics() {
-        if (!this.comicsValid)
-            this.loadComics();
+        this.loadComics();
         return this.comics;
     }
 
@@ -153,13 +152,6 @@ export class ComicService {
     }
 
     private loadComicType(name: string, storage: Array<Comic>) {
-        const unloader = (comics: Comic[]) => {
-            storage.length = 0;
-            for (let comic of comics) {
-                storage.push(comic);
-            }
-        };
-
         this.comicStoreService.getCachedComicList(name).then((cached: Comic[]) => {
             this.comics = cached;
             this.http.get(apiURL + '/api/comics/' + name, {
@@ -167,7 +159,7 @@ export class ComicService {
             }).toPromise()
                 .then((data: ComicListData[]) => {
                     data.forEach(item => item.thumbnailurl = this.imageService.getImageUrl(item.thumbnailurl, false));
-                    unloader(data.map(this.comicStoreService.unpackComicListItem));
+                    this.comics = data.map(this.comicStoreService.unpackComicListItem);
                     this.comicStoreService.cacheComicList(data, name);
                     if (name === 'comics') {
                         this.comicsValid = true;
