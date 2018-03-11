@@ -86,7 +86,7 @@ export class ComicService {
             'published': false
                     };
 
-        this.http.post(`${apiURL}/api/comics/updateComic`, JSON, { headers: this.auth.getAuthHeader() })
+        this.http.put(`${apiURL}/api/comics/updateComic`, body, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .catch(console.error);
         return this.http.put(`${apiURL}/api/comics/updateThumbnail`, newThumbnail, { headers: this.auth.getAuthHeader() })
