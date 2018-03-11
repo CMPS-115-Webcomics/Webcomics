@@ -25,9 +25,9 @@ export class ComicService {
         private comicStoreService: ComicStoreService
     ) {
         auth.onAuth((username) => {
-            if (username)
+            if (username) {
                 this.loadMyComics();
-            else
+            } else
                 this.myComics.length = 0;
         });
     }
@@ -83,7 +83,7 @@ export class ComicService {
             'description': description,
             'tagline': tagline,
             'published': false
-                    };
+        };
 
         this.http.put(`${apiURL}/api/comics/updateComic`, body, { headers: this.auth.getAuthHeader() })
             .toPromise()
@@ -181,7 +181,10 @@ export class ComicService {
             }).toPromise()
                 .then((data: ComicListData[]) => {
                     data.forEach(item => item.thumbnailurl = this.imageService.getImageUrl(item.thumbnailurl, false));
-                    this.comics = data.map(this.comicStoreService.unpackComicListItem);
+                    if (name === 'comics')
+                        this.comics = data.map(this.comicStoreService.unpackComicListItem);
+                    else
+                        this.myComics = data.map(this.comicStoreService.unpackComicListItem);
                     this.comicStoreService.cacheComicList(data, name);
                     if (name === 'comics') {
                         this.comicsValid = true;

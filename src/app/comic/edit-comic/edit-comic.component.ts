@@ -4,7 +4,7 @@ import { ComicService } from '../comic.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { apiURL } from '../../url';
-import { existenceValidator, existingValidator } from '../../existence.validator';
+import { existenceValidator } from '../../existence.validator';
 import { AuthenticationService } from '../../user/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Comic, Page, Chapter, Volume } from '../comic';
@@ -40,23 +40,25 @@ export class EditComicComponent implements OnInit {
         private route: ActivatedRoute,
         private comicService: ComicService,
         private http: HttpClient
-    ) {
-        this.name = new FormControl('', [Validators.required]);
-            // [existenceValidator(http, 'title')]);
-        this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
-            [existenceValidator(http, 'comicURL')]);
-        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
-        this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
-    }
+    ) { }
 
     ngOnInit() {
         const comicURL = this.route.snapshot.paramMap.get('comicURL');
         this.comicService.getComic(comicURL).then(comic => {
+            this.name = new FormControl('', [Validators.required],
+                [existenceValidator(this.http, 'title', false, false, comic.title)]
+            );
+            // [existenceValidator(http, 'title')]);
+            this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
+                [existenceValidator(this.http, 'comicURL')]);
+            this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
+            this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
             this.comic = comic;
             this.title = comic.title;
             this.tagline = comic.tagline;
             this.description = comic.description;
             this.comicID = comic.comicID;
+
         });
         // this.name.setValidators(existingValidator(this.comic.comicURL, this.title, this.comic.title));
     }
@@ -76,7 +78,7 @@ export class EditComicComponent implements OnInit {
         return this.url.hasError('required') ? 'You must enter a value.' :
             this.url.hasError('pattern') ? 'Only lower case letters, numbers and dashes may be used.' :
                 this.url.hasError('availability') ? 'That URL is already in use.' :
-                '';
+                    '';
     }
 
     descError() {
