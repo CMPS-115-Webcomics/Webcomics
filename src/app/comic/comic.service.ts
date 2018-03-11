@@ -95,10 +95,12 @@ export class ComicService {
             .toPromise()
             .then((data: any) => {
                 let newVolume = new Volume(
-                    data.volumeid,
+                    data.volumeID,
                     volNum
                 );
+                let newChapter = new Chapter(data.chapterID, data.volumeID, 1);
                 comic.addVolume(newVolume);
+                comic.addChapter(newChapter);
                 return newVolume;
             });
     }
@@ -196,7 +198,6 @@ export class ComicService {
     }
 
     public loadComics() {
-        console.log('load comics');
         this.loadComicType('comics', this.comics);
     }
 }

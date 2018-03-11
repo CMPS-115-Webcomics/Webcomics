@@ -1,4 +1,5 @@
 export class Volume {
+    public chapters: Chapter[] = [];
     constructor(
         public volumeID: number,
         public volumeNumber: number,
@@ -6,6 +7,7 @@ export class Volume {
 }
 
 export class Chapter {
+    public pages: Page[] = [];
     constructor(
         public chapterID: number,
         public volumeID: number,
@@ -30,12 +32,12 @@ export enum OrganizationType {
 
 export class Comic {
     static empty = new Comic(0, 0, '', '', '', '', '', 'pages', { username: '', profileURL: '' }, [], [], []);
+
     private chapterMap: Map<number, Chapter>;
     private volumeMap: Map<number, Volume>;
     private highestChapter: number;
     private highestVolume: number;
     private organization: OrganizationType;
-
 
     constructor(
         public comicID: number,
@@ -70,6 +72,20 @@ export class Comic {
         this.highestChapter = Math.max(...this.chapters.map(chapter => chapter.chapterID));
         this.highestVolume = Math.max(...this.volumes.map(volume => volume.volumeID));
         this.pages.sort((p1, p2) => this.pageSortValue(p1) - this.pageSortValue(p2));
+        this.groupPages();
+    }
+
+    private groupPages() {
+        if (this.hasVolumes()) {
+            for (let chapter of this.chapters) {
+                this.volumeMap.get(chapter.volumeID).chapters.push(chapter);
+            }
+        }
+        if (this.hasChapters()) {
+            for (let page of this.pages) {
+                this.chapterMap.get(page.chapterID).pages.push(page);
+            }
+        }
     }
 
     public getOrganization() {
@@ -95,6 +111,9 @@ export class Comic {
         this.chapters.push(chapter);
         this.chapterMap.set(chapter.chapterID, chapter);
         this.highestChapter = Math.max(this.highestVolume, chapter.chapterNumber);
+        const parent = this.volumeMap.get(chapter.volumeID);
+        if (parent)
+            parent.chapters.push(chapter);
     }
 
     private pageSortValue(page: Page) {
@@ -105,5 +124,13 @@ export class Comic {
         return page.pageNumber +
             chapterNumber * this.pages.length +
             volumeNumber * this.pages.length * this.chapters.length;
+    }
+
+    public getVolume(volumeID) {
+        return this.volumeMap.get(volumeID);
+    }
+
+    public getChapter(chapterID) {
+        return this.chapterMap.get(chapterID);
     }
 }
