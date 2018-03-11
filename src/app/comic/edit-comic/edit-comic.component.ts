@@ -35,8 +35,8 @@ export class EditComicComponent implements OnInit {
         private comicService: ComicService,
         private http: HttpClient
     ) {
-        this.name = new FormControl('', [Validators.required]);
-            // [existingValidator(http, 'title', this.comic.title)]);
+        this.name = new FormControl('', [Validators.required],
+            [existingValidator(http, 'title', this.comic.title)]);
         this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
             [existenceValidator(http, 'comicURL')]);
         this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
