@@ -14,6 +14,7 @@ class FilePage extends Page {
     templateUrl: './comic-upload.component.html',
     styleUrls: ['./comic-upload.component.scss']
 })
+
 export class ComicUploadComponent implements OnInit {
     @Input() comic: Comic;
     @Input() volumeOptions: Volume[] = [];

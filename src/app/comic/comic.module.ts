@@ -15,6 +15,7 @@ import { SearchService } from './search.service';
 import { ComicStoreService } from './comic-store.service';
 import { ImagesService } from './images.service';
 import { HotkeyModule } from 'angular2-hotkeys';
+import { EditComicComponent } from './edit-comic/edit-comic.component';
 
 
 @NgModule({
@@ -30,13 +31,15 @@ import { HotkeyModule } from 'angular2-hotkeys';
     exports: [
         ComicListComponent,
         ComicReaderComponent,
+        EditComicComponent
     ],
     declarations: [
         ComicListComponent,
         ComicReaderComponent,
         ComicUploadComponent,
         ComicDetailComponent,
-        CreateComicComponent
+        CreateComicComponent,
+        EditComicComponent
     ],
     providers: [ComicService, SearchService, ImagesService, ComicStoreService]
 })

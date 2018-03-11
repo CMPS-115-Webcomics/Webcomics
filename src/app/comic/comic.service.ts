@@ -60,6 +60,32 @@ export class ComicService {
             .catch(console.error);
     }
 
+    public editComic(title: string, description: string, tagline: string, thumbnail: File, comicURL: string, comicID: number) {
+        let newThumbnail = new FormData();
+
+        newThumbnail.set('comicID', comicID.toString());
+        newThumbnail.set('title', title);
+        newThumbnail.set('description', description);
+        newThumbnail.set('tagline', tagline);
+        newThumbnail.set('thumbnail', thumbnail);
+        let body = {
+            'comicID': comicID,
+            'title': title,
+            'description': description,
+            'tagline': tagline,
+            'published': false
+                    };
+
+            /*
+        this.http.post(`${apiURL}/api/comics/updateComic`, JSON, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .catch(console.error);
+            */
+        return this.http.put(`${apiURL}/api/comics/updateThumbnail`, newThumbnail, { headers: this.auth.getAuthHeader() })
+            .toPromise()
+            .catch(console.error);
+    }
+
     public uploadPage(file: File, page: Page) {
         let formData = new FormData();
 
