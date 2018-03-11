@@ -35,7 +35,7 @@
           <!-- Profile URL -->
           <ng-template [ngIf]="!profileEnabled">
             <p>Your profile is not yet enabled. Please set a profile url to enable it. Be warned that you cannot change your
-              profile's url once it has been set {{profileEnabled}}</p>
+              profile's url once it has been set.</p>
             <mat-form-field hintLabel="Max 30 characters">
               <input [attr.disabled]="working" matInput #urlIn name="URL" [(ngModel)]="profile.url" placeholder="URL" type="text" [formControl]="urlControl"
                 maxlength="30" required>
