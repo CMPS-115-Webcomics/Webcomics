@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComicService } from '../comic.service';
 import { Comic, Page, Chapter, Volume } from '../comic';
+import { AuthenticationService } from '../../user/authentication.service';
 
 
 @Component({
@@ -18,8 +19,17 @@ export class ComicDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private comicService: ComicService,
-        private router: Router
+        private router: Router,
+        private auth: AuthenticationService
     ) { }
+
+    delete() {
+        this.auth.openChallengePrompt(this.comic.title, `delete the comic "${this.comic.title}"`, () => {
+            this.comicService.delete(this.comic).then(() => {
+                this.router.navigateByUrl('/');
+            });
+        });
+    }
 
     isMine() {
         return this.comicService.myComics.find(comic => comic.comicID === this.comic.comicID);

@@ -10,7 +10,6 @@
 
     <mat-card-content>
 
-      <a routerLink="upload" *ngIf="isMine()">Upload Images</a>
 
       <p>{{comic.description}}</p>
 
@@ -53,6 +52,11 @@
       </div>
 
     </mat-card-content>
+
+    <mat-card-actions *ngIf="isMine()">
+      <button mat-raised-button color="primary" routerLink="upload">Edit Comic</button>
+      <button mat-raised-button color="warn" (click)="delete()">Delete Comic</button>
+    </mat-card-actions>
 
 
   </mat-card>
