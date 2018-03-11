@@ -3,9 +3,10 @@ import { Comic } from './comic';
 import { ComicService } from './comic.service';
 import { Router } from '@angular/router';
 
+type ComicFilter = (filter: Comic[]) => Comic[];
 @Injectable()
 export class SearchService {
-  public onSearch: (results: Comic[]) => void = () => null;
+  public onSearch: (ComicFilter) => void = () => [];
 
 
   constructor(
@@ -13,23 +14,22 @@ export class SearchService {
     private router: Router
   ) { }
 
-  /**
-   * Returns the subset of comcis whose title, tagline or description
-   * contains the given query.
-   */
-  private searchComic(comics: Comic[], query: string) {
-    query = query.toLowerCase();
-    return comics.filter(comic =>
-      comic.title.toLowerCase().includes(query) ||
-      comic.tagline.toLowerCase().includes(query) ||
-      comic.description.toLocaleLowerCase().includes(query)
-    );
+
+  private searchComic(query: string): ComicFilter {
+    return (comics: Comic[]) => {
+      query = query.toLowerCase();
+      return comics.filter(comic =>
+        comic.title.toLowerCase().includes(query) ||
+        comic.tagline.toLowerCase().includes(query) ||
+        comic.description.toLocaleLowerCase().includes(query)
+      );
+    };
   }
 
 
   public findComics(query: string) {
     this.router.navigateByUrl('/comics').then(() => {
-      this.onSearch(this.searchComic(this.comicService.comics, query));
+      this.onSearch(this.searchComic(query));
     });
   }
 

@@ -1,63 +1,66 @@
 <mat-card class="create-form">
-    <mat-card-header>
-        <mat-card-title>New Comic</mat-card-title>
-    </mat-card-header>
+  <mat-card-header>
+    <mat-card-title>New Comic</mat-card-title>
+  </mat-card-header>
 
+  <mat-card-content>
+    <form (ngSubmit)="submitComic()" #comicForm="ngForm" class="form-container">
 
-    <mat-card-content>
-        <form (ngSubmit)="submitComic()" #heroForm="ngForm" class="form-container">
+      <mat-form-field hintLabel="Max 30 characters">
+        <input [attr.disabled]="working" matInput #titleIn name="Title" (change)="titleChange($event)" [(ngModel)]="title" [formControl]="name" maxlength="30"
+          placeholder="Title">
+        <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="name.invalid">{{nameError()}}</mat-error>
+      </mat-form-field>
 
-            <mat-form-field hintLabel="Max 30 characters">
-                <input [attr.disabled]="working" matInput #titleIn name="Title" p [(ngModel)]="title" [formControl]="name" maxlength="30" placeholder="Title">
-                <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
-                <mat-error *ngIf="name.invalid">{{nameError()}}</mat-error>
-            </mat-form-field>
+      <mat-form-field hintLabel="Max 30 characters">
+        <input [attr.disabled]="working" matInput #urlIn name="URL" [(ngModel)]="comicURL" placeholder="URL" type="text" [formControl]="url"
+          maxlength="30" required>
+        <span matPrefix>www.comichub.io/comic/&nbsp;</span>
+        <mat-hint align="end">{{urlIn.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
+      </mat-form-field>
 
+      <mat-form-field  hintLabel="Choose how your comic will be organized">
+        <mat-select placeholder="Comic Organization Type"  [(value)]="organization">
+          <mat-option value="pages">Pages Only</mat-option>
+          <mat-option value="chapters">Pages and Chapters</mat-option>
+          <mat-option value="volumes">Pages, Chapters and Volumes</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <mat-form-field hintLabel="Max 30 characters">
-                <input [attr.disabled]="working" matInput #urlIn name="URL" [(ngModel)]="comicURL"  placeholder="URL" type="text" [formControl]="url" maxlength="30" required>
-                <span matPrefix>www.comichub.io/comic/&nbsp;</span>
-                <mat-hint align="end">{{urlIn.value?.length || 0}}/30</mat-hint>
-                <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
-            </mat-form-field>
+      <mat-form-field hintLabel="Short tagline used to advertise your comic">
+        <input [attr.disabled]="working" matInput #taglineIn placeholder="Comic Tagline" name="tagline" maxlength="30" [(ngModel)]="tagline"
+          [formControl]="tag" name="tagline">
+        <mat-hint align="end">{{taglineIn.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="tag.invalid">{{tagError()}}</mat-error>
+      </mat-form-field>
 
-            <mat-form-field hintLabel="Short tagline used to advertise your comic">
-                <input [attr.disabled]="working" matInput
-                   #taglineIn placeholder="Comic Tagline" name="tagline"
-                    maxlength="30" [(ngModel)]="tagline" [formControl]="tag"
-                    name="tagline">
-                <mat-hint align="end">{{taglineIn.value?.length || 0}}/30</mat-hint>
-                <mat-error *ngIf="tag.invalid">{{tagError()}}</mat-error>
-            </mat-form-field>
+      <mat-form-field hintLabel="Longer description of comic.">
+        <textarea [attr.disabled]="working" matInput #descIn placeholder="Comic description" name="description" maxlength="1000"
+          [(ngModel)]="description" [formControl]="desc" name="description"></textarea>
+        <mat-hint align="end">{{descIn.value?.length || 0}}/1000</mat-hint>
+        <mat-error *ngIf="desc.invalid">{{descError()}}</mat-error>
+      </mat-form-field>
 
+      <br/>
 
-            <mat-form-field hintLabel="Longer description of comic.">
-                <textarea [attr.disabled]="working" matInput #descIn placeholder="Comic description" name="description" maxlength="1000" [(ngModel)]="description" [formControl]="desc"
-                    name="description"></textarea>
-                <mat-hint align="end">{{descIn.value?.length || 0}}/1000</mat-hint>
-                <mat-error *ngIf="desc.invalid">{{descError()}}</mat-error>
-            </mat-form-field>
+      <label>Thumbnail (16:9 aspect ratio)
+        <input [disabled]="working" #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*">
+      </label>
 
-            <br/>
+      <br/>
 
-            <label>Thumbnail (16:9 aspect ratio)
-                <input [disabled]="working"  #fileInput type="file" (change)="fileChange($event)" placeHolder="Select a file" accept="image/*">
-            </label>
+      <span>
+        <button mat-raised-button [disabled]="!isValid() || working" color="primary" type="submit" class="submit-button">Submit</button>
+      </span>
+    </form>
 
-            <br/>
+    <br/>
+    <br/>
+    <img #previewImg *ngIf="previewSrc" [src]="previewSrc" class="preview">
+    <br/>
 
-            <span>
-                <button mat-raised-button [disabled]="!isValid() || working" color="primary" type="submit" class="submit-button">Submit</button>
-            </span>
-        </form>
-
-
-        <br/>
-        <br/>
-        <img #previewImg *ngIf="previewSrc"  [src]="previewSrc" class="preview">
-        <br/>
-
-
-    </mat-card-content>
+  </mat-card-content>
 
 </mat-card>

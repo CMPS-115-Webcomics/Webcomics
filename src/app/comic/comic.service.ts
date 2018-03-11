@@ -15,6 +15,7 @@ export class ComicService {
     public comic: Comic;
     public pagesRead = new Set<number>();
     public myComics: Comic[] = [];
+    private comicsValid = false;
 
     constructor(
         private http: HttpClient,
@@ -31,29 +32,40 @@ export class ComicService {
         });
     }
 
+    public getComics() {
+        if (!this.comicsValid)
+            this.loadComics();
+        return this.comics;
+    }
+
     public delete(comic: Comic) {
         return this.http.post(`${apiURL}/api/comics/deleteComic`, {
             comicID: comic.comicID,
-        }, { headers: this.auth.getAuthHeader() })
+        }, { headers: this.auth.getAuthHeader(), responseType: 'text' })
             .toPromise()
-            .then(() => alert(`Comic ${comic.title} Deleted`))
+            .then(() => {
+                this.comicsValid = false;
+                this.comics.splice(this.comics.indexOf(comic), 1);
+            })
             .catch(console.error);
     }
 
-    public createComic(title: string, comicURL: string, description: string, tagline: string, thumbnail: File) {
+    public createComic(title: string, comicURL: string, organization: string, description: string, tagline: string, thumbnail: File) {
         let body = new FormData();
 
         body.set('title', title);
         body.set('comicURL', comicURL);
+        body.set('organization', organization);
         body.set('description', description);
         body.set('tagline', tagline);
         body.set('thumbnail', thumbnail);
+
+        this.comicsValid = false;
 
         return this.http.post(`${apiURL}/api/comics/create`, body, { headers: this.auth.getAuthHeader() })
             .toPromise()
             .then(() => {
                 this.router.navigate([`comic/${comicURL}/upload`]);
-                this.loadComics();
                 this.loadMyComics();
             })
             .catch(console.error);
@@ -83,10 +95,12 @@ export class ComicService {
             .toPromise()
             .then((data: any) => {
                 let newVolume = new Volume(
-                    data.volumeid,
+                    data.volumeID,
                     volNum
                 );
+                let newChapter = new Chapter(data.chapterID, data.volumeID, 1);
                 comic.addVolume(newVolume);
+                comic.addChapter(newChapter);
                 return newVolume;
             });
     }
@@ -136,7 +150,6 @@ export class ComicService {
     public getCachedComic(comicURL: string) {
         return this.loadCachedPageRead(comicURL).then(() =>
             this.comicStoreService.getCachedComic(comicURL));
-
     }
 
     private loadComicType(name: string, storage: Array<Comic>) {
@@ -156,6 +169,9 @@ export class ComicService {
                     data.forEach(item => item.thumbnailurl = this.imageService.getImageUrl(item.thumbnailurl, false));
                     unloader(data.map(this.comicStoreService.unpackComicListItem));
                     this.comicStoreService.cacheComicList(data, name);
+                    if (name === 'comics') {
+                        this.comicsValid = true;
+                    }
                 }).catch((e) => {
                     console.error(e);
                 });

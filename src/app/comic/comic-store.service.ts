@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import { DexieService } from '../dexie.service';
-import { Comic, Page, Chapter, Volume } from './comic';
+import { Comic, Page, Chapter, Volume, OrganizationType } from './comic';
 
 export interface ComicListData {
     comicurl: string;
@@ -26,6 +26,7 @@ export interface ComicData {
     description: string;
     thumbnailurl: string;
     tagline: string;
+    organization: string;
 
     owner: {
         username: string;
@@ -68,6 +69,7 @@ export class ComicStoreService {
             entry.description,
             entry.tagline,
             entry.thumbnailurl,
+            null,
             null
         );
     }
@@ -124,6 +126,7 @@ export class ComicStoreService {
             entry.description,
             entry.tagline,
             entry.thumbnailurl,
+            entry.organization,
             {username: entry.owner.username, profileURL: entry.owner.profileurl},
             volumes,
             chapters,
@@ -142,6 +145,7 @@ export class ComicStoreService {
             title: comic.title,
             description: comic.description,
             thumbnailurl: comic.thumbnailURL,
+            organization: OrganizationType[comic.getOrganization()],
             owner: {
                 username: comic.owner.username,
                 profileurl: comic.owner.profileURL
@@ -172,8 +176,15 @@ export class ComicStoreService {
     }
 
     cacheComicList(data: ComicListData[], loc: string) {
-        let comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
+        const comicListTable: Dexie.Table<ComicListData, string> = this.dexieService.table(loc);
         comicListTable.bulkPut(data);
+        const validIds = new Set(data.map(comic => comic.comicid));
+        this.getCachedComicList(loc).then(comics => {
+            const toDelete = comics
+                .filter(comic => !validIds.has(comic.comicID))
+                .map(comic => comic.comicURL);
+            comicListTable.bulkDelete(toDelete);
+        });
     }
 
     getCachedComicList(loc: string) {

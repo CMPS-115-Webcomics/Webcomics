@@ -61,7 +61,7 @@ export class ComicUploadComponent implements OnInit {
             this.selectedVolume = lastVol;
             this.selectedVolumeID = lastVol.volumeID;
         } else {
-            this.selectedVolumeID = 0;
+            this.selectedVolumeID = null;
         }
         this.onVolumeChange();
     }
@@ -106,7 +106,7 @@ export class ComicUploadComponent implements OnInit {
     }
 
     getLastChapter() {
-        let chapters = this.comic.chapters.filter(chapter => chapter.volumeID === this.selectedVolumeID);
+        let chapters = this.getChapterOptions();
         if (chapters.length === 0)
             return new Chapter(null, null, null);
         return chapters[chapters.length - 1];
@@ -124,18 +124,21 @@ export class ComicUploadComponent implements OnInit {
         return pages[pages.length - 1] || new Page(0, 0, 0, '', '');
     }
 
-    onVolumeChange(): void {
-        this.selectedVolume = this.comic.volumes.find(vol => vol.volumeID === this.selectedVolumeID);
+    getChapterOptions() {
+        let volume = this.comic.getVolume(this.selectedVolumeID);
+        return volume ? volume.chapters : this.comic.chapters;
+    }
 
-        this.chapterOptions = [];
-        for (let chapter of this.comic.chapters) {
-            if (chapter.volumeID === this.selectedVolumeID) this.chapterOptions.push(chapter);
-        }
+    onVolumeChange(): void {
+        this.selectedVolume = this.comic.getVolume(this.selectedVolumeID);
+
+        this.chapterOptions = this.getChapterOptions();
+
         if (this.chapterOptions.length > 0) {
             this.selectedChapter = this.chapterOptions[0];
             this.selectedChapterID = this.selectedChapter.chapterID;
         } else {
-            this.selectedChapterID = -1;
+            this.selectedChapterID = null;
             this.selectedChapter = null;
         }
 
