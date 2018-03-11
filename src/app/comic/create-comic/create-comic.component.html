@@ -7,8 +7,8 @@
     <form (ngSubmit)="submitComic()" #comicForm="ngForm" class="form-container">
 
       <mat-form-field hintLabel="Max 30 characters">
-        <input [attr.disabled]="working" matInput #titleIn name="Title" (change)="titleChange($event)" [(ngModel)]="title" [formControl]="name" maxlength="30"
-          placeholder="Title">
+        <input [attr.disabled]="working" matInput #titleIn name="Title" (change)="titleChange($event)" [(ngModel)]="title" [formControl]="name"
+          maxlength="30" placeholder="Title">
         <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
         <mat-error *ngIf="name.invalid">{{nameError()}}</mat-error>
       </mat-form-field>
@@ -21,8 +21,8 @@
         <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
       </mat-form-field>
 
-      <mat-form-field  hintLabel="Choose how your comic will be organized">
-        <mat-select placeholder="Comic Organization Type"  [(value)]="organization">
+      <mat-form-field hintLabel="Choose how your comic will be organized">
+        <mat-select placeholder="Comic Organization Type" [(value)]="organization">
           <mat-option value="pages">Pages Only</mat-option>
           <mat-option value="chapters">Pages and Chapters</mat-option>
           <mat-option value="volumes">Pages, Chapters and Volumes</mat-option>
@@ -56,10 +56,12 @@
       </span>
     </form>
 
-    <br/>
-    <br/>
-    <img #previewImg *ngIf="previewSrc" [src]="previewSrc" class="preview">
-    <br/>
+    <ng-template [ngIf]="previewSrc">
+      <br/>
+      <br/>
+      <img #previewImg [src]="previewSrc" class="preview">
+      <br/>
+    </ng-template>
 
   </mat-card-content>
 

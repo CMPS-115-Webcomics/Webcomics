@@ -22,11 +22,16 @@ export class CreateComicComponent implements OnInit {
     public thumbnail: File;
     public organization = 'chapters';
 
-    name: FormControl;
-    url: FormControl;
-    desc: FormControl;
-    tag: FormControl;
-    working = false;
+    public name: FormControl;
+    public url: FormControl;
+    public desc: FormControl;
+    public tag: FormControl;
+    public working = false;
+
+    @ViewChild('previewImg') previewImg: ElementRef;
+    public previewSrc;
+    public previewWidth;
+    public previewHeight;
 
     constructor(
         private comicService: ComicService,
@@ -36,16 +41,11 @@ export class CreateComicComponent implements OnInit {
             [existenceValidator(http, 'title')]);
         this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
             [existenceValidator(http, 'comicURL')]);
-        this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
+        this.desc = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
         this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
     }
 
-
-    @ViewChild('previewImg') previewImg: ElementRef;
-    public previewSrc;
-    public previewWidth;
-    public previewHeight;
-
+    ngOnInit() {}
 
     titleChange(title: string) {
         if (!this.url.dirty)
@@ -90,18 +90,6 @@ export class CreateComicComponent implements OnInit {
             .catch(() => this.working = false);
     }
 
-    ngOnInit() {
-    }
-
-    validateImage(data) {
-        let img = new Image();
-        img.src = data;
-        img.onload = () => {
-            console.log(img.height, img.width, img.width / img.height);
-        };
-    }
-
-
     fileChange(event): void {
         let fileList: FileList = event.target.files;
         if (fileList.length > 0) {
@@ -110,8 +98,6 @@ export class CreateComicComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = (e: any) => {
             this.previewSrc = e.target.result;
-            this.validateImage(e.target.result);
-
         };
         reader.readAsDataURL(this.thumbnail);
     }
