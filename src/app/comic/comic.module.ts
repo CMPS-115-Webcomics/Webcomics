@@ -16,6 +16,7 @@ import { ComicStoreService } from './comic-store.service';
 import { ImagesService } from './images.service';
 import { HotkeyModule } from 'angular2-hotkeys';
 import { EditComicComponent } from './edit-comic/edit-comic.component';
+import { ScheduleEditComponent } from './schedule-edit/schedule-edit.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { EditComicComponent } from './edit-comic/edit-comic.component';
         ComicUploadComponent,
         ComicDetailComponent,
         CreateComicComponent,
-        EditComicComponent
+        EditComicComponent,
+        ScheduleEditComponent
     ],
     providers: [ComicService, SearchService, ImagesService, ComicStoreService]
 })

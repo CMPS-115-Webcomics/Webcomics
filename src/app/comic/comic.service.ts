@@ -32,6 +32,26 @@ export class ComicService {
         });
     }
 
+    public getSchedule() {
+        return this.http.get(`${apiURL}/api/schedule/getSchedule/${this.comic.comicID}`, {
+            headers: this.auth.getAuthHeader()
+        })
+            .toPromise()
+            .then((data: Array<any>) => {
+                return data.map(item => item.updateday as number);
+            });
+    }
+
+    public updateSchedule(days: number[]) {
+        return this.http.put(`${apiURL}/api/schedule/setWeeklySchedule`, {
+            comicID: this.comic.comicID,
+            updateDays: days
+        }, {
+                headers: this.auth.getAuthHeader()
+            })
+            .toPromise();
+    }
+
     public getComics() {
         this.loadComics();
         return this.comics;

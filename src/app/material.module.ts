@@ -20,7 +20,8 @@ import {
   MatFormFieldModule,
   MatDividerModule,
   MatOptionModule,
-  MatTabsModule
+  MatTabsModule,
+  MatChipsModule
 } from '@angular/material';
 
 
@@ -40,7 +41,8 @@ import {
     MatSlideToggleModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule
   ],
   exports: [
     MatButtonModule,
@@ -57,7 +59,8 @@ import {
     MatSlideToggleModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule
   ]
 })
 export class MaterialModule { }

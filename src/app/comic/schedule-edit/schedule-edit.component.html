@@ -1,0 +1,9 @@
+<h3>Update Release Schedule</h3>
+<ng-template [ngIf]="loaded">
+  <mat-chip-list>
+    <mat-chip (click)="toggle(day)" selected="this.selectedDays.has(day)" [color]="getColor(day)" *ngFor="let day of days">{{day}}</mat-chip>
+  </mat-chip-list>
+  <br/>
+  <button [disabled]="!hasChanged()" mat-raised-button color="primary" (click)="update()">Update Schedule</button>
+</ng-template>
+<p *ngIf="!loaded">Loading...</p>
