@@ -47,7 +47,7 @@
 </mat-card>
 
 
-<mat-card *ngFor="let page of pages; let i = index; let first = first; let last = last" class="page-card ">
+<mat-card *ngFor="let page of pages; let i = index; let start = first; let end = last" class="page-card ">
   <mat-card-title>Page - {{page.pageNumber}}</mat-card-title>
 
   <img mat-card-image [src]="page.imgURL" alt="{{ page.altText }}" title="{{ page.altText }}">
@@ -60,10 +60,10 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-icon-button matTooltip="Move Up" [disabled]="page === first" (click)="movePageUp(i)">
+    <button mat-icon-button matTooltip="Move Up" [disabled]="i === 0" (click)="movePageUp(i)">
       <mat-icon>arrow_upward</mat-icon>
     </button>
-    <button mat-icon-button matTooltip="Move Down" [disabled]="page === last" (click)="movePageDown(i)">
+    <button mat-icon-button matTooltip="Move Down" [disabled]="i === pages.length - 1" (click)="movePageDown(i)">
       <mat-icon>arrow_downward</mat-icon>
     </button>
     <button mat-icon-button matTooltip="Delete" color="warn" (click)="deletePage(i)">
