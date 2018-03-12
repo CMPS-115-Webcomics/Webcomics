@@ -25,13 +25,13 @@ describe('ComicDetailComponent', () => {
         };
         const comicServiceStub = {
             delete: () => ({
-                then: () => ({})
+                then: () => Promise.resolve(true)
             }),
             myComics: {
-                find: () => ({})
+                find: () => Promise.resolve(true)
             },
             getComic: () => ({
-                then: () => ({})
+                then: () => Promise.resolve(true)
             })
         };
         const comicStub = {
@@ -44,7 +44,7 @@ describe('ComicDetailComponent', () => {
             volumeID: {}
         };
         const authenticationServiceStub = {
-            openChallengePrompt: () => ({})
+            openChallengePrompt: () => Promise.resolve(true)
         };
         TestBed.configureTestingModule({
             declarations: [ ComicDetailComponent ],
@@ -75,14 +75,19 @@ describe('ComicDetailComponent', () => {
     });
 
     describe('delete', () => {
-        it('makes expected calls', () => {
+        it('makes expected calls', async () => {
             const routerStub: Router = fixture.debugElement.injector.get(Router);
             const comicServiceStub: ComicService = fixture.debugElement.injector.get(ComicService);
             const authenticationServiceStub: AuthenticationService = fixture.debugElement.injector.get(AuthenticationService);
+
             spyOn(routerStub, 'navigateByUrl');
             spyOn(comicServiceStub, 'delete');
             spyOn(authenticationServiceStub, 'openChallengePrompt');
-            comp.delete();
+
+            comp.comic = {title: ''} as Comic;
+
+            await comp.delete();
+
             expect(routerStub.navigateByUrl).toHaveBeenCalled();
             expect(comicServiceStub.delete).toHaveBeenCalled();
             expect(authenticationServiceStub.openChallengePrompt).toHaveBeenCalled();

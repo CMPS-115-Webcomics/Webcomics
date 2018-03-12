@@ -121,14 +121,11 @@ export class AuthenticationService {
       .catch(err => false);
   }
 
-  public openChallengePrompt(challenge: string, message: string, onSuccess: () => void) {
+  public openChallengePrompt(challenge: string, message: string) {
     let dialogRef = this.dialog.open(ComposeOperationDialogComponent);
     dialogRef.componentInstance.message = message;
     dialogRef.componentInstance.challenge = challenge;
-    dialogRef.afterClosed().toPromise().then(res => {
-      if (!res) return;
-      onSuccess();
-    });
+    return dialogRef.afterClosed().toPromise() as Promise<boolean>;
   }
 
   public ban(comicOwner: number) {

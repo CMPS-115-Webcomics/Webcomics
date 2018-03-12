@@ -24,11 +24,13 @@ export class ComicDetailComponent implements OnInit {
     ) { }
 
     delete() {
-        this.auth.openChallengePrompt(this.comic.title, `delete the comic "${this.comic.title}"`, () => {
-            this.comicService.delete(this.comic).then(() => {
-                this.router.navigateByUrl('/');
+        return this.auth.openChallengePrompt(this.comic.title, `delete the comic "${this.comic.title}"`)
+            .then((passed) => {
+                if (!passed) return;
+                return this.comicService.delete(this.comic).then(() => {
+                    this.router.navigateByUrl('/');
+                });
             });
-        });
     }
 
     isMine() {
