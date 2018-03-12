@@ -9,32 +9,14 @@
       <form (ngSubmit)="submitComic()" #heroForm="ngForm" class="form-container">
 
         <mat-form-field hintLabel="Max 30 characters">
-          <input [attr.disabled]="working" matInput #titleIn name="Title" [(ngModel)]="title" [formControl]="name" maxlength="30" placeholder="Title"
+          <input matInput #titleIn name="Title" [(ngModel)]="title" [formControl]="name" maxlength="30" placeholder="Title"
             value="{{ comic.title }}">
           <mat-hint align="end">{{titleIn.value?.length || 0}}/30</mat-hint>
           <mat-error *ngIf="name.invalid">{{nameError()}}</mat-error>
         </mat-form-field>
 
-        <!--
-            <mat-form-field hintLabel="Max 30 characters">
-                <input [attr.disabled]="working" matInput #urlIn name="URL" [(ngModel)]="comicURL"  placeholder="URL" type="text" [formControl]="url" maxlength="30" required>
-                <span matPrefix>www.comichub.io/comic/&nbsp;</span>
-                <mat-hint align="end">{{urlIn.value?.length || 0}}/30</mat-hint>
-                <mat-error *ngIf="url.invalid">{{urlError()}}</mat-error>
-            </mat-form-field>
-        
-            
-            <mat-form-field>
-                <mat-select placeholder="Owned Comics" [(ngModel)]="comicURL" name="url">
-                    <mat-option *ngFor="let comic of comics" [value]="comic">
-                        {{Comic}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        -->
-
         <mat-form-field hintLabel="Short tagline used to advertise your comic">
-          <input [attr.disabled]="working" matInput #taglineIn placeholder="Comic Tagline" name="tagline" maxlength="30" [(ngModel)]="tagline"
+          <input  matInput #taglineIn placeholder="Comic Tagline" name="tagline" maxlength="30" [(ngModel)]="tagline"
             [formControl]="tag" name="tagline" value="{{ comic.tagline }}">
           <mat-hint align="end">{{taglineIn.value?.length || 0}}/30</mat-hint>
           <mat-error *ngIf="tag.invalid">{{tagError()}}</mat-error>
@@ -42,7 +24,7 @@
 
 
         <mat-form-field hintLabel="Longer description of comic.">
-          <textarea [attr.disabled]="working" matInput #descIn placeholder="Comic description" name="description" maxlength="1000"
+          <textarea  matInput #descIn placeholder="Comic description" name="description" maxlength="1000"
             [(ngModel)]="description" [formControl]="desc" name="description"></textarea>
           <mat-hint align="end">{{descIn.value?.length || 0}}/1000</mat-hint>
           <mat-error *ngIf="desc.invalid">{{descError()}}</mat-error>

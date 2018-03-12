@@ -51,7 +51,7 @@ export class EditComicComponent implements OnInit {
             // [existenceValidator(http, 'title')]);
             this.url = new FormControl('', [Validators.required, Validators.pattern(/^[a-z0-9\-]+$/)],
                 [existenceValidator(this.http, 'comicURL')]);
-            this.desc = new FormControl('', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]);
+            this.desc = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
             this.tag = new FormControl('', [Validators.required, Validators.maxLength(30)]);
             this.comic = comic;
             this.title = comic.title;
@@ -63,9 +63,8 @@ export class EditComicComponent implements OnInit {
         // this.name.setValidators(existingValidator(this.comic.comicURL, this.title, this.comic.title));
     }
 
-
     isValid() {
-        return this.name.valid && this.desc.valid && this.thumbnail && this.tag.valid;
+        return this.name.valid && this.desc.valid  && this.tag.valid;
     }
 
     nameError(currentTitle: string) {
@@ -92,11 +91,28 @@ export class EditComicComponent implements OnInit {
             '';
     }
 
-    submitComic() {
+    private startRequest() {
+        this.name.disable();
+        this.tag.disable();
+        this.desc.disable();
         this.working = true;
+    }
+
+    private endRequest(err?) {
+        if (err) {
+            console.error(err);
+        }
+        this.name.enable();
+        this.tag.enable();
+        this.desc.enable();
+        this.working = false;
+    }
+
+    submitComic() {
+        this.startRequest();
         this.comicService.editComic(this.title, this.description, this.tagline, this.thumbnail, this.comicURL, this.comicID)
-            .then(() => this.working = false)
-            .catch(() => this.working = false);
+            .then(() =>  this.endRequest())
+            .catch((err) => this.endRequest(err));
     }
 
     validateImage(data) {

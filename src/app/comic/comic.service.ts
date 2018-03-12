@@ -105,12 +105,20 @@ export class ComicService {
             'published': false
         };
 
-        this.http.put(`${apiURL}/api/comics/updateComic`, body, { headers: this.auth.getAuthHeader() })
+        let promises = [];
+        promises.push(this.http.put(`${apiURL}/api/comics/updateComic`, body,
+            { headers: this.auth.getAuthHeader(), responseType: 'text' })
             .toPromise()
-            .catch(console.error);
-        return this.http.put(`${apiURL}/api/comics/updateThumbnail`, newThumbnail, { headers: this.auth.getAuthHeader() })
-            .toPromise()
-            .catch(console.error);
+            .catch(console.error));
+
+        if (thumbnail) {
+            promises.push(this.http.put(`${apiURL}/api/comics/updateThumbnail`, newThumbnail,
+                { headers: this.auth.getAuthHeader(), responseType: 'text' })
+                .toPromise()
+                .catch(console.error));
+        }
+
+        return Promise.all(promises);
     }
     public uploadPage(file: File, page: Page) {
         let formData = new FormData();
