@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+.preview {
+  width: 300px;
+  height: 168.75px;
+  border: 1px solid black;
+}
+
 .form-container>* {
   width: 100%;
 }
