@@ -201,18 +201,15 @@ export class ComicService {
             this.comicStoreService.getCachedComic(comicURL));
     }
 
-    private loadComicType(name: string, storage: Array<Comic>) {
+    private loadComicType(name: string, setter: (comics: Comic[]) => void) {
         this.comicStoreService.getCachedComicList(name).then((cached: Comic[]) => {
-            this.comics = cached;
+            setter(cached);
             this.http.get(apiURL + '/api/comics/' + name, {
                 headers: this.auth.getAuthHeader()
             }).toPromise()
                 .then((data: ComicListData[]) => {
                     data.forEach(item => item.thumbnailurl = this.imageService.getImageUrl(item.thumbnailurl, false));
-                    if (name === 'comics')
-                        this.comics = data.map(this.comicStoreService.unpackComicListItem);
-                    else
-                        this.myComics = data.map(this.comicStoreService.unpackComicListItem);
+                    setter(data.map(this.comicStoreService.unpackComicListItem));
                     this.comicStoreService.cacheComicList(data, name);
                     if (name === 'comics') {
                         this.comicsValid = true;
@@ -239,11 +236,11 @@ export class ComicService {
     }
 
     public loadMyComics() {
-        this.loadComicType('myComics', this.myComics);
+        this.loadComicType('myComics', (comics) => this.myComics = comics);
     }
 
     public loadComics() {
-        this.loadComicType('comics', this.comics);
+        this.loadComicType('comics',  (comics) => this.comics = comics);
     }
 }
 
