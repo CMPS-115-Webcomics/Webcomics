@@ -64,7 +64,7 @@ export class EditComicComponent implements OnInit {
     }
 
     isValid() {
-        return this.name.valid && this.desc.valid  && this.tag.valid;
+        return this.name.valid && this.desc.valid && this.tag.valid;
     }
 
     nameError(currentTitle: string) {
